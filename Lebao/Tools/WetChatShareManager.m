@@ -38,6 +38,77 @@ static dispatch_once_t once;
     
 }
 #pragma mark
+#pragma mark 分享图片
+- (void)shareImageToWXApp:(UIImage *)image
+{
+    DWActionSheetView *_actionSheetView =[DWActionSheetView showShareViewWithTitle:@"分享" otherButtonTitles:@[@"weixing",@"weixingpenyouquan"] handler:^(DWActionSheetView *actionSheetView, NSInteger buttonIndex, NSString *shareText) {
+        
+        if (![WXApi isWXAppInstalled]) {
+            
+            [[ToolManager shareInstance] showInfoWithStatus:@"未安装微信"];
+            return;
+        }
+        if (![WXApi isWXAppSupportApi]) {
+            
+            [[ToolManager shareInstance] showInfoWithStatus:@"此版本不支持微信分享"];
+            return;
+        }
+        if (buttonIndex>=0) {
+            
+            
+            WXMediaMessage *message = [WXMediaMessage message];
+            message.description = @"知脉海报";
+            //因为分享的图片有限制
+            if (image) {
+                
+                float w = image.size.width;
+                float h = image.size.height;
+                if (w>120) {
+                    w = 120;
+                    h = 120.0/image.size.width*image.size.height;
+                }
+                UIImage *newImage = [image imageByScalingAndCroppingForSize:CGSizeMake(w, h)];
+                [message setThumbImage:newImage];
+            }
+            else
+            {
+                [message setThumbImage:[UIImage imageNamed:@"wx-logo.jpg"]];
+            }
+            
+            WXImageObject *imageObject=  [WXImageObject object];
+            imageObject.imageData = UIImagePNGRepresentation(image);
+            message.mediaObject = imageObject;
+            
+            SendMessageToWXReq *rep = [[SendMessageToWXReq alloc]init];
+            rep.bText = NO;
+            rep.message = message;
+            switch (buttonIndex) {
+                case 0:
+                    message.title = @"知脉海报";
+                    rep.scene = WXSceneSession;
+                    break;
+                case 1:
+                    message.title = @"知脉海报" ;
+                    rep.scene = WXSceneTimeline;
+                    break;
+                    
+                default:
+                    break;
+            }
+            [WXApi sendReq:rep];
+            //回调
+            [WXApiManager sharedManager].delegate =self;
+        }
+        else
+        {
+            return;
+        }
+    }];
+    
+    
+    [_actionSheetView show];
+}
+#pragma mark
 #pragma mark 动态分享
 - (void)dynamicShareTo:(NSString *)title desc:(NSString *)desc image:(UIImage *)image shareurl:(NSString *)url
 {

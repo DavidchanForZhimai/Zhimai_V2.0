@@ -450,6 +450,35 @@
         
     } else {
         if ([data isKindOfClass:[NSString class]]) {
+            /**
+             *  点击关闭
+             */
+            if ([data isEqualToString:@"*closeStorage*"]) {
+                
+                CellLayout* layout =  [self.jjrJsonArr objectAtIndex:indexPath.row];
+                StatusDatas* model = layout.statusModel;
+                CellLayout* newLayout = [[CellLayout alloc] initWithStatusModel:model index:indexPath.row isDetail:YES];
+                [self.jjrJsonArr replaceObjectAtIndex:indexPath.row withObject:newLayout];
+                [self.dtTab beginUpdates];
+                [self.dtTab reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+                [self.dtTab endUpdates];
+                return;
+            }
+            /**
+             *  点击展开
+             */
+            if ([data isEqualToString:@"*openStorage*"]) {
+                
+                CellLayout* layout =  [self.jjrJsonArr objectAtIndex:indexPath.row];
+                StatusDatas* model = layout.statusModel;
+                CellLayout* newLayout = [[CellLayout alloc] initContentOpendLayoutWithStatusModel:model index:indexPath.row isDetail:YES];
+                [self.jjrJsonArr replaceObjectAtIndex:indexPath.row withObject:newLayout];
+                [self.dtTab beginUpdates];
+                [self.dtTab reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+                [self.dtTab endUpdates];
+                
+                return;
+            }
             
             JJRDetailVC * jjrV = [[JJRDetailVC alloc]init];
             jjrV.jjrID = data;

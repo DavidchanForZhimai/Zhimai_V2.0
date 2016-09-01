@@ -36,9 +36,13 @@
 @property (nonatomic,assign) BOOL isShowMore;
 @property (nonatomic,assign) CGRect websiteRect;
 
-- (id)initWithStatusModel:(StatusDatas *)stautsModel
+//文字过长时，折叠状态的布局模型
+- (id)initWithStatusModel:(StatusDatas *)statusModel
                     index:(NSInteger)index isDetail:(BOOL)isDetail;
 
 
+//文字过长时，打开状态的布局模型
+- (id)initContentOpendLayoutWithStatusModel:(StatusDatas *)statusModel
+                                      index:(NSInteger)index isDetail:(BOOL)isDetail;
 
 @end

@@ -7,7 +7,7 @@
 //
 
 #import "GeneratePosterViewController.h"
-
+#import "WetChatShareManager.h"
 @interface GeneratePosterViewController ()
 
 @end
@@ -18,10 +18,16 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
      [self navViewTitleAndBackBtn:@"邀请好友"];
+    BaseButton *share = [[BaseButton alloc]initWithFrame:frame(APPWIDTH - 50, StatusBarHeight, 50, NavigationBarHeight) backgroundImage:nil iconImage:[UIImage imageNamed:@"icon_widelyspreaddetail_share"] highlightImage:nil inView:self.view];
     
     UIImageView *haiBao = allocAndInitWithFrame(UIImageView, frame(0, StatusBarHeight + NavigationBarHeight, APPWIDTH, APPHEIGHT - (StatusBarHeight + NavigationBarHeight)));
     [[ToolManager shareInstance] imageView:haiBao setImageWithURL:_url placeholderType:PlaceholderTypeImageUnProcessing];
     [self.view addSubview:haiBao];
+    share.didClickBtnBlock = ^
+    {
+        [[WetChatShareManager shareInstance] shareImageToWXApp:haiBao.image];
+    };
+
 }
 #pragma mark
 #pragma mark - buttonAction -
