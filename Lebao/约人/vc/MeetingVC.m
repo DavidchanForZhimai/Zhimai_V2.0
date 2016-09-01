@@ -12,9 +12,10 @@
 #import "MeetHeadV.h"
 #import "CoreArchive.h"
 #import "ViewController.h"
-@interface MeetingVC ()<UITableViewDelegate,UITableViewDataSource>
+@interface MeetingVC ()<UITableViewDelegate,UITableViewDataSource,MeetHeadVDelegate>
 @property (nonatomic,strong)UITableView *yrTab;
 @property (nonatomic,strong)UIButton *yrBtn;
+@property (nonatomic,strong)MeetHeadV *headView;
 @end
 
 @implementation MeetingVC
@@ -22,6 +23,12 @@
 {
     
     [super viewWillAppear:animated];
+    _headView.startAndStopTimerBlock = ^(NSTimer *timer1,NSTimer *timer2,NSTimer *timer3)
+    {
+        [timer1 fire];
+        [timer2 fire];
+        [timer3 fire];
+    };
     if ([CoreArchive strForKey:@"isread"]) {
         [self.homePageBtn setImage:[UIImage imageNamed:@"xingxi"] forState:UIControlStateNormal];
     }
@@ -34,7 +41,16 @@
     [self shakeToShow:_yrBtn];
     
 }
-
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    _headView.startAndStopTimerBlock = ^(NSTimer *timer1,NSTimer *timer2,NSTimer *timer3)
+    {
+        [timer1 invalidate];
+        [timer2 invalidate];
+        [timer3 invalidate];
+    };
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self navViewTitle:@"约见"];
@@ -82,9 +98,17 @@
     [self.view addSubview:_yrTab];
     
     
-    MeetHeadV *headView=[[MeetHeadV alloc]initWithFrame:CGRectMake(0, 0, APPWIDTH, 254)];
-    self.yrTab.tableHeaderView=headView;
+    _headView=[[MeetHeadV alloc]initWithFrame:CGRectMake(0, 0, APPWIDTH, 254)];
+    _headView.delegate = self;
+    self.yrTab.tableHeaderView=_headView;
 
+    
+}
+#pragma mark
+#pragma mark -MeetHeadV 代理方法
+- (void)pushView:(UIViewController *)viewC userInfo:(id)userInfo
+{
+    PushView(self, viewC);
     
 }
 - (void) shakeToShow:(UIView*)aView//放大缩小动画

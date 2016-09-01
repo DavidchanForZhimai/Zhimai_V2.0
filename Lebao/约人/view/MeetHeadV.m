@@ -7,7 +7,7 @@
 //
 
 #import "MeetHeadV.h"
-
+#import "CanmeetTabVC.h"
 @implementation MeetHeadV
 
 /*
@@ -17,6 +17,7 @@
  // Drawing code
  }
  */
+
 - (instancetype)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
@@ -127,9 +128,15 @@
     view2.layer.cornerRadius=view2.width/2.0;
     view3.layer.cornerRadius=view3.width/2.0;
     
-    [self shakeToShow:view1 andDuration:3];
-    [self shakeToShow:view2 andDuration:3];
-    [self shakeToShow:view3 andDuration:3];
+    _timer1 =[NSTimer scheduledTimerWithTimeInterval:3 target:self selector:@selector(shake:) userInfo:view1 repeats:YES];
+    [_timer1 fire];
+    _timer2 =[NSTimer scheduledTimerWithTimeInterval:3 target:self selector:@selector(shake:) userInfo:view2 repeats:YES];
+    [_timer2 fire];
+    _timer3 =[NSTimer scheduledTimerWithTimeInterval:3 target:self selector:@selector(shake:) userInfo:view3 repeats:YES];
+    [_timer3 fire];
+    if (_startAndStopTimerBlock) {
+        _startAndStopTimerBlock(_timer1,_timer2,_timer3);
+    }
     
     _midBtn=[UIButton buttonWithType:UIButtonTypeCustom];
     _midBtn.frame=CGRectMake((bgView.width-105)/2.0, (bgView.height-105)/2.0, 105, 105);
@@ -146,7 +153,7 @@
     [str addAttribute:NSFontAttributeName value:Size(60) range:[_midBtn.titleLabel.text rangeOfString:@"205"]];
     [_midBtn setAttributedTitle:str forState:UIControlStateNormal];
     _midBtn.titleLabel.numberOfLines=0;
-    
+    [_midBtn addTarget:self action:@selector(midBtnClick) forControlEvents:UIControlEventTouchUpInside];
     
     [self addEightImgView];
     [self addSubview:_midBtn];
@@ -211,11 +218,24 @@
             [self addSubview:imgV];
     }
    
-   
+  
     
     
     
 }
+
+-(void)midBtnClick
+{
+    
+    if ([self.delegate respondsToSelector:@selector(pushView:userInfo:)]&&[self.delegate conformsToProtocol:@protocol(MeetHeadVDelegate)]) {
+        [_delegate pushView:allocAndInit(CanmeetTabVC) userInfo:nil];
+    }
+    
+}
+
+
+
+
 
 - (void) shakeToShow:(UIView*)aView//放大缩小动画
 {
@@ -231,20 +251,38 @@
     [aView.layer addAnimation:animation forKey:nil];
 }
 
-- (void) shakeToShow:(UIView*)aView andDuration:(CGFloat )duration//放大缩小动画
+
+- (void) shake:(NSTimer*)timer
 {
-    //    aView.alpha=0.4;
+   
+    UIView *aView = (UIView *)timer.userInfo;
     CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:@"transform.scale"];
-    animation.duration = duration;
-    animation.repeatCount = HUGE_VALF;
+    animation.duration = 3.0;
+    animation.repeatCount = 1;
     animation.autoreverses = NO;
-    
-    
-    animation.fromValue = [NSNumber numberWithFloat:1.0];
-    animation.toValue = [NSNumber numberWithFloat:1.7];
-    
+    animation.fromValue = [NSNumber numberWithFloat:1.1];
+    animation.toValue = [NSNumber numberWithFloat:1.9];
     [aView.layer addAnimation:animation forKey:@"scale-layer"];
     
+    CABasicAnimation
+    *_anim1 = [CABasicAnimation animationWithKeyPath:@"opacity"];
+    _anim1.duration
+    = 3.0;
+    _anim1.fromValue
+    = [NSNumber numberWithFloat:1.0];
+    _anim1.toValue
+    = [NSNumber numberWithFloat:0.4];
+    
+    _anim1.timingFunction
+    = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+    _anim1.repeatCount
+    = CGFLOAT_MAX;
+    _anim1.autoreverses
+    = YES;
+    
+    [aView.layer
+     addAnimation:_anim1 forKey:nil];
+     _anim1 = nil;
 }
 
 

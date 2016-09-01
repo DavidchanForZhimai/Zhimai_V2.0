@@ -8,10 +8,6 @@
 
 #import "UIView+Extend.h"
 
-
-
-
-
 @implementation UIView (Extend)
 
 

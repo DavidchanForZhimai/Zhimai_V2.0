@@ -8,11 +8,24 @@
 
 #import <UIKit/UIKit.h>
 
+@protocol MeetHeadVDelegate <NSObject>
+
+- (void)pushView:(UIViewController *)viewC userInfo:(id)userInfo;
+
+@end
+
+typedef void (^StartAndStopTimerBlock)(NSTimer *timer1,NSTimer *timer2,NSTimer *timer3);
+
+@class CanmeetTabVC;
 @interface MeetHeadV : UIView
 @property(nonatomic,strong)UILabel *nearManLab;
 @property(nonatomic,strong)UIButton *wantMeBtn;//想约我
 @property(nonatomic,strong)UIButton *meWantBtn;//我相约
 @property(nonatomic,strong)UIButton *midBtn;//可约
+@property(nonatomic,strong) NSTimer *timer1;
+@property(nonatomic,strong) NSTimer *timer2;
+@property(nonatomic,strong) NSTimer *timer3;
+@property(nonatomic,copy) StartAndStopTimerBlock startAndStopTimerBlock;
 
-
+@property(nonatomic,weak) id<MeetHeadVDelegate>delegate;
 @end

@@ -653,6 +653,7 @@
 		63FC6F0B1D1A8B4F007BD10C /* jjr_gengduo@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63FC6F071D1A8B4F007BD10C /* jjr_gengduo@3x.png */; };
 		63FC6F0C1D1A8B4F007BD10C /* jjr_zanwu@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63FC6F081D1A8B4F007BD10C /* jjr_zanwu@2x.png */; };
 		63FC6F0D1D1A8B4F007BD10C /* jjr_zanwu@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63FC6F091D1A8B4F007BD10C /* jjr_zanwu@3x.png */; };
+		7004577E1D77D82B00D72DCE /* CanmeetTabVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 7004577D1D77D82B00D72DCE /* CanmeetTabVC.m */; };
 		700D559C1D40A70400160DF0 /* libmp3lame.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 700D559B1D40A70400160DF0 /* libmp3lame.a */; };
 		703652351D41AF3800E62006 /* LoCationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 703652341D41AF3800E62006 /* LoCationManager.m */; };
 		7059D24D1D52F431003FF762 /* JinJiRenViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7059D24C1D52F431003FF762 /* JinJiRenViewController.m */; };
@@ -1834,6 +1835,8 @@
 		63FC6F071D1A8B4F007BD10C /* jjr_gengduo@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "jjr_gengduo@3x.png"; sourceTree = "<group>"; };
 		63FC6F081D1A8B4F007BD10C /* jjr_zanwu@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "jjr_zanwu@2x.png"; sourceTree = "<group>"; };
 		63FC6F091D1A8B4F007BD10C /* jjr_zanwu@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "jjr_zanwu@3x.png"; sourceTree = "<group>"; };
+		7004577C1D77D82B00D72DCE /* CanmeetTabVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CanmeetTabVC.h; sourceTree = "<group>"; };
+		7004577D1D77D82B00D72DCE /* CanmeetTabVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CanmeetTabVC.m; sourceTree = "<group>"; };
 		700D559A1D40A70400160DF0 /* lame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lame.h; sourceTree = "<group>"; };
 		700D559B1D40A70400160DF0 /* libmp3lame.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libmp3lame.a; sourceTree = "<group>"; };
 		703652331D41AF3800E62006 /* LoCationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoCationManager.h; sourceTree = "<group>"; };
@@ -5056,6 +5059,8 @@
 			children = (
 				70F942091D6ED7400086508A /* MeetingVC.h */,
 				70F9420A1D6ED7400086508A /* MeetingVC.m */,
+				7004577C1D77D82B00D72DCE /* CanmeetTabVC.h */,
+				7004577D1D77D82B00D72DCE /* CanmeetTabVC.m */,
 			);
 			path = vc;
 			sourceTree = "<group>";
@@ -5949,6 +5954,7 @@
 				70ED0AD11D756E1800F4565A /* NotificationSettingViewController.m in Sources */,
 				636315DA1D0EB93D009C1132 /* PinyinFormatter.m in Sources */,
 				70796E831D6B02CC005B8441 /* TZVideoPlayerController.m in Sources */,
+				7004577E1D77D82B00D72DCE /* CanmeetTabVC.m in Sources */,
 				63E56E871C48C5C800950E21 /* UIImageView+BHBSetImage.m in Sources */,
 				63621D551C20090B00994086 /* MJRefreshAutoFooter.m in Sources */,
 				634AD7EB1C07F2470047C8D5 /* UIColor+Extend.m in Sources */,
