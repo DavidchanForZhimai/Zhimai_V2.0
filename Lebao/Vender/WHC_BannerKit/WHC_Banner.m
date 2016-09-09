@@ -259,6 +259,7 @@ const NSTimeInterval kDefaultInterval = 3;
             if (_delegate && [_delegate respondsToSelector:@selector(WHC_Banner:networkLoadingWithImageView:imageUrl:index:)]) {
                 [_delegate WHC_Banner:self networkLoadingWithImageView:imageView imageUrl:_imageUrls[index] index:index];
             }
+        
         }else {
             imageView.image = _imageArray[i];
         }

@@ -26,7 +26,7 @@
         _leftImages = allocAndInitWithFrame(UIImageView, frame(0, 0, 0, 0));
         [self addSubview:_leftImages];
         
-        _title = [UILabel createLabelWithFrame:frame(45,0, 28.0*SpacedFonts*4, cellHeight) text:@"" fontSize:28.0*SpacedFonts textColor:hexColor(5a5a5a) textAlignment:NSTextAlignmentLeft inView:self];
+        _title = [UILabel createLabelWithFrame:frame(45,0, 28.0*SpacedFonts*5, cellHeight) text:@"" fontSize:28.0*SpacedFonts textColor:hexColor(5a5a5a) textAlignment:NSTextAlignmentLeft inView:self];
         
         _detail =[UILabel createLabelWithFrame:frame(CGRectGetMaxX(_title.frame) + 5,0, cellWidth/2.0, cellHeight) text:@"" fontSize:24.0*SpacedFonts textColor:LightBlackTitleColor textAlignment:NSTextAlignmentLeft inView:self];
         _detail.hidden = YES;
@@ -63,7 +63,7 @@
 {
     
     _leftImages.image  =[UIImage imageNamed:img];
-    _leftImages.frame = frame(10, 8, _leftImages.image.size.width,_leftImages.image.size.height);
+    _leftImages.frame = frame(10, (40 - _leftImages.image.size.height)/2.0, _leftImages.image.size.width,_leftImages.image.size.height);
     _title.text  =title;
 
     

@@ -8,12 +8,10 @@
 
 #import "LoCationManager.h"
 #import "XLDataService.h"
-
+static  CLLocationCoordinate2D coordinate2D;
 static LoCationManager *locationManager;
 @implementation LoCationManager
-{
-     CLLocationCoordinate2D coordinate2D;
-}
+
 
 +(LoCationManager *)shareInstance
 {
@@ -27,30 +25,18 @@ static LoCationManager *locationManager;
     
 }
 
--(void)getLatitudeAndLongitude
-{
-   
-    
-    [self creatLocationManager];
-    
-    
-
-    
-}
-
 -(void)creatLocationManager
 {
+   
     _locationMNG=[[CLLocationManager alloc]init];
-    
-    
-    
+    if (iOS8) {
+
     if ([CLLocationManager authorizationStatus]!=kCLAuthorizationStatusAuthorizedWhenInUse) {
         //授权,在使用app的时候开启定位服务
         [_locationMNG requestWhenInUseAuthorization];
     }
     
-   
-    if ([CLLocationManager locationServicesEnabled]&&[CLLocationManager authorizationStatus]!= kCLAuthorizationStatusDenied) {
+        if ([CLLocationManager locationServicesEnabled]&&[CLLocationManager authorizationStatus]!= kCLAuthorizationStatusDenied) {
 //        NSLog(@"![CLLocationManager locationServicesEnabled]=%d",[CLLocationManager locationServicesEnabled]);
     }else{
         [[ToolManager shareInstance] showAlertViewTitle:@"温馨提示" contentText:@"请到设置-隐私-定位-开启知脉定位" showAlertViewBlcok:^{
@@ -58,17 +44,15 @@ static LoCationManager *locationManager;
         }];
         return;
     }
-    
-    
-    _locationMNG.delegate=self;
+
     //设置定位的精度
     _locationMNG.desiredAccuracy=kCLLocationAccuracyBest;
      //设置定位更新的最小距离(米)
     _locationMNG.distanceFilter=100.0f;
-//    if (iOS8) {
-//        [_locationMNG requestWhenInUseAuthorization];//使用程序其间允许访问位置数据（iOS8定位需要）
-//    }
-
+   
+    }
+    
+     _locationMNG.delegate = self;
     [_locationMNG startUpdatingLocation];
 }
 
@@ -84,23 +68,28 @@ static LoCationManager *locationManager;
     CLLocation *cllocation=[locations firstObject];
     
     coordinate2D=cllocation.coordinate;
+    //测试用,要删掉
+    coordinate2D.latitude=24.491534;
+    coordinate2D.longitude=118.180851;
+    if (_callBackLocation) {
+        _callBackLocation(coordinate2D);
+    }
+//    NSLog(@"````````````````````纬度: %f, ````````````````````````经度: %lf", coordinate2D.latitude, coordinate2D.longitude);
     
-//    NSLog(@"纬度: %f, 经度: %lf", coordinate2D.latitude, coordinate2D.longitude);
     
-    
-    NSMutableDictionary *param = [Parameter parameterWithSessicon];
+//    NSMutableDictionary *param = [Parameter parameterWithSessicon];
 
-    [param setObject:@(1) forKey:@"source"];
-    [param setObject:[NSString stringWithFormat:@"%.6f",coordinate2D.latitude] forKey:@"latitude"];
-    [param setObject:[NSString stringWithFormat:@"%.6f",coordinate2D.longitude] forKey:@"longitude"];
+//    [param setObject:@(1) forKey:@"source"];
+//    [param setObject:[NSString stringWithFormat:@"%.6f",coordinate2D.latitude] forKey:@"latitude"];
+//    [param setObject:[NSString stringWithFormat:@"%.6f",coordinate2D.longitude] forKey:@"longitude"];
 
     
-    [XLDataService postWithUrl:[NSString stringWithFormat:@"%@user/locationlog",HttpURL] param:param modelClass:nil responseBlock:^(id dataObj, NSError *error) {
-//        NSLog(@"dataObj=%@",dataObj);
-//        NSLog(@"定位上传error=%@",error);
-        
-    }];
-
+//    [XLDataService postWithUrl:[NSString stringWithFormat:@"%@user/locationlog",HttpURL] param:param modelClass:nil responseBlock:^(id dataObj, NSError *error) {
+////        NSLog(@"dataObj=%@",dataObj);
+////        NSLog(@"定位上传error=%@",error);
+//        
+//    }];
+//
     
     //如果不需要反复的定位， 可以停止定位服务
     [_locationMNG stopUpdatingLocation];

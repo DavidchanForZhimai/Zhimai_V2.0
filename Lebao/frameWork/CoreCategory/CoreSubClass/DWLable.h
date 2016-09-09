@@ -16,8 +16,7 @@ typedef enum
 } VerticalAlignment;
 @interface DWLable : UILabel
 {
-@private
-    VerticalAlignment _verticalAlignment;
+@private VerticalAlignment _verticalAlignment;
 }
 
 @property (nonatomic) VerticalAlignment verticalAlignment;

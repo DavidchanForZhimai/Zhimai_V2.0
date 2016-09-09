@@ -67,6 +67,7 @@ UIScrollView *mainScrollView;
 
 
 - (void)viewDidDisappear:(BOOL)animated {
+    [super viewDidDisappear:YES];
     self.navigationController.interactivePopGestureRecognizer.enabled = YES;
 }
 - (void)didReceiveMemoryWarning {

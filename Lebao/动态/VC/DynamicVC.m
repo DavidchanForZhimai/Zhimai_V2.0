@@ -796,16 +796,7 @@
         [vc returnText:^(NSString *cityname,NSString *cityID) {
             
             [weakSelf.selectedAddress setTitle:cityname forState:UIControlStateNormal];
-//            [weakSelf resetSeletedAddressFrame];
-            
-//            xspageNumb = 1;
-//            if (weakSelf.xsJsonArr.count >0) {
-//                [weakSelf.xsJsonArr removeAllObjects];
-//            }
-//            
-//            [weakSelf.xsTab reloadData];
-//            [weakSelf getxsJson];
-            
+
             
         }];
         
@@ -818,40 +809,6 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
-}
-//转换时间戳
--(NSString *)getDateStringWithDate:(NSDate *)date
-                        DateFormat:(NSString *)formatString
-{
-    NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
-    [dateFormat setDateFormat:formatString];
-    NSString *dateString = [dateFormat stringFromDate:date];
-    //     NSLog(@"date: %@", dateString);
-    
-    return dateString;
-}
-- (NSString *)intervalSinceNow: (NSString *) theDate
-{
-    
-    NSDateFormatter *date=[[NSDateFormatter alloc] init];
-    [date setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
-    NSDate *d=[date dateFromString:theDate];
-    
-    NSTimeInterval late=[d timeIntervalSince1970]*1;
-    
-    
-    NSDate* dat = [NSDate dateWithTimeIntervalSinceNow:0];
-    NSTimeInterval now=[dat timeIntervalSince1970]*1;
-    NSString *timeString=@"";
-    
-    NSTimeInterval cha=now-late;
-    
-    
-    timeString = [NSString stringWithFormat:@"%f", cha];
-    timeString = [timeString substringToIndex:timeString.length-7];
-    timeString=[NSString stringWithFormat:@"%@", timeString];
-    
-    return timeString;
 }
 
 

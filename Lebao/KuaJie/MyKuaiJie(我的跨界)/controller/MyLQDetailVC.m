@@ -36,6 +36,7 @@
 @implementation MyLQDetailVC
 
 - (void)viewDidLoad {
+    [super viewDidLoad];
     [self setNav];
     [self customScro];
     self.view.backgroundColor = BACKCOLOR;

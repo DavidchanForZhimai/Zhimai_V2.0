@@ -912,9 +912,10 @@
         
         if ([self.dataSource respondsToSelector:@selector(viewPager:contentViewControllerForTabAtIndex:)]) {
             viewController = [self.dataSource viewPager:self contentViewControllerForTabAtIndex:index];
+             [self.contents replaceObjectAtIndex:index withObject:viewController];
         }
         
-        [self.contents replaceObjectAtIndex:index withObject:viewController];
+       
     }
     
     return [self.contents objectAtIndex:index];

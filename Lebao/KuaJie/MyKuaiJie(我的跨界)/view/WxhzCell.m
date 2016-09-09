@@ -18,7 +18,8 @@
 }
 -(instancetype)initWithFrame:(CGRect)frame
 {
-    if (self == [super initWithFrame:frame]) {
+    self = [super initWithFrame:frame];
+    if (self) {
         [self customV:frame];
     }
     return self;

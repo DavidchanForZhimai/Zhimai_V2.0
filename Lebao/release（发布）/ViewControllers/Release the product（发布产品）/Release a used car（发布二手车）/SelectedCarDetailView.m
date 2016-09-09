@@ -19,7 +19,8 @@
 
 - (instancetype)initWithFrame:(CGRect)frame seriesID:(NSString *)seriesID
 {
-    if ([super initWithFrame:frame]) {
+    self = [super initWithFrame:frame];
+    if (self) {
         [self navViewTitleAndBackBtn:_title];
         self.backgroundColor = AppViewBGColor;
         _selectedArray = [NSMutableArray new];
