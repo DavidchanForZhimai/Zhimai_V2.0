@@ -9,5 +9,11 @@
 #import "MeetingModel.h"
 
 @implementation MeetingModel
++ (NSDictionary *)objectClassInArray{
+    return @{@"datas" : [MeetingData class]};
+}
+@end
+
+@implementation MeetingData
 
 @end

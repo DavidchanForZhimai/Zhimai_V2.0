@@ -13,7 +13,8 @@
 @implementation MoreFWCell
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier cellHeight:(float)cellHeight cellWidth:(float)cellWidth
 {
-    if (self ==[super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
+    self =[super initWithStyle:style reuseIdentifier:reuseIdentifier];
+    if (self) {
         UIView *cell = allocAndInitWithFrame(UIView, frame(10, 0, cellWidth - 20, cellHeight));
         cell.backgroundColor = WhiteColor;
         [self addSubview:cell];

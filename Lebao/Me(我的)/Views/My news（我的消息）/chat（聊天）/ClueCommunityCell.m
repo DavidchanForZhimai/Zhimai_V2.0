@@ -24,7 +24,8 @@
 }
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier cellHeight:(float)cellHeight cellWidth:(float)cellWidth{
     
-    if ([self initWithStyle:style reuseIdentifier:reuseIdentifier]) {
+    self =[self initWithStyle:style reuseIdentifier:reuseIdentifier];
+    if (self) {
         
         self.backgroundColor = [UIColor clearColor];
         cell = allocAndInitWithFrame(UIView, frame(10, 0, cellWidth - 20, cellHeight));

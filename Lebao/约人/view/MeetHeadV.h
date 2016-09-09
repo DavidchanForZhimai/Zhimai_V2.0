@@ -14,7 +14,6 @@
 
 @end
 
-typedef void (^StartAndStopTimerBlock)(NSTimer *timer1,NSTimer *timer2,NSTimer *timer3);
 
 @class CanmeetTabVC;
 @interface MeetHeadV : UIView
@@ -25,7 +24,9 @@ typedef void (^StartAndStopTimerBlock)(NSTimer *timer1,NSTimer *timer2,NSTimer *
 @property(nonatomic,strong) NSTimer *timer1;
 @property(nonatomic,strong) NSTimer *timer2;
 @property(nonatomic,strong) NSTimer *timer3;
-@property(nonatomic,copy) StartAndStopTimerBlock startAndStopTimerBlock;
+@property(nonatomic,strong)NSArray *headimgsArr;
 
 @property(nonatomic,weak) id<MeetHeadVDelegate>delegate;
+
+//-(void)addEightImgView;
 @end

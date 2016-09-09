@@ -8,6 +8,7 @@
 
 #import "CanmeetTabVC.h"
 #import "MeetingTVCell.h"
+#import "MJRefresh.h"
 @interface CanmeetTabVC ()<UITableViewDelegate,UITableViewDataSource>
 
 @end
@@ -17,35 +18,42 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [self navViewTitleAndBackBtn:@""];
+    [self navViewTitleAndBackBtn:@"可约见"];
     [self addTabView];
-    
+    //注册cell
+//    [self.tableView registerClass:[MeetingTVCell class] forCellReuseIdentifier:@"yrCell"];
+
 }
 
+- (void)buttonAction:(UIButton *)sender
+{
+    PopView(self);
+}
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
 -(void)addTabView
 {
-    self.tableView=[[UITableView alloc]init];
-    self.tableView.frame=CGRectMake(0,StatusBarHeight + NavigationBarHeight, APPWIDTH, APPHEIGHT-(StatusBarHeight + NavigationBarHeight + TabBarHeight));
+    self.tableView=[[UITableView alloc]initWithFrame:CGRectMake(0,StatusBarHeight + NavigationBarHeight, APPWIDTH, APPHEIGHT-(StatusBarHeight + NavigationBarHeight) ) style:UITableViewStyleGrouped];
+
     self.tableView.delegate=self;
     self.tableView.dataSource=self;
     self.tableView.backgroundColor=[UIColor clearColor];
     self.tableView.tableFooterView=[[UIView alloc]init];
     self.tableView.separatorStyle=UITableViewCellSeparatorStyleNone;//去掉cell间的白线
-//    self.tableView.mj_header=[MJRefreshNormalHeader headerWithRefreshingBlock:^{
+    self.tableView.mj_header=[MJRefreshNormalHeader headerWithRefreshingBlock:^{
     
         
-//        [self.tableView.mj_header endRefreshing];
-//    }];
+        [self.tableView.mj_header endRefreshing];
+    }];
     
 //    self.tableView.mj_footer=[MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreXS)];
 
     
     
     self.tableView.delegate = self;
+    self.tableView.dataSource=self;
     [self.view addSubview:self.tableView];
     
     
@@ -61,15 +69,21 @@
 {
     return 6;
 }
-
+-(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    
+    return 10;
+    
+}
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    MeetingTVCell *cell=[tableView dequeueReusableCellWithIdentifier:@"yrCell"];
-    cell=[[MeetingTVCell alloc]initWithFrame:CGRectMake(0, 0, APPWIDTH, 160)];
+    MeetingTVCell *cell=[tableView dequeueReusableCellWithIdentifier:@"MtCell"];
+    if(!cell){
+       cell=[[MeetingTVCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"MtCell"];
     cell.backgroundColor=[UIColor clearColor];
-
+    }
     
     
     return cell;

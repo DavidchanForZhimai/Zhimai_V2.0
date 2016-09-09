@@ -12,12 +12,21 @@
 //网络请求
 //请求URL
 //测试
-//#define ImageURLS @"http://pic.lmlm.cn"
-//#define HttpURL @"http://api.lmlm.cn/v1/"
+#define ImageURLS @"http://pic.lmlm.cn"
+#define HttpURL @"http://api.lmlm.cn/v1/"
 //////正式
-#define ImageURLS @"http://pic.any98.com"
-#define HttpURL @"http://api.any98.com/v1/"
-
+//#define ImageURLS @"http://pic.any98.com"
+//#define HttpURL @"http://api.any98.com/v1/"
+//约见接口
+#define MeetMainURL [NSString stringWithFormat:@"%@meet/nearby",HttpURL]
+//有空按钮
+#define MeetAppendURL [NSString stringWithFormat:@"%@meet/append",HttpURL]
+//想约见我
+#define WantMeetMeURL [NSString stringWithFormat:@"%@meet/beinvitedList",HttpURL]
+//我想约见
+#define IWantMeetURL [NSString stringWithFormat:@"%@meet/invitedList",HttpURL]
+//首页我想约见和想约见我的人数
+#define WantURL [NSString stringWithFormat:@"%@meet/invitedCount",HttpURL]
 //请求参数
 #define DeviceToken @"deviceToken"
 #define userName @"username"
