@@ -5224,7 +5224,7 @@
 				TargetAttributes = {
 					63E00B641C07194C0097EDF5 = {
 						CreatedOnToolsVersion = 7.2;
-						DevelopmentTeam = 39A2F49R43;
+						DevelopmentTeam = 8R9B8NBXS4;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
 								enabled = 1;
@@ -6252,7 +6252,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Junhua Xu (JNFDC8XND6)";
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_BITCODE = NO;
 				GCC_INPUT_FILETYPE = automatic;
@@ -6268,9 +6268,9 @@
 					"$(PROJECT_DIR)/Lebao/Vender/百度推送/normalversion",
 					"$(PROJECT_DIR)/Lebao/frameWork",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.zhimai1;
+				PRODUCT_BUNDLE_IDENTIFIER = com.zhimai;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "12af1758-aa28-49df-97f6-e6480097c2bb";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
@@ -6281,7 +6281,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Junhua Xu (JNFDC8XND6)";
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_BITCODE = NO;
 				GCC_INPUT_FILETYPE = automatic;
@@ -6298,9 +6298,9 @@
 					"$(PROJECT_DIR)/Lebao/frameWork",
 				);
 				ONLY_ACTIVE_ARCH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = com.zhimai1;
+				PRODUCT_BUNDLE_IDENTIFIER = com.zhimai;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "12af1758-aa28-49df-97f6-e6480097c2bb";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
