@@ -776,8 +776,11 @@
 		70848AB21D6FE5DC007B811E /* MeetHeadV.m in Sources */ = {isa = PBXBuildFile; fileRef = 70848AB11D6FE5DC007B811E /* MeetHeadV.m */; };
 		70878C121D816E2E00477735 /* LayoutMeetingModal.m in Sources */ = {isa = PBXBuildFile; fileRef = 70878C111D816E2E00477735 /* LayoutMeetingModal.m */; };
 		709B152F1D801AC6009CAFB8 /* MeetNumModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 709B152E1D801AC6009CAFB8 /* MeetNumModel.m */; };
-		70ED0A7F1D75662C00F4565A /* biaoqian@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 70ED0A3D1D75662C00F4565A /* biaoqian@2x.png */; };
-		70ED0A801D75662C00F4565A /* biaoqian@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 70ED0A3E1D75662C00F4565A /* biaoqian@3x.png */; };
+		70CD1DF11D8292FC001FC873 /* WantMeetMeVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 70CD1DF01D8292FC001FC873 /* WantMeetMeVC.m */; };
+		70CD1DF41D829E21001FC873 /* MeetingCellLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 70CD1DF31D829E21001FC873 /* MeetingCellLayout.m */; };
+		70CD1DF71D82A56C001FC873 /* MeettingTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 70CD1DF61D82A56C001FC873 /* MeettingTableViewCell.m */; };
+		70ED0A7F1D75662C00F4565A /* [biaoqian]@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 70ED0A3D1D75662C00F4565A /* [biaoqian]@2x.png */; };
+		70ED0A801D75662C00F4565A /* [biaoqian]@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 70ED0A3E1D75662C00F4565A /* [biaoqian]@3x.png */; };
 		70ED0A811D75662C00F4565A /* dongtai@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 70ED0A3F1D75662C00F4565A /* dongtai@2x.png */; };
 		70ED0A821D75662C00F4565A /* dongtai@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 70ED0A401D75662C00F4565A /* dongtai@3x.png */; };
 		70ED0A831D75662C00F4565A /* duihua@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 70ED0A411D75662C00F4565A /* duihua@2x.png */; };
@@ -788,8 +791,8 @@
 		70ED0A881D75662C00F4565A /* gengduo@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 70ED0A461D75662C00F4565A /* gengduo@3x.png */; };
 		70ED0A891D75662C00F4565A /* guanzhu@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 70ED0A471D75662C00F4565A /* guanzhu@2x.png */; };
 		70ED0A8A1D75662C00F4565A /* guanzhu@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 70ED0A481D75662C00F4565A /* guanzhu@3x.png */; };
-		70ED0A8B1D75662C00F4565A /* pipeidu@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 70ED0A491D75662C00F4565A /* pipeidu@2x.png */; };
-		70ED0A8C1D75662C00F4565A /* pipeidu@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 70ED0A4A1D75662C00F4565A /* pipeidu@3x.png */; };
+		70ED0A8B1D75662C00F4565A /* [pipeidu]@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 70ED0A491D75662C00F4565A /* [pipeidu]@2x.png */; };
+		70ED0A8C1D75662C00F4565A /* [pipeidu]@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 70ED0A4A1D75662C00F4565A /* [pipeidu]@3x.png */; };
 		70ED0A8D1D75662C00F4565A /* renzheng@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 70ED0A4B1D75662C00F4565A /* renzheng@2x.png */; };
 		70ED0A8E1D75662C00F4565A /* renzheng@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 70ED0A4C1D75662C00F4565A /* renzheng@3x.png */; };
 		70ED0A8F1D75662C00F4565A /* tonghua@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 70ED0A4D1D75662C00F4565A /* tonghua@2x.png */; };
@@ -2033,8 +2036,14 @@
 		70878C111D816E2E00477735 /* LayoutMeetingModal.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LayoutMeetingModal.m; sourceTree = "<group>"; };
 		709B152D1D801AC6009CAFB8 /* MeetNumModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MeetNumModel.h; sourceTree = "<group>"; };
 		709B152E1D801AC6009CAFB8 /* MeetNumModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MeetNumModel.m; sourceTree = "<group>"; };
-		70ED0A3D1D75662C00F4565A /* biaoqian@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "biaoqian@2x.png"; sourceTree = "<group>"; };
-		70ED0A3E1D75662C00F4565A /* biaoqian@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "biaoqian@3x.png"; sourceTree = "<group>"; };
+		70CD1DEF1D8292FC001FC873 /* WantMeetMeVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WantMeetMeVC.h; sourceTree = "<group>"; };
+		70CD1DF01D8292FC001FC873 /* WantMeetMeVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WantMeetMeVC.m; sourceTree = "<group>"; };
+		70CD1DF21D829E21001FC873 /* MeetingCellLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MeetingCellLayout.h; sourceTree = "<group>"; };
+		70CD1DF31D829E21001FC873 /* MeetingCellLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MeetingCellLayout.m; sourceTree = "<group>"; };
+		70CD1DF51D82A56C001FC873 /* MeettingTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MeettingTableViewCell.h; sourceTree = "<group>"; };
+		70CD1DF61D82A56C001FC873 /* MeettingTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MeettingTableViewCell.m; sourceTree = "<group>"; };
+		70ED0A3D1D75662C00F4565A /* [biaoqian]@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "[biaoqian]@2x.png"; sourceTree = "<group>"; };
+		70ED0A3E1D75662C00F4565A /* [biaoqian]@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "[biaoqian]@3x.png"; sourceTree = "<group>"; };
 		70ED0A3F1D75662C00F4565A /* dongtai@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "dongtai@2x.png"; sourceTree = "<group>"; };
 		70ED0A401D75662C00F4565A /* dongtai@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "dongtai@3x.png"; sourceTree = "<group>"; };
 		70ED0A411D75662C00F4565A /* duihua@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "duihua@2x.png"; sourceTree = "<group>"; };
@@ -2045,8 +2054,8 @@
 		70ED0A461D75662C00F4565A /* gengduo@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "gengduo@3x.png"; sourceTree = "<group>"; };
 		70ED0A471D75662C00F4565A /* guanzhu@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "guanzhu@2x.png"; sourceTree = "<group>"; };
 		70ED0A481D75662C00F4565A /* guanzhu@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "guanzhu@3x.png"; sourceTree = "<group>"; };
-		70ED0A491D75662C00F4565A /* pipeidu@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pipeidu@2x.png"; sourceTree = "<group>"; };
-		70ED0A4A1D75662C00F4565A /* pipeidu@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pipeidu@3x.png"; sourceTree = "<group>"; };
+		70ED0A491D75662C00F4565A /* [pipeidu]@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "[pipeidu]@2x.png"; sourceTree = "<group>"; };
+		70ED0A4A1D75662C00F4565A /* [pipeidu]@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "[pipeidu]@3x.png"; sourceTree = "<group>"; };
 		70ED0A4B1D75662C00F4565A /* renzheng@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "renzheng@2x.png"; sourceTree = "<group>"; };
 		70ED0A4C1D75662C00F4565A /* renzheng@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "renzheng@3x.png"; sourceTree = "<group>"; };
 		70ED0A4D1D75662C00F4565A /* tonghua@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tonghua@2x.png"; sourceTree = "<group>"; };
@@ -4537,6 +4546,8 @@
 			children = (
 				70F9420C1D6EDDD70086508A /* MeetingTVCell.h */,
 				70F9420D1D6EDDD70086508A /* MeetingTVCell.m */,
+				70CD1DF51D82A56C001FC873 /* MeettingTableViewCell.h */,
+				70CD1DF61D82A56C001FC873 /* MeettingTableViewCell.m */,
 			);
 			name = "约见cell";
 			sourceTree = "<group>";
@@ -5001,8 +5012,8 @@
 		70ED0A3C1D75662C00F4565A /* 新版 */ = {
 			isa = PBXGroup;
 			children = (
-				70ED0A3D1D75662C00F4565A /* biaoqian@2x.png */,
-				70ED0A3E1D75662C00F4565A /* biaoqian@3x.png */,
+				70ED0A3D1D75662C00F4565A /* [biaoqian]@2x.png */,
+				70ED0A3E1D75662C00F4565A /* [biaoqian]@3x.png */,
 				70ED0A3F1D75662C00F4565A /* dongtai@2x.png */,
 				70ED0A401D75662C00F4565A /* dongtai@3x.png */,
 				70ED0A411D75662C00F4565A /* duihua@2x.png */,
@@ -5013,8 +5024,8 @@
 				70ED0A461D75662C00F4565A /* gengduo@3x.png */,
 				70ED0A471D75662C00F4565A /* guanzhu@2x.png */,
 				70ED0A481D75662C00F4565A /* guanzhu@3x.png */,
-				70ED0A491D75662C00F4565A /* pipeidu@2x.png */,
-				70ED0A4A1D75662C00F4565A /* pipeidu@3x.png */,
+				70ED0A491D75662C00F4565A /* [pipeidu]@2x.png */,
+				70ED0A4A1D75662C00F4565A /* [pipeidu]@3x.png */,
 				70ED0A4B1D75662C00F4565A /* renzheng@2x.png */,
 				70ED0A4C1D75662C00F4565A /* renzheng@3x.png */,
 				70ED0A4D1D75662C00F4565A /* tonghua@2x.png */,
@@ -5131,6 +5142,8 @@
 				709B152E1D801AC6009CAFB8 /* MeetNumModel.m */,
 				70878C101D816E2E00477735 /* LayoutMeetingModal.h */,
 				70878C111D816E2E00477735 /* LayoutMeetingModal.m */,
+				70CD1DF21D829E21001FC873 /* MeetingCellLayout.h */,
+				70CD1DF31D829E21001FC873 /* MeetingCellLayout.m */,
 			);
 			path = model;
 			sourceTree = "<group>";
@@ -5138,6 +5151,8 @@
 		70F942071D6ED6E00086508A /* vc */ = {
 			isa = PBXGroup;
 			children = (
+				70CD1DEF1D8292FC001FC873 /* WantMeetMeVC.h */,
+				70CD1DF01D8292FC001FC873 /* WantMeetMeVC.m */,
 				700457811D77FD3B00D72DCE /* 我想约见 */,
 				700457801D77FD2C00D72DCE /* 可约见 */,
 				7004577F1D77FD1A00D72DCE /* 约见主页面 */,
@@ -5297,7 +5312,7 @@
 				63EF3B7F1C5895E700BEEC59 /* icon_exhibition_mycontent_path_normal@2x.png in Resources */,
 				636315C41D0EB93D009C1132 /* MyGuanZhuVC.xib in Resources */,
 				706CC2C41D3F6CCF00C5C539 /* aaa@3x.png in Resources */,
-				70ED0A7F1D75662C00F4565A /* biaoqian@2x.png in Resources */,
+				70ED0A7F1D75662C00F4565A /* [biaoqian]@2x.png in Resources */,
 				637EB1421C92AB9B0071EC05 /* Cities.plist in Resources */,
 				70ED0A981D75662C00F4565A /* weixuanguanzhu@3x.png in Resources */,
 				70ED0A941D75662C00F4565A /* weixianfaxian@3x.png in Resources */,
@@ -5381,7 +5396,7 @@
 				63E40FCB1C2A48E800C41650 /* addition@3x.png in Resources */,
 				63340BFD1CFC10C70010A596 /* exhibition_up@2x.png in Resources */,
 				63346E771CE432A2007BC875 /* iconfont-yikezaixianduiyi12@3x.png in Resources */,
-				70ED0A8C1D75662C00F4565A /* pipeidu@3x.png in Resources */,
+				70ED0A8C1D75662C00F4565A /* [pipeidu]@3x.png in Resources */,
 				70ED0AB71D75662C00F4565A /* shezhi@2x.png in Resources */,
 				70796E6A1D6B02CC005B8441 /* icon_find_phone_tianjia2@3x.png in Resources */,
 				630E787B1CC60683000E96A9 /* iconfont-shouji@3x.png in Resources */,
@@ -5467,7 +5482,7 @@
 				63EF3B7D1C5895E700BEEC59 /* icon_exhibition_mycontent_delete_press@2x.png in Resources */,
 				632CAD4B1CB4E1370083FF1E /* me_mycross_icon_percent@3x.png in Resources */,
 				63E9A5871D4EFAD4008704CB /* [renzhen]@2x.png in Resources */,
-				70ED0A8B1D75662C00F4565A /* pipeidu@2x.png in Resources */,
+				70ED0A8B1D75662C00F4565A /* [pipeidu]@2x.png in Resources */,
 				63346E751CE432A2007BC875 /* iconfont-jxwenzhang@3x.png in Resources */,
 				636315BA1D0EB93D009C1132 /* MoreXSCell.xib in Resources */,
 				63EF3B821C5895E700BEEC59 /* icon_exhibition_mycontent_path_press@3x.png in Resources */,
@@ -5652,7 +5667,7 @@
 				63340B431CFBE3490010A596 /* liuchengguo@2x.png in Resources */,
 				70ED0A9A1D75662C00F4565A /* weixuanwode@3x.png in Resources */,
 				63ECBECA1C4F58D500D014E7 /* iconfont-xiugaimima@3x.png in Resources */,
-				70ED0A801D75662C00F4565A /* biaoqian@3x.png in Resources */,
+				70ED0A801D75662C00F4565A /* [biaoqian]@3x.png in Resources */,
 				63340B2F1CFBE3490010A596 /* dizhi@2x.png in Resources */,
 				633D13E91D2FA6F300B68DE9 /* jjr_chehang@2x.png in Resources */,
 				63346E951CE46351007BC875 /* iconfont-fabukuajie@3x.png in Resources */,
@@ -5901,6 +5916,7 @@
 				6351016E1C1022D0002CFE4A /* NSString+MJExtension.m in Sources */,
 				638467991D08028700A80223 /* MyProductDetailViewController.m in Sources */,
 				63621D5E1C20090B00994086 /* MJRefreshBackNormalFooter.m in Sources */,
+				70CD1DF11D8292FC001FC873 /* WantMeetMeVC.m in Sources */,
 				636315D61D0EB93D009C1132 /* ChineseInclude.m in Sources */,
 				638468A11D0813E800A80223 /* AuthenticationViewController.m in Sources */,
 				638468A01D0813E800A80223 /* ActiveValueViewController.m in Sources */,
@@ -5936,6 +5952,7 @@
 				63E9A5331D4EE2AC008704CB /* UIView+WebCacheOperation.m in Sources */,
 				70ED0AD21D756E1800F4565A /* NotificationViewController.m in Sources */,
 				634483561CE32F9500748AB0 /* MMDrawerVisualState.m in Sources */,
+				70CD1DF41D829E21001FC873 /* MeetingCellLayout.m in Sources */,
 				63A6B6A31C0D89CE00C7EB09 /* IQToolbar.m in Sources */,
 				70796E601D6B02CC005B8441 /* PublishDynamicVC.m in Sources */,
 				706801711D6BE09500CC9F94 /* DynamicVC.m in Sources */,
@@ -6056,6 +6073,7 @@
 				638467C31D08054F00A80223 /* ReleaseTheSecondHourseViewController.m in Sources */,
 				63A6B6A11C0D89CE00C7EB09 /* IQBarButtonItem.m in Sources */,
 				6333F0C91D77F69C001D0930 /* CellLayout.m in Sources */,
+				70CD1DF71D82A56C001FC873 /* MeettingTableViewCell.m in Sources */,
 				63E00B6A1C07194C0097EDF5 /* main.m in Sources */,
 				638468BD1D08154E00A80223 /* MeCell.m in Sources */,
 				635101671C1022D0002CFE4A /* MJProperty.m in Sources */,
@@ -6257,7 +6275,7 @@
 				ENABLE_BITCODE = NO;
 				GCC_INPUT_FILETYPE = automatic;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = /Users/david/Desktop/Zhimai_V2.0/Lebao/Config/PrefixHeader.pch;
+				GCC_PREFIX_HEADER = /Users/yanwenbin/Desktop/Zhimai_V2.0/Lebao/Config/PrefixHeader.pch;
 				INFOPLIST_FILE = Lebao/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -6286,7 +6304,7 @@
 				ENABLE_BITCODE = NO;
 				GCC_INPUT_FILETYPE = automatic;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = /Users/david/Desktop/Zhimai_V2.0/Lebao/Config/PrefixHeader.pch;
+				GCC_PREFIX_HEADER = /Users/yanwenbin/Desktop/Zhimai_V2.0/Lebao/Config/PrefixHeader.pch;
 				INFOPLIST_FILE = Lebao/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

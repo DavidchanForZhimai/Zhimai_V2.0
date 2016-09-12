@@ -9,7 +9,8 @@
 #import "MeetHeadV.h"
 #import "CanmeetTabVC.h"
 #import "MeWantMeetVC.h"
-
+#import "WantMeetMeVC.h"
+#import "CALayer+WebCache.h"
 @implementation MeetHeadV
 
 /*
@@ -44,7 +45,9 @@
     bgImgV.image=[UIImage imageNamed:@"wodeBG"];
     [bgView addSubview:bgImgV];
     
+    
     CALayer *vlayer1=[[CALayer alloc]init];
+    vlayer1.shouldRasterize=YES;
     vlayer1.frame=CGRectMake((bgView.width-110)/2.0, (bgView.height-110)/2.0, 110, 110);
     vlayer1.backgroundColor=[UIColor colorWithWhite:1.000 alpha:0.18].CGColor;
     vlayer1.cornerRadius=vlayer1.frame.size.width/2.0;
@@ -52,6 +55,7 @@
     _timer1 =[NSTimer scheduledTimerWithTimeInterval:3 target:self selector:@selector(shake:) userInfo:vlayer1 repeats:YES];
     [[NSRunLoop currentRunLoop] addTimer:_timer1 forMode:UITrackingRunLoopMode];
     CALayer *vlayer2=[[CALayer alloc]init];
+    vlayer2.shouldRasterize=YES;
     vlayer2.frame=CGRectMake((bgView.width-95)/2.0, (bgView.height-95)/2.0, 95, 95);
     vlayer2.backgroundColor=[UIColor colorWithWhite:1.000 alpha:0.18].CGColor;
     vlayer2.cornerRadius=vlayer2.frame.size.width/2.0;
@@ -59,6 +63,7 @@
     _timer2 =[NSTimer scheduledTimerWithTimeInterval:3 target:self selector:@selector(shake:) userInfo:vlayer2 repeats:YES];
     [[NSRunLoop currentRunLoop] addTimer:_timer2 forMode:UITrackingRunLoopMode];
     CALayer *vlayer3=[[CALayer alloc]init];
+    vlayer3.shouldRasterize=YES;
     vlayer3.frame=CGRectMake((bgView.width-80)/2.0, (bgView.height-80)/2.0, 80, 80);
     vlayer3.backgroundColor=[UIColor colorWithWhite:1.000 alpha:0.18].CGColor;
     vlayer3.cornerRadius=vlayer3.frame.size.width/2.0;
@@ -117,7 +122,7 @@
     [text1 addAttribute:NSFontAttributeName value:Size(40) range:[_meWantBtn.titleLabel.text rangeOfString:@"0"]];
     [_meWantBtn setAttributedTitle:text1 forState:UIControlStateNormal];
     _meWantBtn.titleLabel.numberOfLines = 0;
-    [_meWantBtn addTarget:self action:@selector(wantMeClick:) forControlEvents:UIControlEventTouchUpInside];
+    [_meWantBtn addTarget:self action:@selector(IwantClick:) forControlEvents:UIControlEventTouchUpInside];
     _meWantBtn.tag=1001;
     [bgView addSubview:_meWantBtn];
     
@@ -130,6 +135,7 @@
     layer1.strokeColor=[UIColor whiteColor].CGColor;
     layer1.strokeEnd=0.5;
     layer1.lineWidth=2;
+    layer1.shouldRasterize=YES;
     UIBezierPath *bezier1=[UIBezierPath bezierPathWithOvalInRect:layer1.bounds];
     layer1.path=bezier1.CGPath;
     [bgView.layer addSublayer:layer1];
@@ -142,6 +148,7 @@
     layer2.strokeColor=[UIColor whiteColor].CGColor;
     layer2.strokeEnd=0.5;
     layer2.lineWidth=2;
+    layer2.shouldRasterize=YES;
     UIBezierPath *bezier2=[UIBezierPath bezierPathWithOvalInRect:layer2.bounds];
     layer2.path=bezier2.CGPath;
     
@@ -214,17 +221,18 @@
 //    }
      for (int i=0; i<_headimgsArr.count&&i<8; i++) {
         CGRect rect = CGRectFromString(frameArr[i]);
-        UIImageView *imgV=[[UIImageView alloc]init];
-        [[ToolManager shareInstance] imageView:imgV setImageWithURL:_headimgsArr[i] placeholderType:PlaceholderTypeUserHead];
-        imgV.frame=rect;
-        imgV.layer.cornerRadius=imgV.width/2.0;
-        imgV.clipsToBounds=YES;
-        imgV.layer.borderWidth=2;
-        imgV.layer.borderColor=[UIColor colorWithWhite:1.000 alpha:0.2].CGColor;
-    
-        
-        
-            [self addSubview:imgV];
+         
+         CALayer *layer=[CALayer layer];
+         layer.masksToBounds=YES;
+         layer.frame=rect;
+         layer.cornerRadius=layer.frame.size.width/2.0;
+         layer.borderWidth=2;
+         layer.borderColor=[UIColor colorWithWhite:1.000 alpha:0.2].CGColor;
+         layer.shouldRasterize=YES;
+         [layer sd_setImageWithURL:[NSURL URLWithString:[[ToolManager shareInstance]urlAppend:_headimgsArr[i]]]placeholderImage:[UIImage imageNamed:@"defaulthead"]];
+         
+         [self.layer addSublayer:layer];
+         
     }
    
   
@@ -241,11 +249,21 @@
 {
 
         if ([self.delegate respondsToSelector:@selector(pushView:userInfo:)]&&[self.delegate conformsToProtocol:@protocol(MeetHeadVDelegate)]) {
-            MeWantMeetVC *mewantMeetVC=[[MeWantMeetVC alloc]init];
+            WantMeetMeVC *mewantMeetVC=[[WantMeetMeVC alloc]init];
             [_delegate pushView:mewantMeetVC userInfo:nil];
         }
 
 
+}
+-(void)IwantClick:(UIButton *)sender
+{
+    
+    if ([self.delegate respondsToSelector:@selector(pushView:userInfo:)]&&[self.delegate conformsToProtocol:@protocol(MeetHeadVDelegate)]) {
+        MeWantMeetVC *mewantMeetVC=[[MeWantMeetVC alloc]init];
+        [_delegate pushView:mewantMeetVC userInfo:nil];
+    }
+    
+    
 }
 
 -(void)midBtnClick:(UIButton *)sender

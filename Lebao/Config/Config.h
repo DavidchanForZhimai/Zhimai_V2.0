@@ -22,11 +22,11 @@
 //有空按钮
 #define MeetAppendURL [NSString stringWithFormat:@"%@meet/append",HttpURL]
 //想约见我
-#define WantMeetMeURL [NSString stringWithFormat:@"%@meet/beinvitedList",HttpURL]
+#define WantMeetMeURL [NSString stringWithFormat:@"%@meet/beinvitedlist",HttpURL]
 //我想约见
-#define IWantMeetURL [NSString stringWithFormat:@"%@meet/invitedList",HttpURL]
+#define IWantMeetURL [NSString stringWithFormat:@"%@meet/invitedlist",HttpURL]
 //首页我想约见和想约见我的人数
-#define WantURL [NSString stringWithFormat:@"%@meet/invitedCount",HttpURL]
+#define WantURL [NSString stringWithFormat:@"%@meet/invitedcount",HttpURL]
 //请求参数
 #define DeviceToken @"deviceToken"
 #define userName @"username"

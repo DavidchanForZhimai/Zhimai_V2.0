@@ -20,8 +20,8 @@
     UILabel *productLab;
     UILabel *resourceLab;
     UIImageView *woshouImgV;
-    UIView *imgLabview1;
-    UIView *imgLabview2;
+//    UIView *imgLabview1;
+//    UIView *imgLabview2;
 }
 
 - (void)awakeFromNib {
@@ -104,8 +104,7 @@
     resourceLab.text=@"资源特点";
     [customV addSubview:resourceLab];
     
-    imgLabview2=[[UIView alloc]init];
-    [customV addSubview:imgLabview2];
+  
     
     lineView1=[[UIView alloc]init];
     
@@ -139,12 +138,14 @@
 
 -(void)configCellWithObjiect:(LayoutMeetingModal *)layout
 {
+    for (UIView *view in customV.subviews) {
+        if ([view isKindOfClass:[BaseButton class]]) {
+            [view removeFromSuperview];
+        }
+    }
     
      MeetingData *data = layout.data;
-    
-    [imgLabview1 removeFromSuperview];
-    [imgLabview2 removeFromSuperview];
-    
+
      customV.frame = layout.customVFrame;
     
     _headImgV.frame = layout.headImgVFrame;
@@ -160,15 +161,19 @@
     
     
     _companyLab.frame = layout.companyLabFrame;
-    _companyLab.text=[NSString stringWithFormat:@"%@  从业%@年",[Parameter industryForChinese:data.industry],data.workyears];
-    
+    if (data.industry&&data.industry.length>0) {
+     _companyLab.text =[NSString stringWithFormat:@"%@  ",[Parameter industryForChinese:data.industry]];
+    }
+    if (data.workyears&&data.workyears.length>0) {
+         _companyLab.text=[NSString stringWithFormat:@"%@从业%@年",_companyLab.text,data.workyears];
+    }
+
     _meetingBtn.frame = layout.meetingBtnFrame;
     
     lineView.frame = layout.lineViewFrame;
     
     productLab.frame = layout.productLabFrame;
     resourceLab.frame = layout.resourceLabFrame;
-    imgLabview2.frame = layout.imgLabview2Frame;
     lineView1.frame = layout.lineView1Frame;
     
 
@@ -181,29 +186,25 @@
     
      UIImage *img=[UIImage imageNamed:@"biaoqian"];
     if (layout.productsFrame.count>0) {
-        imgLabview1=[[UIView alloc]init];
-        imgLabview1.frame = layout.imgLabview1Frame;
-        [customV addSubview:imgLabview1];
-        
-        
+
         NSArray *productArr=[data.service componentsSeparatedByString:@"/"];
         for (int i=0; i<layout.productsFrame.count; i++) {
         CGRect frame = CGRectFromString(layout.productsFrame[i]);
-         BaseButton *imgLabV = [[BaseButton alloc]initWithFrame:frame setTitle:productArr[i] titleSize:24*SpacedFonts titleColor:[UIColor colorWithRed:0.424 green:0.427 blue:0.431 alpha:1.000] backgroundImage:nil iconImage:img highlightImage:img setTitleOrgin:CGPointMake((frame.size.height - 24*SpacedFonts)/2.0, 3) setImageOrgin:CGPointMake((frame.size.height - img.size.height)/2.0, 0) inView:imgLabview1];
+        frame = frame(frame.origin.x+ layout.imgLabview1Frame.origin.x, frame.origin.y+ layout.imgLabview1Frame.origin.y, frame.size.width, frame.size.height);
+         BaseButton *imgLabV = [[BaseButton alloc]initWithFrame:frame setTitle:productArr[i] titleSize:24*SpacedFonts titleColor:[UIColor colorWithRed:0.424 green:0.427 blue:0.431 alpha:1.000] backgroundImage:nil iconImage:img highlightImage:img setTitleOrgin:CGPointMake((frame.size.height - 24*SpacedFonts)/2.0, 3) setImageOrgin:CGPointMake((frame.size.height - img.size.height)/2.0, 0) inView:customV];
+            imgLabV.shouldAnmial = NO;
             imgLabV = nil;
         }
         
     }
     if (layout.resourcesFrame.count>0) {
        
-        imgLabview2=[[UIView alloc]init];
-        imgLabview2.frame = layout.imgLabview2Frame;
-        [customV addSubview:imgLabview2];
-        
         NSArray *resourceArr=[data.resource componentsSeparatedByString:@"/"];
         for (int i=0; i<layout.resourcesFrame.count; i++) {
             CGRect frame = CGRectFromString(layout.resourcesFrame[i]);
-            BaseButton *imgLabV = [[BaseButton alloc]initWithFrame:frame setTitle:resourceArr[i] titleSize:24*SpacedFonts titleColor:[UIColor colorWithRed:0.424 green:0.427 blue:0.431 alpha:1.000] backgroundImage:nil iconImage:img highlightImage:img setTitleOrgin:CGPointMake((frame.size.height - 24*SpacedFonts)/2.0, 3) setImageOrgin:CGPointMake((frame.size.height - img.size.height)/2.0, 0) inView:imgLabview2];
+             frame = frame(frame.origin.x+ layout.imgLabview2Frame.origin.x, frame.origin.y+ layout.imgLabview2Frame.origin.y, frame.size.width, frame.size.height);
+            BaseButton *imgLabV = [[BaseButton alloc]initWithFrame:frame setTitle:resourceArr[i] titleSize:24*SpacedFonts titleColor:[UIColor colorWithRed:0.424 green:0.427 blue:0.431 alpha:1.000] backgroundImage:nil iconImage:img highlightImage:img setTitleOrgin:CGPointMake((frame.size.height - 24*SpacedFonts)/2.0, 3) setImageOrgin:CGPointMake((frame.size.height - img.size.height)/2.0, 0) inView:customV];
+            imgLabV.shouldAnmial = NO;
             imgLabV = nil;
         }
 
