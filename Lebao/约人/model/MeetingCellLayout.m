@@ -136,7 +136,7 @@
             }
             LWTextStorage* resourceLbStorage = [[LWTextStorage alloc] init];
             resourceLbStorage.text = resourceStr;
-            resourceLbStorage.font = Size(28.0);
+            resourceLbStorage.font = Size(26.0);
             resourceLbStorage.textColor = [UIColor colorWithRed:0.482 green:0.486 blue:0.494 alpha:1.000];
             resourceLbStorage.frame = CGRectMake(resourceTextStorage.right + 10, resourceTextStorage.top, SCREEN_WIDTH - (resourceTextStorage.right) - 20, CGFLOAT_MAX);
             [LWTextParser parseEmojiWithTextStorage:resourceLbStorage];
@@ -157,7 +157,8 @@
         distanceAndtimerLab.text=[NSString stringWithFormat:@"%.2lfkm·%@",distance,[model.time updateTime]];
         NSLog(@"distanceAndtimerLab.text=%@",distanceAndtimerLab.text);
         distanceAndtimerLab.textAlignment=NSTextAlignmentRight;
-        
+        distanceAndtimerLab.textColor=[UIColor colorWithRed:0.482 green:0.486 blue:0.494 alpha:1.000];
+        distanceAndtimerLab.font=Size(26.0);
         [self addStorage:_avatarStorage];
         [self addStorage:nameTextStorage];
         [self addStorage:industryTextStorage];
