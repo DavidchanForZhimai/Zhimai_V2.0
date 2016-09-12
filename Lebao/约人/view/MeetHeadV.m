@@ -10,6 +10,7 @@
 #import "CanmeetTabVC.h"
 #import "MeWantMeetVC.h"
 #import "WantMeetMeVC.h"
+#import "GzHyViewController.h"
 #import "CALayer+WebCache.h"
 @implementation MeetHeadV
 
@@ -88,6 +89,7 @@
     UIButton *genduoBtn=[UIButton buttonWithType:UIButtonTypeCustom];
     genduoBtn.frame=CGRectMake(APPWIDTH-44, 0, 44, 44);
     [genduoBtn setImage:[UIImage imageNamed:@"gengduo"] forState:UIControlStateNormal];
+    [genduoBtn addTarget:self action:@selector(genduoAction:)  forControlEvents:UIControlEventTouchUpInside];
     [underView addSubview:genduoBtn];
     
     
@@ -275,8 +277,14 @@
     }
     
 }
-
-
+//查看行业
+-(void)genduoAction:(UIButton *)sender
+{
+    if ([self.delegate respondsToSelector:@selector(pushView:userInfo:)]&&[self.delegate conformsToProtocol:@protocol(MeetHeadVDelegate)]) {
+        GzHyViewController *gzHyVC=[[GzHyViewController alloc]init];
+        [_delegate pushView:gzHyVC userInfo:nil];
+    }
+}
 
 
 

@@ -19,6 +19,7 @@
 #import "MeetNumModel.h"
 
 #import "NSString+Extend.h"
+#import "GzHyViewController.h"//关注行业
 @interface MeetingVC ()<UITableViewDelegate,UITableViewDataSource,MeetHeadVDelegate,EjectViewDelegate,MeettingTableViewDelegate>
 
 @property (nonatomic,strong)UITableView *yrTab;
