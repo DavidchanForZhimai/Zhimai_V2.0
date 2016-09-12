@@ -150,12 +150,21 @@
         LWTextStorage* woshouImg=[[LWTextStorage alloc]initWithFrame:CGRectMake(_avatarStorage.left,_line2Rect.origin.y+8, nameTextStorage.width, nameTextStorage.height)];
         woshouImg.text=[NSString stringWithFormat:@"[pipeidu] %@",model.match];
         [LWTextParser parseEmojiWithTextStorage:woshouImg];
+        
+        LWTextStorage* distanceAndtimerLab=[[LWTextStorage alloc]initWithFrame:CGRectMake(0, woshouImg.top, APPWIDTH-10, woshouImg.height)];
+        float distance=[model.distance floatValue]/1000.00;
+        
+        distanceAndtimerLab.text=[NSString stringWithFormat:@"%.2lfkm·%@",distance,[model.time updateTime]];
+        NSLog(@"distanceAndtimerLab.text=%@",distanceAndtimerLab.text);
+        distanceAndtimerLab.textAlignment=NSTextAlignmentRight;
+        
         [self addStorage:_avatarStorage];
         [self addStorage:nameTextStorage];
         [self addStorage:industryTextStorage];
         [self addStorage:productTextStorage];
-        [self  addStorage:resourceTextStorage];
+        [self addStorage:resourceTextStorage];
         [self addStorage:woshouImg];
+        [self addStorage:distanceAndtimerLab];
         self.cellHeight = [self suggestHeightWithBottomMargin:20];
         self.cellMarginsRect = frame(0, self.cellHeight - 10, APPWIDTH, 10);
         
