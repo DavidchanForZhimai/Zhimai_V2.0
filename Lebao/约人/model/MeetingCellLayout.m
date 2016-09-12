@@ -81,36 +81,16 @@
         if (![model.service isEqualToString:@""]&&model.service) {
             NSArray *productArr=[model.service componentsSeparatedByString:@"/"];
             NSMutableString *productStr = allocAndInit(NSMutableString);
-            NSMutableString *productStr1 = allocAndInit(NSMutableString);
+          
             CGFloat wid1=0;
-            
-            LWTextStorage* productLbStorage = [[LWTextStorage alloc] init];
-            productLbStorage.font = Size(26.0);
-            productLbStorage.textColor = [UIColor colorWithRed:0.482 green:0.486 blue:0.494 alpha:1.000];
-            productLbStorage.frame = CGRectMake(productTextStorage.right + 10, productTextStorage.top, SCREEN_WIDTH - (productTextStorage.right) - 20, CGFLOAT_MAX);
-            [LWTextParser parseEmojiWithTextStorage:productLbStorage];
-            
             for (int i=0; i<productArr.count; i++) {
-                
-                int j=0;
-                
-                
-//                [productStr1 appendFormat:@" %@   ",productArr[i]];
                 UIImage *img=[UIImage imageNamed:@"[biaoqian]"];
-                
-                CGSize expectSize=[[NSString stringWithFormat:@" %@   ",productArr[i]] sizeWithFont:Size(26) maxSize:CGSizeMake(1000,900)];
-                
-//                wid1=(img.size.width*(i+1-j)+expectSize.width+20);
+                NSString *text = [NSString stringWithFormat:@" %@   ",productArr[i]];
+                CGSize expectSize=[text sizeWithFont:Size(26) maxSize:CGSizeMake(1000,900)];
                 wid1 += (img.size.width + expectSize.width);
-                NSLog(@"wid1=%f",wid1);
-                NSLog(@"productStr1=%@",productStr1);
-                if (wid1>(productLbStorage.width)) {
+                if (wid1>(SCREEN_WIDTH - (productTextStorage.right) - 20)) {
                     [productStr appendString:@"\n"];
-//                    j=i;
-//                    [productStr1 deleteCharactersInRange:[productStr1 rangeOfString:productStr1]];
-//                    NSLog(@"prduct=%d",j);
-//                    [productStr1 appendFormat:@" %@   ",productArr[i]];
-
+                     wid1 =img.size.width + expectSize.width;
 
                 }
 
@@ -118,8 +98,13 @@
                 
                
             }
+            LWTextStorage* productLbStorage = [[LWTextStorage alloc] init];
+            productLbStorage.font = Size(26.0);
+            productLbStorage.textColor = [UIColor colorWithRed:0.482 green:0.486 blue:0.494 alpha:1.000];
+            productLbStorage.text = productStr;
+            productLbStorage.frame = CGRectMake(productTextStorage.right + 10, productTextStorage.top, SCREEN_WIDTH - (productTextStorage.right) - 20, CGFLOAT_MAX);
+            [LWTextParser parseEmojiWithTextStorage:productLbStorage];
             
-             productLbStorage.text = productStr;
             [self addStorage:productLbStorage];
             productLbStorageheight = productLbStorage.bottom;
         }
@@ -133,9 +118,19 @@
         if (![model.resource isEqualToString:@""]&&model.resource) {
             NSArray *resourceArr=[model.resource componentsSeparatedByString:@"/"];
             NSMutableString *resourceStr = allocAndInit(NSMutableString);
+            CGFloat wid1=0;
             for (int i=0; i<resourceArr.count; i++) {
+                UIImage *img=[UIImage imageNamed:@"[biaoqian]"];
+                NSString *text = [NSString stringWithFormat:@" %@   ",resourceArr[i]];
+                CGSize expectSize=[text sizeWithFont:Size(26) maxSize:CGSizeMake(1000,900)];
+                wid1 += (img.size.width + expectSize.width);
+                if (wid1>(SCREEN_WIDTH - (productTextStorage.right) - 20)) {
+                    [resourceStr appendString:@"\n"];
+                    wid1 =img.size.width + expectSize.width;
+                    
+                }
                 
-                [resourceStr appendFormat:@"[biaoqian] %@\n",resourceArr[i]];
+                [resourceStr appendFormat:@"[biaoqian] %@   ",resourceArr[i]];
                 
                 
             }
