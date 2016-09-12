@@ -28,5 +28,5 @@
 
 @property(nonatomic,weak) id<MeetHeadVDelegate>delegate;
 
-//-(void)addEightImgView;
+-(void)addEightImgView;
 @end

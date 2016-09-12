@@ -11,7 +11,6 @@
 
 
 #import "TableViewCell.h"
-#import "GallopUtils.h"
 #import "LWImageStorage.h"
 #import "BaseButton.h"
 #import "UILabel+Extend.h"
@@ -213,7 +212,6 @@
 }
 
 #pragma mark - Draw and setup
-
 - (void)setCellLayout:(CellLayout *)cellLayout {
     if (_cellLayout == cellLayout) {
         return;

@@ -55,7 +55,6 @@
 @property (nonatomic,strong) CellLayout* cellLayout;
 @property (nonatomic,strong) NSIndexPath* indexPath;
 
-
 @end
 
 

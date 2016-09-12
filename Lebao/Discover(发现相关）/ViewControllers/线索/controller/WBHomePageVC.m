@@ -98,7 +98,7 @@
 }
 -(void)fabuAction
 {
-    
+    [[ToolManager shareInstance]addReleseDctView:self];
 }
 - (void)buttonAction:(UIButton *)sender
 {

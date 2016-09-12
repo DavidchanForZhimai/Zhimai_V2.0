@@ -8,7 +8,7 @@
 
 #import "MeetingVC.h"
 #import "MJRefresh.h"
-#import "MeetingTVCell.h"
+#import "MeettingTableViewCell.h"
 #import "MeetHeadV.h"
 #import "CoreArchive.h"
 #import "ViewController.h"
@@ -19,7 +19,7 @@
 #import "MeetNumModel.h"
 
 #import "NSString+Extend.h"
-@interface MeetingVC ()<UITableViewDelegate,UITableViewDataSource,MeetHeadVDelegate,EjectViewDelegate>
+@interface MeetingVC ()<UITableViewDelegate,UITableViewDataSource,MeetHeadVDelegate,EjectViewDelegate,MeettingTableViewDelegate>
 
 @property (nonatomic,strong)UITableView *yrTab;
 @property (nonatomic,strong)UIButton *yrBtn;
@@ -70,7 +70,7 @@
     [self navViewTitle:@"约见"];
     [self.view addSubview:self.homePageBtn];
     [self setTabbarIndex:0];
-    self.view.backgroundColor=[UIColor colorWithRed:0.925 green:0.925 blue:0.929 alpha:1.000];
+    self.view.backgroundColor=AppViewBGColor;
     [self addTabView];
     [self addYrBtn];
     [self navLeftAddressBtn];
@@ -152,7 +152,7 @@
                     for (MeetingData *data in modal.datas) {
                         
                         if (i==1||i==4) {
-                             data.service= @"djfkgkhjdfgkhjdg/dgdgdfgdfgdfgdgf/dgdgdgdfgdfgdgdfgdfgdfg/dfgdfgdgdgdgdf/dgdgdgdgddg/dgdfgdfgdfg";
+                             data.service= @"d/jf/khjdg/dgdgdgdgf/dg/d/g/dgd/fgdf/gdgdfghgggdfgdfg/dfgdfgdg/dgdgdf/dgdg/d/gdg/ddg/dgdfg/dfgdfg";
                         }
                         
                         if (i==2||i==3) {
@@ -162,7 +162,8 @@
                         
                        
                         
-                        [self.nearByManArr addObject:[[LayoutMeetingModal alloc]layoutWithModel:data]];
+                        
+                        [self.nearByManArr addObject:[[MeetingCellLayout alloc]initCellLayoutWithModel:data]];
                         if (data.imgurl!=nil) {
                             [self.headimgArr addObject:data.imgurl];
                         }
@@ -172,7 +173,7 @@
                     }
 
                     _headView.headimgsArr=[NSArray arrayWithArray:self.headimgArr];
-//                    [_headView addEightImgView];
+                    [_headView addEightImgView];
                     _headView.nearManLab.text=[NSString stringWithFormat:@"最近有空 %d人",modal.count];
                     _headView.midBtn.titleLabel.text=[NSString stringWithFormat:@"可约\n%d\n位经纪人",modal.count];
                     _headView.midBtn.titleLabel.textAlignment=NSTextAlignmentCenter;
@@ -332,7 +333,7 @@
 {
     
 
-    LayoutMeetingModal *layout =(LayoutMeetingModal*)_nearByManArr[indexPath.row];
+     MeetingCellLayout*layout =(MeetingCellLayout*)_nearByManArr[indexPath.row];
     
     return layout.cellHeight;
 
@@ -346,19 +347,19 @@
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     
-    static NSString * cellID =@"yrCell";
+    static NSString * cellID =@"MeettingTableViewCellID";
     
-    MeetingTVCell *cell=[tableView dequeueReusableCellWithIdentifier:cellID];
+    MeettingTableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:cellID];
     if (!cell) {
-        cell=[[MeetingTVCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellID];
+        cell=[[MeettingTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellID];
         cell.backgroundColor=[UIColor clearColor];
-        NSLog(@"cell");
+        
     }
     
-    LayoutMeetingModal *layout=self.nearByManArr[indexPath.row];
-    [cell configCellWithObjiect:layout];
-    
-     [cell.meetingBtn addTarget:self action:@selector(meetBtnClick:) forControlEvents:UIControlEventTouchUpInside];
+    MeetingCellLayout *layout=self.nearByManArr[indexPath.row];
+    [cell setCellLayout:layout];
+    [cell setIndexPath:indexPath];
+    [cell setDelegate:self];
     
     return cell;
 }
@@ -366,6 +367,22 @@
 {
     return NO;
 }
+#pragma mark 
+#pragma mark - MeettingTableViewCellDelegate
+- (void)tableViewCellDidSeleteMeetingBtn:(UIButton *)btn andIndexPath:(NSIndexPath *)indexPath
+{
+    //do something
+    
+    CGFloat dilX = 25;
+    CGFloat dilH = 250;
+    EjectView *alertV = [[EjectView alloc] initAlertViewWithFrame:CGRectMake(dilX, 0, 250, dilH) andSuperView:self.navigationController.view];
+    alertV.center = CGPointMake(APPWIDTH/2, APPHEIGHT/2-30);
+    alertV.delegate = self;
+    alertV.titleStr = @"提示";
+    alertV.title2Str=@"您需要打赏一定的约见费";
+    NSLog(@"弹出");
+}
+
 #pragma mark - 选择地址
 -(void)navLeftAddressBtn
 {
@@ -407,20 +424,20 @@
     };
     
 }
-#pragma mark 约见按钮地点击
--(void)meetBtnClick:(UIButton *)sender
-{
-    
-    CGFloat dilX = 25;
-    CGFloat dilH = 250;
-    EjectView *alertV = [[EjectView alloc] initAlertViewWithFrame:CGRectMake(dilX, 0, 250, dilH) andSuperView:self.navigationController.view];
-    alertV.center = CGPointMake(APPWIDTH/2, APPHEIGHT/2-30);
-    alertV.delegate = self;
-    alertV.titleStr = @"提示";
-    alertV.title2Str=@"您需要打赏一定的约见费";
-    NSLog(@"弹出");
-    
-}
+//#pragma mark 约见按钮地点击
+//-(void)meetBtnClick:(UIButton *)sender
+//{
+//    
+//    CGFloat dilX = 25;
+//    CGFloat dilH = 250;
+//    EjectView *alertV = [[EjectView alloc] initAlertViewWithFrame:CGRectMake(dilX, 0, 250, dilH) andSuperView:self.navigationController.view];
+//    alertV.center = CGPointMake(APPWIDTH/2, APPHEIGHT/2-30);
+//    alertV.delegate = self;
+//    alertV.titleStr = @"提示";
+//    alertV.title2Str=@"您需要打赏一定的约见费";
+//    NSLog(@"弹出");
+//    
+//}
 #pragma mark - YXCustomAlertViewDelegate
 - (void) customAlertView:(EjectView *) customAlertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
