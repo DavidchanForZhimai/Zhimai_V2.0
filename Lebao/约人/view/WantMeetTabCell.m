@@ -1,32 +1,33 @@
 //
-//  MeettingTableViewCell.m
+//  WantMeetTabCell.m
 //  Lebao
 //
-//  Created by adnim on 16/9/9.
+//  Created by adnim on 16/9/12.
 //  Copyright © 2016年 David. All rights reserved.
 //
 
-#import "MeettingTableViewCell.h"
+#import "WantMeetTabCell.h"
+
 #import "Gallop.h"
-@interface  MeettingTableViewCell()<LWAsyncDisplayViewDelegate>
+@interface  WantMeetTabCell()<LWAsyncDisplayViewDelegate>
 @property (nonatomic,strong) LWAsyncDisplayView* asyncDisplayView;
 
 @property (nonatomic,strong) CALayer *cellline;
 @property (nonatomic,strong) CALayer *line1;
 @property (nonatomic,strong) CALayer *line2;
 @end
-@implementation MeettingTableViewCell
+@implementation WantMeetTabCell
 
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
-    [self.contentView addSubview:self.asyncDisplayView];
-    [self.contentView addSubview:self.meetingBtn];
-    [self.contentView.layer addSublayer:self.cellline];
-    [self.contentView.layer addSublayer:self.line1];
-    [self.contentView.layer addSublayer:self.line2];
-       
+        [self.contentView addSubview:self.asyncDisplayView];
+        [self.contentView addSubview:self.meetingBtn];
+        [self.contentView.layer addSublayer:self.cellline];
+        [self.contentView.layer addSublayer:self.line1];
+        [self.contentView.layer addSublayer:self.line2];
+        
     }
     return self;
 }
@@ -43,7 +44,7 @@
 }
 
 #pragma mark - Draw and setup
-- (void)setCellLayout:(MeetingCellLayout *)cellLayout {
+- (void)setCellLayout:(WantMeetLayout *)cellLayout {
     if (_cellLayout == cellLayout) {
         return;
     }
@@ -74,7 +75,7 @@
         _meetingBtn=[UIButton buttonWithType:UIButtonTypeCustom];
         
         _meetingBtn.backgroundColor=AppMainColor;
-        [_meetingBtn setTitle:@"约见" forState:UIControlStateNormal];
+        [_meetingBtn setTitle:@"取消" forState:UIControlStateNormal];
         [_meetingBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         _meetingBtn.layer.cornerRadius=12;
         [_meetingBtn addTarget:self action:@selector(meettingBtnClick:) forControlEvents:UIControlEventTouchUpInside];
@@ -117,7 +118,7 @@
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
-
+    
     // Configure the view for the selected state
 }
 

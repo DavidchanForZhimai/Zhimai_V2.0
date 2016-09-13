@@ -21,7 +21,7 @@
         LWImageStorage *_avatarStorage = [[LWImageStorage alloc]initWithIdentifier:@"avatar"];
         _avatarStorage.frame = CGRectMake(10, 13, 44, 44);
         model.imgurl = [[ToolManager shareInstance] urlAppend:model.imgurl];
-//        NSLog(@"model.imgurl  =%@",model.imgurl );
+
         _avatarStorage.contents = model.imgurl;
         _avatarStorage.placeholder = [UIImage imageNamed:@"defaulthead"];
         if ([model.imgurl isEqualToString:ImageURLS]) {
@@ -136,8 +136,16 @@
             }
             LWTextStorage* resourceLbStorage = [[LWTextStorage alloc] init];
             resourceLbStorage.text = resourceStr;
+            
+//            NSMutableAttributedString *resourceAttrStr = [[NSMutableAttributedString alloc]initWithString:resourceLbStorage.text];
+//            NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+//            [paragraphStyle setLineSpacing:10];
+//            [resourceAttrStr addAttribute:NSParagraphStyleAttributeName value:paragraphStyle range:NSMakeRange(0, [resourceLbStorage.text length])];
+//            resourceLbStorage.attributedText =resourceAttrStr;
+            resourceLbStorage.linespacing = 10;
             resourceLbStorage.font = Size(26.0);
             resourceLbStorage.textColor = [UIColor colorWithRed:0.482 green:0.486 blue:0.494 alpha:1.000];
+            
             resourceLbStorage.frame = CGRectMake(resourceTextStorage.right + 10, resourceTextStorage.top, SCREEN_WIDTH - (resourceTextStorage.right) - 20, CGFLOAT_MAX);
             [LWTextParser parseEmojiWithTextStorage:resourceLbStorage];
             resourceTextStorageheight = resourceLbStorage.bottom;
@@ -155,7 +163,7 @@
         float distance=[model.distance floatValue]/1000.00;
         
         distanceAndtimerLab.text=[NSString stringWithFormat:@"%.2lfkm·%@",distance,[model.time updateTime]];
-        NSLog(@"distanceAndtimerLab.text=%@",distanceAndtimerLab.text);
+
         distanceAndtimerLab.textAlignment=NSTextAlignmentRight;
         distanceAndtimerLab.textColor=[UIColor colorWithRed:0.482 green:0.486 blue:0.494 alpha:1.000];
         distanceAndtimerLab.font=Size(26.0);
@@ -176,4 +184,6 @@
     return self;
     
 }
+
+
 @end

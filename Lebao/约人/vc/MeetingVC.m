@@ -17,7 +17,7 @@
 #import "LoCationManager.h"
 #import "EjectView.h"
 #import "MeetNumModel.h"
-
+#import "MeetPaydingVC.h"
 #import "NSString+Extend.h"
 #import "GzHyViewController.h"//关注行业
 @interface MeetingVC ()<UITableViewDelegate,UITableViewDataSource,MeetHeadVDelegate,EjectViewDelegate,MeettingTableViewDelegate>
@@ -99,29 +99,36 @@
         NSMutableDictionary *param = [Parameter parameterWithSessicon];
     
         [XLDataService putWithUrl:WantURL param:param modelClass:nil responseBlock:^(id dataObj, NSError *error) {
-            NSLog(@"dataobj%@",dataObj);
+ 
              if (dataObj) {
                  
                  MeetNumModel *modal = [MeetNumModel mj_objectWithKeyValues:dataObj];
-                 
-                 [_headView.meWantBtn setTitle:[NSString stringWithFormat:@"%d\n我想约见",modal.invited] forState:UIControlStateNormal];
-                 NSMutableAttributedString *text1 = [[NSMutableAttributedString alloc]initWithString:_headView.meWantBtn.titleLabel.text];
-                 [text1 addAttribute:NSFontAttributeName value:Size(40) range:[_headView.meWantBtn.titleLabel.text rangeOfString:[NSString stringWithFormat:@"%d",modal.invited]]];
+                          [_headView.meWantBtn setTitle:[NSString stringWithFormat:@"%d\n我想约见",modal.invited] forState:UIControlStateNormal];
+                                  NSMutableAttributedString *text1 = [[NSMutableAttributedString alloc]initWithString:_headView.meWantBtn.titleLabel.text];
+                 [text1 addAttribute:NSFontAttributeName value:Size(20) range:[_headView.meWantBtn.titleLabel.text rangeOfString:@"我想约见"]];
                  [_headView.meWantBtn setAttributedTitle:text1 forState:UIControlStateNormal];
                  _headView.meWantBtn.titleLabel.numberOfLines = 0;
                  
                  [_headView.wantMeBtn setTitle:[NSString stringWithFormat:@"%d\n想约见我",modal.beinvited] forState:UIControlStateNormal];
                  NSMutableAttributedString *text = [[NSMutableAttributedString alloc]initWithString:_headView.wantMeBtn.titleLabel.text];
-                 [text addAttribute:NSFontAttributeName value:Size(40) range:[_headView.wantMeBtn.titleLabel.text rangeOfString:[NSString stringWithFormat:@"%d",modal.beinvited]]];
+                 [text addAttribute:NSFontAttributeName value:Size(20) range:[_headView.wantMeBtn.titleLabel.text rangeOfString:@"想约见我"]];
                  [_headView.wantMeBtn setAttributedTitle:text forState:UIControlStateNormal];
                  _headView.wantMeBtn.titleLabel.numberOfLines = 0;
+                 [_yrTab reloadData];
+             }  else
+             {
+                 [[ToolManager shareInstance] showInfoWithStatus];
+             }
 
-                 }
          }];
+    
+    
+    
+    
         [param setObject:[NSString stringWithFormat:@"%.6f",location.latitude] forKey:@"latitude"];
         [param setObject:[NSString stringWithFormat:@"%.6f",location.longitude] forKey:@"longitude"];
         [param setObject:@(_page) forKey:@"page"];
-         NSLog(@"param===========%@",param);
+    
         [XLDataService putWithUrl:MeetMainURL param:param modelClass:nil responseBlock:^(id dataObj, NSError *error) {
            
             if (isRefresh) {
@@ -140,7 +147,7 @@
     
                  MeetingModel *modal = [MeetingModel mj_objectWithKeyValues:dataObj];
                 if (_page ==1) {
-                    [[ToolManager shareInstance] moreDataStatus:_yrTab];;
+                    [[ToolManager shareInstance] moreDataStatus:_yrTab];
                 }
                 if (!modal.datas||modal.datas.count==0) {
                     
@@ -153,7 +160,7 @@
                     for (MeetingData *data in modal.datas) {
                         
                         if (i==1||i==4) {
-                             data.service= @"d/jf/khjdg/dgdgdgdgf/dg/d/g/dgd/fgdf/gdgdfghgggdfgdfg/dfgdfgdg/dgdgdf/dgdg/d/gdg/ddg/dgdfg/dfgdfg";
+                             data.service= @"还是大放送发/啥地方/的是覅就搜到/时间分配给;老地方颇高/几个人讨论课阮经天/发/发/发";
                         }
                         
                         if (i==2||i==3) {
@@ -453,6 +460,19 @@
     }else
     {
         NSLog(@"确认");
+        
+        MeetPaydingVC * payVC = [[MeetPaydingVC alloc]init];
+//        payVC.zfymType = FaBuZhiFu;
+//        payVC.qwjeStr = _bcTex.text;
+//        payVC.titStr = _titTex.text;
+//        payVC.content = _contTex.text;
+//        payVC.industry = induStr;
+//        payVC.jineStr = _moneyLab.text;
+//        payVC.isAudio=btnMark;
+        [self.navigationController pushViewController:payVC animated:YES];
+        [customAlertView dissMiss];
+        customAlertView = nil;
+
     }
 }
 - (void)didReceiveMemoryWarning {

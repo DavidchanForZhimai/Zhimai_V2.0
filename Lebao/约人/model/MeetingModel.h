@@ -26,4 +26,10 @@
 @property(nonatomic,strong)NSString *match;
 @property(nonatomic,strong)NSString *resource;
 
+@property(nonatomic,strong)NSString *remark;//文字备注
+@property(nonatomic,strong)NSString *audio;//语音备注
+@property(nonatomic,strong)NSString *reward;//悬赏金额
+@property(nonatomic,strong)NSString *state;//约见状态
+@property(nonatomic,strong)NSString *update_time;//最后操作时间
+
 @end

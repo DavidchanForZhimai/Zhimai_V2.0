@@ -8,10 +8,10 @@
 
 #import "WantMeetMeVC.h"
 #import "MJRefresh.h"
-#import "WantMeetCell.h"
+#import "WantMeetTabCell.h"
 #import "Parameter.h"
 #import "XLDataService.h"
-@interface WantMeetMeVC ()<UITableViewDelegate,UITableViewDataSource,UIScrollViewDelegate,UITextFieldDelegate>
+@interface WantMeetMeVC ()<UITableViewDelegate,UITableViewDataSource,UIScrollViewDelegate,UITextFieldDelegate,MeettingTableViewDelegate>
 {
     UIScrollView * buttomScr;
 }
@@ -28,13 +28,13 @@
 @property (nonatomic,strong)NSString *state;
 @property (nonatomic,strong)NSMutableArray *oprationArr;
 @property (nonatomic,strong)NSMutableArray *agreeArr;
-@property (nonatomic,strong)NSMutableArray *rufuseArr;
+@property (nonatomic,strong)NSMutableArray *refuseArr;
 
 
 @end
 
-
 @implementation WantMeetMeVC
+
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -47,11 +47,11 @@
     _state=@"10";
     _oprationArr=[[NSMutableArray alloc]init];
     _agreeArr=[[NSMutableArray alloc]init];
-    _rufuseArr=[[NSMutableArray alloc]init];
+    _refuseArr=[[NSMutableArray alloc]init];
     [self setButtomScr];
     [self addTheBtnView];
     
-    [self netWorkRefresh:YES andIsLoadMoreData:NO isShouldClearData:YES withState:_state andTabView:_oprationTab andArr:_oprationArr];
+    [self netWorkRefresh:NO andIsLoadMoreData:NO isShouldClearData:NO withState:_state andTabView:_oprationTab andArr:_oprationArr andPage:_oprationPage];
 }
 /**
  *  最下层的scrollview
@@ -127,6 +127,17 @@
     _oprationTab.backgroundColor = [UIColor clearColor];
     _oprationTab.tag = 1;
     _oprationTab.separatorStyle = UITableViewCellSeparatorStyleNone;
+    [[ToolManager shareInstance] scrollView:_oprationTab headerWithRefreshingBlock:^{
+        
+        _oprationPage =1;
+        [self netWorkRefresh:YES andIsLoadMoreData:NO isShouldClearData:YES withState:@"10" andTabView:_oprationTab andArr:_oprationArr andPage:_oprationPage];
+        
+    }];
+    [[ToolManager shareInstance] scrollView:_oprationTab footerWithRefreshingBlock:^{
+        _oprationPage ++;
+        [self netWorkRefresh:NO andIsLoadMoreData:YES isShouldClearData:NO withState:@"10" andTabView:_oprationTab andArr:_oprationArr andPage:_oprationPage];
+        
+    }];
     
     
     [buttomScr addSubview:_oprationTab];
@@ -138,6 +149,18 @@
     _agreeTab.backgroundColor = [UIColor clearColor];
     _agreeTab.tag = 2;
     _agreeTab.separatorStyle = UITableViewCellSeparatorStyleNone;
+    [[ToolManager shareInstance] scrollView:_agreeTab headerWithRefreshingBlock:^{
+        
+        _agreePage =1;
+        [self netWorkRefresh:YES andIsLoadMoreData:NO isShouldClearData:YES withState:@"20" andTabView:_agreeTab andArr:_agreeArr andPage:_agreePage];
+        
+    }];
+    [[ToolManager shareInstance] scrollView:_agreeTab footerWithRefreshingBlock:^{
+        _agreePage ++;
+        [self netWorkRefresh:NO andIsLoadMoreData:YES isShouldClearData:NO withState:@"20" andTabView:_agreeTab andArr:_agreeArr andPage:_agreePage];
+        
+    }];
+    
     
     [buttomScr addSubview:_agreeTab];
     
@@ -151,6 +174,19 @@
     _refuseTab.separatorStyle = UITableViewCellSeparatorStyleNone;
     
     
+    [[ToolManager shareInstance] scrollView:_refuseTab headerWithRefreshingBlock:^{
+        
+        _refusePage =1;
+        [self netWorkRefresh:YES andIsLoadMoreData:NO isShouldClearData:YES withState:@"99" andTabView:_refuseTab andArr:_refuseArr andPage:_refusePage];
+        
+    }];
+    [[ToolManager shareInstance] scrollView:_refuseTab footerWithRefreshingBlock:^{
+        _refusePage ++;
+        [self netWorkRefresh:NO andIsLoadMoreData:YES isShouldClearData:NO withState:@"99" andTabView:_refuseTab andArr:_refuseArr andPage:_refusePage];
+        
+    }];
+    
+    
     [buttomScr addSubview:_refuseTab];
     
     
@@ -160,18 +196,13 @@
 }
 
 #pragma mark 请求数据
--(void)netWorkRefresh:(BOOL)isRefresh andIsLoadMoreData:(BOOL)isMoreLoadMoreData isShouldClearData:(BOOL)isShouldClearData withState:(NSString *)state andTabView:(UITableView *)tabView andArr:(NSMutableArray *)arr//加载数据
+-(void)netWorkRefresh:(BOOL)isRefresh andIsLoadMoreData:(BOOL)isMoreLoadMoreData isShouldClearData:(BOOL)isShouldClearData withState:(NSString *)state andTabView:(UITableView *)tabView andArr:(NSMutableArray *)arr andPage:(int)page//加载数据
 {
     
     NSMutableDictionary *param=[Parameter parameterWithSessicon];
     [param setObject:state forKey:@"state"];
-    if ([state isEqualToString:@"10"]) {
-        [param setObject:@(_oprationPage) forKey:@"page"];
-    }else if([state isEqualToString:@"20"]){
-        [param setObject:@(_agreePage) forKey:@"page"];
-    }else if([state isEqualToString:@"99"]){
-        [param setObject:@(_refusePage) forKey:@"page"];
-    }
+    [param setObject:@(page) forKey:@"page"];
+    
     NSLog(@"parem -------------%@",param);
     [XLDataService putWithUrl:WantMeetMeURL param:param modelClass:nil responseBlock:^(id dataObj, NSError *error) {
         if (isRefresh) {
@@ -182,10 +213,47 @@
         }if (isShouldClearData) {
             [arr removeAllObjects];
         }
-        NSLog(@"wantmeetMedataObj========%@",dataObj);
+        
+        NSLog(@"WantMeetMeURL========%@",dataObj);
         if (dataObj) {
             
+            MeetingModel *modal = [MeetingModel mj_objectWithKeyValues:dataObj];
+            if (page ==1) {
+                [[ToolManager shareInstance] moreDataStatus:tabView];
+            }
+            if (!modal.datas||modal.datas.count==0) {
+                
+                [[ToolManager shareInstance] noMoreDataStatus:tabView];
+                
+            }
+            
+            if (modal.rtcode ==1) {
+                
+                for (MeetingData *data in modal.datas) {
+                    if ([state isEqualToString:@"10"]) {
+                        [arr addObject:[[WantMeetLayout alloc]initCellLayoutWithModel:data andBtn:YES]];
+                    }else if ([state isEqualToString:@"10"]) {
+                        [arr addObject:[[WantMeetLayout alloc]initCellLayoutWithModel:data andBtn:NO]];
+                    }else if ([state isEqualToString:@"10"]) {
+                        [arr addObject:[[WantMeetLayout alloc]initCellLayoutWithModel:data andBtn:NO]];
+                    }
+                    
+                }
+                [tabView reloadData];
+                
+            }
+            
+            else
+            {
+                [[ToolManager shareInstance] showAlertMessage:modal.rtmsg];
+            }
+            
         }
+        else
+        {
+            [[ToolManager shareInstance] showInfoWithStatus];
+        }
+        
     }];
     
 }
@@ -197,10 +265,15 @@
     sender.selected = YES;
     _agreeBtn.selected = NO;
     _refuseBtn.selected=NO;
+    _state=@"10";
     [UIView animateWithDuration:0.3f animations:^{
         [_underLineV setFrame:CGRectMake((SCREEN_WIDTH/3-50)/2, 65+35-2, 50, 2)];
         [buttomScr setContentOffset:CGPointMake(0, 0)];
     }];
+    if (_oprationArr.count==0) {
+        [self netWorkRefresh:NO andIsLoadMoreData:NO isShouldClearData:YES withState:_state andTabView:_oprationTab andArr:_oprationArr andPage:_oprationPage];
+    }
+    
     
 }
 
@@ -209,10 +282,17 @@
     sender.selected = YES;
     _oprationBtn.selected = NO;
     _refuseBtn.selected=NO;
+    _state=@"20";
     [UIView animateWithDuration:0.3f animations:^{
         [_underLineV setFrame:CGRectMake((SCREEN_WIDTH/3-50)/2+SCREEN_WIDTH/3, 65+35-2, 50, 2)];
         [buttomScr setContentOffset:CGPointMake(SCREEN_WIDTH, 0)];
     }];
+    if (_agreeArr.count==0) {
+        [self netWorkRefresh:NO andIsLoadMoreData:NO isShouldClearData:YES withState:_state andTabView:_agreeTab andArr:_agreeArr andPage:_agreePage];
+        
+    }
+    
+    
 }
 
 -(void)refuseBtn:(UIButton *)sender//已拒绝
@@ -220,30 +300,56 @@
     sender.selected = YES;
     _oprationBtn.selected = NO;
     _agreeBtn.selected=NO;
+    _state=@"99";
     [UIView animateWithDuration:0.3f animations:^{
         [_underLineV setFrame:CGRectMake((SCREEN_WIDTH/3-50)/2+SCREEN_WIDTH/3*2, 65+35-2, 50, 2)];
         [buttomScr setContentOffset:CGPointMake(SCREEN_WIDTH*2, 0)];
     }];
+    if (_refuseArr.count==0) {
+        [self netWorkRefresh:NO andIsLoadMoreData:NO isShouldClearData:YES withState:_state andTabView:_refuseTab andArr:_refuseArr andPage:_refusePage];
+    }
+    
+    
 }
 #pragma mark----tableview代理和资源方法
+-(CGFloat)tableView:(UITableView *)tableView estimatedHeightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 170;
+}
+
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     
-    return 280;
+    if (tableView == _oprationTab) {
+        WantMeetLayout*layout =(WantMeetLayout*)_oprationArr[indexPath.row];
+        
+        return layout.cellHeight;
+    }else  if (tableView==_agreeTab) {
+        
+        WantMeetLayout*layout =(WantMeetLayout*)_agreeArr[indexPath.row];
+        
+        return layout.cellHeight;
+    }else  if (tableView==_refuseTab){
+        WantMeetLayout*layout =(WantMeetLayout*)_refuseArr[indexPath.row];
+        
+        return layout.cellHeight;
+    }
+    return 170;
+    
     
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    //    if (tableView.tag == 1) {
-    //        return _xsJsonArr.count;
-    //    }else  if (tableView.tag == 2) {
-    //    {
-    //        return _jjrJsonArr.count;
-    //    }else  if (tableView.tag == 2){
-    //
-    //    }
+    if (tableView == _oprationTab) {
+        return _oprationArr.count;
+    }else  if (tableView==_agreeTab) {
+        
+        return _agreeArr.count;
+    }else  if (tableView==_refuseTab){
+        return _refuseArr.count;
+    }
+    return 0;
     
-    return 10;
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
@@ -258,12 +364,27 @@
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     
-    WantMeetCell *cell=[tableView dequeueReusableCellWithIdentifier:@"WMCell"];
+    WantMeetTabCell *cell=[tableView dequeueReusableCellWithIdentifier:@"WMCell"];
     if (!cell) {
-        cell=[[WantMeetCell alloc]initWithFrame:CGRectMake(0, 0, APPWIDTH, 160)];
+        cell=[[WantMeetTabCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"WMCell"];
         cell.backgroundColor=[UIColor clearColor];
     }
+    WantMeetLayout *layout;
+    if (tableView == _oprationTab) {
+        layout =self.oprationArr[indexPath.row];
+        [cell.meetingBtn setTitle:@"操作" forState:UIControlStateNormal];
+        
+    }else  if (tableView==_agreeTab) {
+        
+        layout =self.agreeArr[indexPath.row];
+        
+    }else  if (tableView==_refuseTab){
+        layout =self.refuseArr[indexPath.row];
+    }
     
+    [cell setCellLayout:layout];
+    [cell setIndexPath:indexPath];
+    [cell setDelegate:self];
     
     return cell;
 }
@@ -311,20 +432,19 @@
     
 }
 
-
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
 
 /*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
+ #pragma mark - Navigation
+ 
+ // In a storyboard-based application, you will often want to do a little preparation before navigation
+ - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+ // Get the new view controller using [segue destinationViewController].
+ // Pass the selected object to the new view controller.
+ }
+ */
 
 @end

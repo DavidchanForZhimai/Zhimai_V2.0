@@ -655,6 +655,11 @@
 		700457841D77FD6C00D72DCE /* MeWantMeetVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 700457831D77FD6C00D72DCE /* MeWantMeetVC.m */; };
 		7004578A1D78125200D72DCE /* WantMeetCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 700457891D78125200D72DCE /* WantMeetCell.m */; };
 		700D559C1D40A70400160DF0 /* libmp3lame.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 700D559B1D40A70400160DF0 /* libmp3lame.a */; };
+		701C25B01D8659CA0099F644 /* MeetingCellLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 701C25AF1D8659CA0099F644 /* MeetingCellLayout.m */; };
+		701C25B31D8661070099F644 /* WantMeetLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 701C25B21D8661070099F644 /* WantMeetLayout.m */; };
+		701C25B61D8668600099F644 /* WantMeetTabCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 701C25B51D8668600099F644 /* WantMeetTabCell.m */; };
+		701C25C81D86AC220099F644 /* MeetPaydingVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 701C25C61D86AC220099F644 /* MeetPaydingVC.m */; };
+		701C25C91D86AC220099F644 /* MeetPaydingVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 701C25C71D86AC220099F644 /* MeetPaydingVC.xib */; };
 		7026E8561D790D03005D6396 /* WBHomePageVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 7026E84F1D790D03005D6396 /* WBHomePageVC.m */; };
 		7026E8571D790D03005D6396 /* WBHomePageVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7026E8501D790D03005D6396 /* WBHomePageVC.xib */; };
 		7026E8581D790D03005D6396 /* JJRCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7026E8531D790D03005D6396 /* JJRCell.m */; };
@@ -774,10 +779,12 @@
 		707E251E1D7E97B700C3E857 /* EjectView.m in Sources */ = {isa = PBXBuildFile; fileRef = 707E251D1D7E97B700C3E857 /* EjectView.m */; };
 		70848AAF1D6FE15D007B811E /* MeetingModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 70848AAE1D6FE15D007B811E /* MeetingModel.m */; };
 		70848AB21D6FE5DC007B811E /* MeetHeadV.m in Sources */ = {isa = PBXBuildFile; fileRef = 70848AB11D6FE5DC007B811E /* MeetHeadV.m */; };
-		70878C121D816E2E00477735 /* LayoutMeetingModal.m in Sources */ = {isa = PBXBuildFile; fileRef = 70878C111D816E2E00477735 /* LayoutMeetingModal.m */; };
+		708A29A31D878EC30067DA0A /* AddIndustryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 708A299E1D878EC30067DA0A /* AddIndustryViewController.m */; };
+		708A29A41D878EC30067DA0A /* GzHyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 708A29A01D878EC30067DA0A /* GzHyViewController.m */; };
+		708A29A51D878EC30067DA0A /* SearchAndAddTagsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 708A29A21D878EC30067DA0A /* SearchAndAddTagsViewController.m */; };
+		708A29A91D878EE30067DA0A /* DWTagsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 708A29A81D878EE30067DA0A /* DWTagsView.m */; };
 		709B152F1D801AC6009CAFB8 /* MeetNumModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 709B152E1D801AC6009CAFB8 /* MeetNumModel.m */; };
 		70CD1DF11D8292FC001FC873 /* WantMeetMeVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 70CD1DF01D8292FC001FC873 /* WantMeetMeVC.m */; };
-		70CD1DF41D829E21001FC873 /* MeetingCellLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 70CD1DF31D829E21001FC873 /* MeetingCellLayout.m */; };
 		70CD1DF71D82A56C001FC873 /* MeettingTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 70CD1DF61D82A56C001FC873 /* MeettingTableViewCell.m */; };
 		70ED0A7F1D75662C00F4565A /* [biaoqian]@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 70ED0A3D1D75662C00F4565A /* [biaoqian]@2x.png */; };
 		70ED0A801D75662C00F4565A /* [biaoqian]@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 70ED0A3E1D75662C00F4565A /* [biaoqian]@3x.png */; };
@@ -852,7 +859,6 @@
 		70ED0AD51D756E6D00F4565A /* wodeBG@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 70ED0AD31D756E6D00F4565A /* wodeBG@2x.png */; };
 		70ED0AD61D756E6D00F4565A /* wodeBG@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 70ED0AD41D756E6D00F4565A /* wodeBG@3x.png */; };
 		70F9420B1D6ED7400086508A /* MeetingVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 70F9420A1D6ED7400086508A /* MeetingVC.m */; };
-		70F9420E1D6EDDD70086508A /* MeetingTVCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 70F9420D1D6EDDD70086508A /* MeetingTVCell.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -1848,6 +1854,14 @@
 		700457891D78125200D72DCE /* WantMeetCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WantMeetCell.m; sourceTree = "<group>"; };
 		700D559A1D40A70400160DF0 /* lame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lame.h; sourceTree = "<group>"; };
 		700D559B1D40A70400160DF0 /* libmp3lame.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libmp3lame.a; sourceTree = "<group>"; };
+		701C25AF1D8659CA0099F644 /* MeetingCellLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MeetingCellLayout.m; sourceTree = "<group>"; };
+		701C25B11D8661070099F644 /* WantMeetLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WantMeetLayout.h; sourceTree = "<group>"; };
+		701C25B21D8661070099F644 /* WantMeetLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WantMeetLayout.m; sourceTree = "<group>"; };
+		701C25B41D8668600099F644 /* WantMeetTabCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WantMeetTabCell.h; sourceTree = "<group>"; };
+		701C25B51D8668600099F644 /* WantMeetTabCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WantMeetTabCell.m; sourceTree = "<group>"; };
+		701C25C51D86AC220099F644 /* MeetPaydingVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MeetPaydingVC.h; sourceTree = "<group>"; };
+		701C25C61D86AC220099F644 /* MeetPaydingVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MeetPaydingVC.m; sourceTree = "<group>"; };
+		701C25C71D86AC220099F644 /* MeetPaydingVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MeetPaydingVC.xib; sourceTree = "<group>"; };
 		7026E84E1D790D03005D6396 /* WBHomePageVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBHomePageVC.h; sourceTree = "<group>"; };
 		7026E84F1D790D03005D6396 /* WBHomePageVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBHomePageVC.m; sourceTree = "<group>"; };
 		7026E8501D790D03005D6396 /* WBHomePageVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = WBHomePageVC.xib; sourceTree = "<group>"; };
@@ -2032,14 +2046,19 @@
 		70848AAE1D6FE15D007B811E /* MeetingModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MeetingModel.m; sourceTree = "<group>"; };
 		70848AB01D6FE5DC007B811E /* MeetHeadV.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MeetHeadV.h; sourceTree = "<group>"; };
 		70848AB11D6FE5DC007B811E /* MeetHeadV.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MeetHeadV.m; sourceTree = "<group>"; };
-		70878C101D816E2E00477735 /* LayoutMeetingModal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LayoutMeetingModal.h; sourceTree = "<group>"; };
-		70878C111D816E2E00477735 /* LayoutMeetingModal.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LayoutMeetingModal.m; sourceTree = "<group>"; };
+		708A299D1D878EC30067DA0A /* AddIndustryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddIndustryViewController.h; sourceTree = "<group>"; };
+		708A299E1D878EC30067DA0A /* AddIndustryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddIndustryViewController.m; sourceTree = "<group>"; };
+		708A299F1D878EC30067DA0A /* GzHyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GzHyViewController.h; sourceTree = "<group>"; };
+		708A29A01D878EC30067DA0A /* GzHyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GzHyViewController.m; sourceTree = "<group>"; };
+		708A29A11D878EC30067DA0A /* SearchAndAddTagsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchAndAddTagsViewController.h; sourceTree = "<group>"; };
+		708A29A21D878EC30067DA0A /* SearchAndAddTagsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchAndAddTagsViewController.m; sourceTree = "<group>"; };
+		708A29A71D878EE30067DA0A /* DWTagsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DWTagsView.h; sourceTree = "<group>"; };
+		708A29A81D878EE30067DA0A /* DWTagsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DWTagsView.m; sourceTree = "<group>"; };
 		709B152D1D801AC6009CAFB8 /* MeetNumModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MeetNumModel.h; sourceTree = "<group>"; };
 		709B152E1D801AC6009CAFB8 /* MeetNumModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MeetNumModel.m; sourceTree = "<group>"; };
 		70CD1DEF1D8292FC001FC873 /* WantMeetMeVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WantMeetMeVC.h; sourceTree = "<group>"; };
 		70CD1DF01D8292FC001FC873 /* WantMeetMeVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WantMeetMeVC.m; sourceTree = "<group>"; };
 		70CD1DF21D829E21001FC873 /* MeetingCellLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MeetingCellLayout.h; sourceTree = "<group>"; };
-		70CD1DF31D829E21001FC873 /* MeetingCellLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MeetingCellLayout.m; sourceTree = "<group>"; };
 		70CD1DF51D82A56C001FC873 /* MeettingTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MeettingTableViewCell.h; sourceTree = "<group>"; };
 		70CD1DF61D82A56C001FC873 /* MeettingTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MeettingTableViewCell.m; sourceTree = "<group>"; };
 		70ED0A3D1D75662C00F4565A /* [biaoqian]@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "[biaoqian]@2x.png"; sourceTree = "<group>"; };
@@ -2122,8 +2141,6 @@
 		70ED0AD41D756E6D00F4565A /* wodeBG@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "wodeBG@3x.png"; sourceTree = "<group>"; };
 		70F942091D6ED7400086508A /* MeetingVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MeetingVC.h; sourceTree = "<group>"; };
 		70F9420A1D6ED7400086508A /* MeetingVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MeetingVC.m; sourceTree = "<group>"; };
-		70F9420C1D6EDDD70086508A /* MeetingTVCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MeetingTVCell.h; sourceTree = "<group>"; };
-		70F9420D1D6EDDD70086508A /* MeetingTVCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MeetingTVCell.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -4541,15 +4558,13 @@
 			name = "我想约见";
 			sourceTree = "<group>";
 		};
-		700457851D7811F300D72DCE /* 约见cell */ = {
+		700457851D7811F300D72DCE /* 主页面约见cell */ = {
 			isa = PBXGroup;
 			children = (
-				70F9420C1D6EDDD70086508A /* MeetingTVCell.h */,
-				70F9420D1D6EDDD70086508A /* MeetingTVCell.m */,
 				70CD1DF51D82A56C001FC873 /* MeettingTableViewCell.h */,
 				70CD1DF61D82A56C001FC873 /* MeettingTableViewCell.m */,
 			);
-			name = "约见cell";
+			name = "主页面约见cell";
 			sourceTree = "<group>";
 		};
 		700457861D78120600D72DCE /* 头部view */ = {
@@ -4561,13 +4576,64 @@
 			name = "头部view";
 			sourceTree = "<group>";
 		};
-		700457871D78122300D72DCE /* 想约见VIew */ = {
+		700457871D78122300D72DCE /* 想约见cell */ = {
 			isa = PBXGroup;
 			children = (
 				700457881D78125200D72DCE /* WantMeetCell.h */,
 				700457891D78125200D72DCE /* WantMeetCell.m */,
+				701C25B41D8668600099F644 /* WantMeetTabCell.h */,
+				701C25B51D8668600099F644 /* WantMeetTabCell.m */,
 			);
-			name = "想约见VIew";
+			name = "想约见cell";
+			sourceTree = "<group>";
+		};
+		701C25B71D86865F0099F644 /* model */ = {
+			isa = PBXGroup;
+			children = (
+				70F942061D6ED6E00086508A /* model */,
+			);
+			name = model;
+			sourceTree = "<group>";
+		};
+		701C25BC1D8698F20099F644 /* 想约见 */ = {
+			isa = PBXGroup;
+			children = (
+				701C25B11D8661070099F644 /* WantMeetLayout.h */,
+				701C25B21D8661070099F644 /* WantMeetLayout.m */,
+			);
+			name = "想约见";
+			sourceTree = "<group>";
+		};
+		701C25BD1D86990D0099F644 /* 约见主页面 */ = {
+			isa = PBXGroup;
+			children = (
+				70848AAD1D6FE15D007B811E /* MeetingModel.h */,
+				70848AAE1D6FE15D007B811E /* MeetingModel.m */,
+				709B152D1D801AC6009CAFB8 /* MeetNumModel.h */,
+				709B152E1D801AC6009CAFB8 /* MeetNumModel.m */,
+				70CD1DF21D829E21001FC873 /* MeetingCellLayout.h */,
+				701C25AF1D8659CA0099F644 /* MeetingCellLayout.m */,
+			);
+			name = "约见主页面";
+			sourceTree = "<group>";
+		};
+		701C25BE1D86A1B40099F644 /* 想约见我 */ = {
+			isa = PBXGroup;
+			children = (
+				70CD1DEF1D8292FC001FC873 /* WantMeetMeVC.h */,
+				70CD1DF01D8292FC001FC873 /* WantMeetMeVC.m */,
+			);
+			name = "想约见我";
+			sourceTree = "<group>";
+		};
+		701C25BF1D86A6550099F644 /* 主页面的支付 */ = {
+			isa = PBXGroup;
+			children = (
+				701C25C51D86AC220099F644 /* MeetPaydingVC.h */,
+				701C25C61D86AC220099F644 /* MeetPaydingVC.m */,
+				701C25C71D86AC220099F644 /* MeetPaydingVC.xib */,
+			);
+			name = "主页面的支付";
 			sourceTree = "<group>";
 		};
 		7026E84C1D790D03005D6396 /* 线索 */ = {
@@ -5009,6 +5075,28 @@
 			name = "弹出框";
 			sourceTree = "<group>";
 		};
+		708A299C1D878EC30067DA0A /* 行业标签 */ = {
+			isa = PBXGroup;
+			children = (
+				708A299D1D878EC30067DA0A /* AddIndustryViewController.h */,
+				708A299E1D878EC30067DA0A /* AddIndustryViewController.m */,
+				708A299F1D878EC30067DA0A /* GzHyViewController.h */,
+				708A29A01D878EC30067DA0A /* GzHyViewController.m */,
+				708A29A11D878EC30067DA0A /* SearchAndAddTagsViewController.h */,
+				708A29A21D878EC30067DA0A /* SearchAndAddTagsViewController.m */,
+			);
+			path = "行业标签";
+			sourceTree = "<group>";
+		};
+		708A29A61D878EE30067DA0A /* 行业标签 */ = {
+			isa = PBXGroup;
+			children = (
+				708A29A71D878EE30067DA0A /* DWTagsView.h */,
+				708A29A81D878EE30067DA0A /* DWTagsView.m */,
+			);
+			path = "行业标签";
+			sourceTree = "<group>";
+		};
 		70ED0A3C1D75662C00F4565A /* 新版 */ = {
 			isa = PBXGroup;
 			children = (
@@ -5126,7 +5214,7 @@
 		70F942051D6ED6E00086508A /* 约人 */ = {
 			isa = PBXGroup;
 			children = (
-				70F942061D6ED6E00086508A /* model */,
+				701C25B71D86865F0099F644 /* model */,
 				70F942071D6ED6E00086508A /* vc */,
 				70F942081D6ED6E00086508A /* view */,
 			);
@@ -5136,14 +5224,8 @@
 		70F942061D6ED6E00086508A /* model */ = {
 			isa = PBXGroup;
 			children = (
-				70848AAD1D6FE15D007B811E /* MeetingModel.h */,
-				70848AAE1D6FE15D007B811E /* MeetingModel.m */,
-				709B152D1D801AC6009CAFB8 /* MeetNumModel.h */,
-				709B152E1D801AC6009CAFB8 /* MeetNumModel.m */,
-				70878C101D816E2E00477735 /* LayoutMeetingModal.h */,
-				70878C111D816E2E00477735 /* LayoutMeetingModal.m */,
-				70CD1DF21D829E21001FC873 /* MeetingCellLayout.h */,
-				70CD1DF31D829E21001FC873 /* MeetingCellLayout.m */,
+				701C25BD1D86990D0099F644 /* 约见主页面 */,
+				701C25BC1D8698F20099F644 /* 想约见 */,
 			);
 			path = model;
 			sourceTree = "<group>";
@@ -5151,8 +5233,8 @@
 		70F942071D6ED6E00086508A /* vc */ = {
 			isa = PBXGroup;
 			children = (
-				70CD1DEF1D8292FC001FC873 /* WantMeetMeVC.h */,
-				70CD1DF01D8292FC001FC873 /* WantMeetMeVC.m */,
+				708A299C1D878EC30067DA0A /* 行业标签 */,
+				701C25BE1D86A1B40099F644 /* 想约见我 */,
 				700457811D77FD3B00D72DCE /* 我想约见 */,
 				700457801D77FD2C00D72DCE /* 可约见 */,
 				7004577F1D77FD1A00D72DCE /* 约见主页面 */,
@@ -5163,11 +5245,13 @@
 		70F942081D6ED6E00086508A /* view */ = {
 			isa = PBXGroup;
 			children = (
+				708A29A61D878EE30067DA0A /* 行业标签 */,
+				701C25BF1D86A6550099F644 /* 主页面的支付 */,
 				707E251B1D7E972700C3E857 /* 弹出框 */,
 				707E251A1D7E971200C3E857 /* 标签view */,
-				700457871D78122300D72DCE /* 想约见VIew */,
+				700457871D78122300D72DCE /* 想约见cell */,
 				700457861D78120600D72DCE /* 头部view */,
-				700457851D7811F300D72DCE /* 约见cell */,
+				700457851D7811F300D72DCE /* 主页面约见cell */,
 			);
 			path = view;
 			sourceTree = "<group>";
@@ -5588,6 +5672,7 @@
 				70ED0A951D75662C00F4565A /* weixianyuejian@2x.png in Resources */,
 				63346E931CE46351007BC875 /* iconfont-chanpin@3x.png in Resources */,
 				6319ECA81CCE159200C21D63 /* tabbar_compose_background_icon_close@3x.png in Resources */,
+				701C25C91D86AC220099F644 /* MeetPaydingVC.xib in Resources */,
 				6384683F1D080FAB00A80223 /* weirenzhen@3x.png in Resources */,
 				63ECBEC71C4F58D500D014E7 /* iconfont-xinyongzhi@2x.png in Resources */,
 				636315B41D0EB93D009C1132 /* MoreFuwuVC.xib in Resources */,
@@ -5784,7 +5869,6 @@
 				636315DE1D0EB93D009C1132 /* CityViewCell.m in Sources */,
 				632632E81C85785800787F80 /* HRColorCursor.m in Sources */,
 				6384677B1D07FC5C00A80223 /* DiscoverTabViewController.m in Sources */,
-				70878C121D816E2E00477735 /* LayoutMeetingModal.m in Sources */,
 				6351016D1C1022D0002CFE4A /* NSObject+MJProperty.m in Sources */,
 				634F4CAF1C0E7D15008CFD84 /* AFNetworkReachabilityManager.m in Sources */,
 				63621D671C20090B00994086 /* UIView+MJExtension.m in Sources */,
@@ -5804,7 +5888,6 @@
 				638467D51D08056A00A80223 /* TheSecondCarDetailViewController.m in Sources */,
 				634F4CAC1C0E7CB6008CFD84 /* AFHTTPRequestOperationManager.m in Sources */,
 				70796DD91D6B024E005B8441 /* CALayer+WebCache.m in Sources */,
-				70F9420E1D6EDDD70086508A /* MeetingTVCell.m in Sources */,
 				631F2DD01CF582E100273C78 /* WHC_Banner.m in Sources */,
 				631C40171C97C907003C67E6 /* split.c in Sources */,
 				63E9A52E1D4EE2AC008704CB /* UIImage+GIF.m in Sources */,
@@ -5867,6 +5950,7 @@
 				63A6B6991C0D89CE00C7EB09 /* IQUITextFieldView+Additions.m in Sources */,
 				70796DF01D6B024E005B8441 /* CommentView.m in Sources */,
 				63621D651C20090B00994086 /* UIScrollView+MJExtension.m in Sources */,
+				708A29A41D878EC30067DA0A /* GzHyViewController.m in Sources */,
 				638468001D080CCD00A80223 /* ExhibitionIndustryModel.m in Sources */,
 				63E9A5281D4EE2AC008704CB /* SDWebImageDecoder.m in Sources */,
 				70848AB21D6FE5DC007B811E /* MeetHeadV.m in Sources */,
@@ -5914,6 +5998,7 @@
 				636315D51D0EB93D009C1132 /* NSMutableArray+FilterElement.m in Sources */,
 				63E57C6E1CBF2DD700645852 /* FSComboListView.m in Sources */,
 				6351016E1C1022D0002CFE4A /* NSString+MJExtension.m in Sources */,
+				701C25B61D8668600099F644 /* WantMeetTabCell.m in Sources */,
 				638467991D08028700A80223 /* MyProductDetailViewController.m in Sources */,
 				63621D5E1C20090B00994086 /* MJRefreshBackNormalFooter.m in Sources */,
 				70CD1DF11D8292FC001FC873 /* WantMeetMeVC.m in Sources */,
@@ -5947,12 +6032,12 @@
 				636315BF1D0EB93D009C1132 /* LinQuRenVC.m in Sources */,
 				636315CE1D0EB93D009C1132 /* FabuCell.m in Sources */,
 				63F141B51C8971C800479102 /* MCRadarChartView.m in Sources */,
+				701C25B31D8661070099F644 /* WantMeetLayout.m in Sources */,
 				636315D01D0EB93D009C1132 /* MyLinQuCell.m in Sources */,
 				636315C31D0EB93D009C1132 /* MyGuanZhuVC.m in Sources */,
 				63E9A5331D4EE2AC008704CB /* UIView+WebCacheOperation.m in Sources */,
 				70ED0AD21D756E1800F4565A /* NotificationViewController.m in Sources */,
 				634483561CE32F9500748AB0 /* MMDrawerVisualState.m in Sources */,
-				70CD1DF41D829E21001FC873 /* MeetingCellLayout.m in Sources */,
 				63A6B6A31C0D89CE00C7EB09 /* IQToolbar.m in Sources */,
 				70796E601D6B02CC005B8441 /* PublishDynamicVC.m in Sources */,
 				706801711D6BE09500CC9F94 /* DynamicVC.m in Sources */,
@@ -5967,6 +6052,7 @@
 				634AD7EC1C07F2470047C8D5 /* UIDevice+Extend.m in Sources */,
 				6384677A1D07FC5C00A80223 /* DiscoverDetailViewController.m in Sources */,
 				634AD7F41C07F2470047C8D5 /* UIView+Extend.m in Sources */,
+				701C25B01D8659CA0099F644 /* MeetingCellLayout.m in Sources */,
 				636315D91D0EB93D009C1132 /* NSString+PinYin4Cocoa.m in Sources */,
 				638468A41D0813E800A80223 /* MeViewController.m in Sources */,
 				63A6B6A01C0D89CE00C7EB09 /* IQTextView.m in Sources */,
@@ -5980,6 +6066,7 @@
 				638468AE1D0813E800A80223 /* EarnestRecodeAllViewController.m in Sources */,
 				634AD7E61C07F2470047C8D5 /* NSArray+Extend.m in Sources */,
 				70796DCD1D6B024E005B8441 /* LWTextContainer.m in Sources */,
+				708A29A91D878EE30067DA0A /* DWTagsView.m in Sources */,
 				631C40131C97C907003C67E6 /* qrencode.c in Sources */,
 				635101651C1022D0002CFE4A /* MJExtensionConst.m in Sources */,
 				634AD7EE1C07F2470047C8D5 /* UIImage+Color.m in Sources */,
@@ -6000,8 +6087,10 @@
 				638468AC1D0813E800A80223 /* EditNameViewController.m in Sources */,
 				635101661C1022D0002CFE4A /* MJFoundation.m in Sources */,
 				638467C51D08054F00A80223 /* TheSecondHourseNextViewController.m in Sources */,
+				708A29A51D878EC30067DA0A /* SearchAndAddTagsViewController.m in Sources */,
 				70796DD21D6B024E005B8441 /* CALayer+LWTransaction.m in Sources */,
 				635101641C1022D0002CFE4A /* MJDictionaryCache.m in Sources */,
+				708A29A31D878EC30067DA0A /* AddIndustryViewController.m in Sources */,
 				638468AD1D0813E800A80223 /* EarnestMoneyViewController.m in Sources */,
 				632632E41C85785800787F80 /* CYRTextView.m in Sources */,
 				638467761D07FC5C00A80223 /* MyCrossBroderView.m in Sources */,
@@ -6111,6 +6200,7 @@
 				636315B91D0EB93D009C1132 /* MoreXSCell.m in Sources */,
 				70796DD61D6B024E005B8441 /* LWAsyncDisplayView.m in Sources */,
 				70796DD11D6B024E005B8441 /* NSMutableAttributedString+Gallop.m in Sources */,
+				701C25C81D86AC220099F644 /* MeetPaydingVC.m in Sources */,
 				70796DF11D6B024E005B8441 /* TableViewCell.m in Sources */,
 				638467DA1D0806EA00A80223 /* EncapsulationViewController.m in Sources */,
 				638468AF1D0813E800A80223 /* EarnestRecodeViewController.m in Sources */,

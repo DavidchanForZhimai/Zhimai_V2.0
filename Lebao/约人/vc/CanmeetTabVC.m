@@ -7,7 +7,7 @@
 //
 
 #import "CanmeetTabVC.h"
-#import "MeetingTVCell.h"
+#import "MeettingTableViewCell.h"
 #import "MJRefresh.h"
 #import "SearchAndAddTagsViewController.h"
 @interface CanmeetTabVC ()<UITableViewDelegate,UITableViewDataSource>
@@ -90,9 +90,9 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    MeetingTVCell *cell=[tableView dequeueReusableCellWithIdentifier:@"MtCell"];
+    MeettingTableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:@"MtCell"];
     if(!cell){
-       cell=[[MeetingTVCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"MtCell"];
+       cell=[[MeettingTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"MtCell"];
     cell.backgroundColor=[UIColor clearColor];
     }
     

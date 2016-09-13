@@ -99,13 +99,9 @@
     _wantMeBtn.layer.borderWidth=2;
     _wantMeBtn.layer.borderColor=[UIColor colorWithWhite:1.0 alpha:0.3].CGColor;
     [_wantMeBtn setTitleColor:WhiteColor forState:UIControlStateNormal];
-    _wantMeBtn.titleLabel.font = Size(20);
+    _wantMeBtn.titleLabel.font = Size(40);
     _wantMeBtn.titleLabel.textAlignment = NSTextAlignmentCenter;
-    [_wantMeBtn setTitle:@"0\n想约见我" forState:UIControlStateNormal];
-    NSMutableAttributedString *text = [[NSMutableAttributedString alloc]initWithString:_wantMeBtn.titleLabel.text];
-    [text addAttribute:NSFontAttributeName value:Size(40) range:[_wantMeBtn.titleLabel.text rangeOfString:@"0"]];
-    [_wantMeBtn setAttributedTitle:text forState:UIControlStateNormal];
-    _wantMeBtn.titleLabel.numberOfLines = 0;
+
     [_wantMeBtn addTarget:self action:@selector(wantMeClick:) forControlEvents:UIControlEventTouchUpInside];
     _wantMeBtn.tag=1000;
     [bgView addSubview:_wantMeBtn];
@@ -117,13 +113,9 @@
     [_meWantBtn setTitleColor:WhiteColor forState:UIControlStateNormal];
     _meWantBtn.layer.borderColor=[UIColor colorWithWhite:1.0 alpha:0.3].CGColor;
     
-    _meWantBtn.titleLabel.font = Size(20);
+    _meWantBtn.titleLabel.font = Size(40);
     _meWantBtn.titleLabel.textAlignment = NSTextAlignmentCenter;
-    [_meWantBtn setTitle:@"0\n我想约见" forState:UIControlStateNormal];
-    NSMutableAttributedString *text1 = [[NSMutableAttributedString alloc]initWithString:_meWantBtn.titleLabel.text];
-    [text1 addAttribute:NSFontAttributeName value:Size(40) range:[_meWantBtn.titleLabel.text rangeOfString:@"0"]];
-    [_meWantBtn setAttributedTitle:text1 forState:UIControlStateNormal];
-    _meWantBtn.titleLabel.numberOfLines = 0;
+
     [_meWantBtn addTarget:self action:@selector(IwantClick:) forControlEvents:UIControlEventTouchUpInside];
     _meWantBtn.tag=1001;
     [bgView addSubview:_meWantBtn];

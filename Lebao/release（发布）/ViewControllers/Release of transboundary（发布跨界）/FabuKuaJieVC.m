@@ -506,7 +506,7 @@
         return;
     }
     
-  //  NSLog(@"%@",induStr);
+
     PayDingJinVC * payVC = [[PayDingJinVC alloc]init];
     payVC.zfymType = FaBuZhiFu;
     payVC.qwjeStr = _bcTex.text;
@@ -586,20 +586,20 @@
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(keyBoardHide:) name:UIKeyboardWillHideNotification object:nil];
 }
 -(void)keyBoardShow:(NSNotification *)sender{
-    //     NSLog(@"sender=%@",sender);
+
     CGRect keyboard_bounds = [sender.userInfo[@"UIKeyboardBoundsUserInfoKey"] CGRectValue];
     float keyboard_h = keyboard_bounds.size.height;
     float keyboard_y = SCREEN_HEIGHT-keyboard_h;
-    //     NSLog(@"keyboard_y=%.2f",keyboard_y);
+
     
     UIWindow *keyWindow = [[UIApplication sharedApplication] keyWindow];
     UIView *firstResponder = [keyWindow performSelector:@selector(firstResponder)];
     CGRect rect = [firstResponder convertRect:firstResponder.bounds toView:self.view];
     float field_maxy = CGRectGetMaxY(rect);
-    //     NSLog(@"field_maxy=%.2f",field_maxy);
+
     
     float keyboard_hide = (field_maxy - keyboard_y)>0?field_maxy - keyboard_y:0;
-    //     NSLog(@"keyboard_hide=%.2f",keyboard_hide);
+
     
     self.view.transform=CGAffineTransformMakeTranslation(0, -keyboard_hide-55);
     
