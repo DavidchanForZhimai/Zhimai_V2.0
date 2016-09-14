@@ -206,7 +206,7 @@ static NSString * const kTagCellID = @"TagCellID";
 
 @interface DWTagsView ()<UICollectionViewDelegate, UICollectionViewDataSource,UICollectionViewDelegateFlowLayout>
 
-@property (strong, nonatomic) UICollectionView *collectionView;
+
 @property (strong, nonatomic) NSMutableArray<NSString *> *tagsMutableArray;
 @property (strong, nonatomic) NSMutableArray<DWTagModel *> *tagModels;
 
@@ -316,6 +316,8 @@ static NSString * const kTagCellID = @"TagCellID";
     [self.tagModels addObject:tagModel];
     [self.collectionView reloadData];
     [self invalidateIntrinsicContentSize];
+   
+
  
 }
 
@@ -345,7 +347,7 @@ static NSString * const kTagCellID = @"TagCellID";
     [self.tagModels removeObjectAtIndex:index];
     [self.collectionView reloadData];
     [self invalidateIntrinsicContentSize];
-  
+    
 }
 
 - (void)removeAllTags {
@@ -404,7 +406,6 @@ static NSString * const kTagCellID = @"TagCellID";
     
     return _allowsSelection;
 }
-
 - (BOOL)collectionView:(UICollectionView *)collectionView shouldDeselectItemAtIndexPath:(NSIndexPath *)indexPath {
     if ([self.delegate respondsToSelector:@selector(tagsView:didDeSelectTagAtIndex:)]) {
         return [self.delegate tagsView:self shouldDeselectItemAtIndex:indexPath.row];

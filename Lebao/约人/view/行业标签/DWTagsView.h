@@ -12,6 +12,8 @@
 
 @interface DWTagsView : UIView
 
+@property (strong, nonatomic) UICollectionView *collectionView;
+
 @property (nonatomic) UIEdgeInsets contentInsets; //default is (10,10,10,10)
 
 @property (nonatomic) NSArray<NSString *> *tagsArray;   //数据源

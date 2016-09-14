@@ -18,7 +18,7 @@
 #import "BasicInformationViewController.h"
 #import "MyGuanZhuVC.h"//我的关注
 #import "MyFansVC.h"//我的粉丝
-#import "JJRDetailVC.h"
+#import "MyDetialViewController.h"
 #import "AuthenticationViewController.h"
 #define cellH  40
 #define PersonalURL [NSString stringWithFormat:@"%@user/index",HttpURL]
@@ -163,10 +163,9 @@
     [[ToolManager shareInstance].drawerController closeDrawerAnimated:YES completion:^(BOOL finished) {
         UITabBarController *tabBar = (UITabBarController *)[ToolManager shareInstance].drawerController.centerViewController;
         UINavigationController *nav =(UINavigationController *)tabBar.viewControllers[getAppDelegate().mainTab.selectedIndex];
-        JJRDetailVC *jjRVC = allocAndInit(JJRDetailVC);
-        jjRVC.jjrID = modal.ID;
-        
-        modal.ID?[nav pushViewController:jjRVC animated:YES]:[[ToolManager shareInstance] showInfoWithStatus:@"经纪人id不能为空"];
+        MyDetialViewController *myDetialVC = allocAndInit(MyDetialViewController);
+//        myDetialVC.jjrID = modal.ID;
+        modal.ID?[nav pushViewController:myDetialVC animated:YES]:[[ToolManager shareInstance] showInfoWithStatus:@"经纪人id不能为空"];
         
         
     }];

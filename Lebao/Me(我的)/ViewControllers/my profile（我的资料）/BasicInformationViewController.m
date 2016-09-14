@@ -17,6 +17,10 @@
 #import "CoreArchive.h"
 #import "DWTagsView.h"
 #define TagHeight 22
+#define MininumTagWidth (APPWIDTH - 120)/5.0
+#define MaxinumTagWidth (APPWIDTH - 20)
+
+
 //获取位置详情 URL:appinterface/areainfo
 #define AreainfoURL [NSString stringWithFormat:@"%@common/area-ios",HttpURL]
 //我的URL ：appinterface/personal
@@ -60,6 +64,10 @@
 
 @property(nonatomic,strong)UITextField *addTextField;//添加标签输入框
 @property(nonatomic,strong)BaseButton *addSure;//确定按钮
+
+@property(nonatomic,strong)DWTagsView *currentTagsView;//当前的标签
+@property(nonatomic,copy)NSMutableArray *currentTagsArray;//当前的标签数组
+@property(nonatomic,copy)NSMutableArray *currentDefalutTagsArray;//当前的选择标签数组
 @end
 
 @implementation BasicInfoModal
@@ -113,8 +121,10 @@
             }
             else
             {
+             
                 [_productsTags removeObjectAtIndex:index];
                 [_productTagsView removeTagAtIndex:index];
+              
             }
         }
             break;
@@ -145,22 +155,64 @@
             }
             
         }
+        case 88888:
+        {
+           
+        }
             break;
+        case 888888:
+        {
+            if ([_currentTagsArray containsObject:_currentDefalutTagsArray[index]]) {
+                [[ToolManager shareInstance] showInfoWithStatus:@"标签已存在"];
+                return;
+            }
+            [_currentTagsArray insertObject:_currentDefalutTagsArray[index] atIndex:_currentTagsArray.count-1];
+            [_currentTagsView insertTag:_currentDefalutTagsArray[index] AtIndex:_currentTagsArray.count-2];
+            [_addHasTagsView addTag:_currentDefalutTagsArray[index]];
             
+        }
+            break;
         default:
             break;
     }
 }
-#pragma mark 
+- (BOOL)tagsView:(DWTagsView *)tagsView shouldDeselectItemAtIndex:(NSUInteger)index
+{
+    if (tagsView.tag ==888888) {
+        
+        return YES;
+    }
+    else
+    {
+        return NO;
+    }
+    
+
+}
+- (void)tagsView:(DWTagsView *)tagsView didDeSelectTagAtIndex:(NSUInteger)index
+{
+   
+    if (tagsView.tag ==888888) {
+
+        [_currentTagsView removeTagWithName:_currentDefalutTagsArray[index]];
+        [_addHasTagsView removeTagWithName:_currentDefalutTagsArray[index]];
+        [_currentTagsArray removeObject:_currentDefalutTagsArray[index]];
+     
+        
+    }
+    
+}
+#pragma mark
 #pragma mark add Tags View
 - (void)addTagsWithType:(DWTagsView *)type andDataSource:(NSMutableArray *)dataSource andDefalutDataSource:(NSMutableArray *)defalutDataSource;
 {
-    NSLog(@" =%@",dataSource);
+   
     [self.view addSubview:self.addTagsBgView];
     [self.view addSubview:self.addTagsView];
     __weak typeof(self) weakSelf = self;
     self.addTagsBgView.didClickBtnBlock = ^
     {
+        [weakSelf.addTextField resignFirstResponder];
         [weakSelf.addTagsBgView removeFromSuperview];
          weakSelf.addTagsBgView = nil;
        
@@ -171,7 +223,7 @@
         [weakSelf.addHasTagsView removeFromSuperview];
         weakSelf.addHasTagsView = nil;
         [weakSelf.addTagsLb removeFromSuperview];
-        weakSelf.addTagsLb = nil;
+         weakSelf.addTagsLb = nil;
         [weakSelf.addTextField removeFromSuperview];
         weakSelf.addTextField = nil;
         [weakSelf.addSure removeFromSuperview];
@@ -193,22 +245,31 @@
     [self.addTagsView addSubview:self.addTextField];
     [self.addTagsView addSubview:self.addSure];
     self.addSure.didClickBtnBlock = ^{
-        NSLog(@"type =%@",type);
+       
         if ([weakSelf.addTextField.text isEqualToString:@""]) {
             [[ToolManager shareInstance] showInfoWithStatus:@"标签不能为空"];
             return;
         }
+        if ([dataSource containsObject:weakSelf.addTextField.text]) {
+            [[ToolManager shareInstance] showInfoWithStatus:@"标签已存在"];
+            return;
+        }
 
-        [dataSource addObject:weakSelf.addTextField.text];
+        [dataSource insertObject:weakSelf.addTextField.text atIndex:dataSource.count-1];
+        
         [type insertTag:weakSelf.addTextField.text AtIndex:dataSource.count-2];
         [weakSelf.addHasTagsView addTag:weakSelf.addTextField.text];
-        weakSelf.addTextField.text=@"";
+         weakSelf.addTextField.text=@"";
         [weakSelf.addTextField resignFirstResponder];
     };
     [self.addTagsView addSubview:self.addDefalutTagsView];
     _addDefalutTagsView.tagsArray = defalutDataSource;
 
     [self addTagsViewReSetFrame];
+
+    _currentTagsView = type;
+    _currentTagsArray = dataSource;
+    _currentDefalutTagsArray = defalutDataSource;
 }
 #pragma mark
 #pragma mark getter addtagsView
@@ -241,8 +302,8 @@
     _addHasTagsView.contentInsets = UIEdgeInsetsZero;
     _addHasTagsView.tagInsets = UIEdgeInsetsMake(5, 15, 5, 15);
     _addHasTagsView.tagcornerRadius = 2;
-    _addHasTagsView.mininumTagWidth = (APPWIDTH - 100)/4.0;
-    _addHasTagsView.maximumTagWidth = APPWIDTH - 20;
+    _addHasTagsView.mininumTagWidth = MininumTagWidth;
+    _addHasTagsView.maximumTagWidth = MaxinumTagWidth;
     _addHasTagsView.tagHeight  = TagHeight;
     _addHasTagsView.tag = 88888;
     _addHasTagsView.tagBackgroundColor = AppMainColor;
@@ -302,8 +363,8 @@
     _addDefalutTagsView.contentInsets = UIEdgeInsetsZero;
     _addDefalutTagsView.tagInsets = UIEdgeInsetsMake(5, 15, 5, 15);
     _addDefalutTagsView.tagcornerRadius = 2;
-    _addDefalutTagsView.mininumTagWidth = (APPWIDTH - 100)/4.0;
-    _addDefalutTagsView.maximumTagWidth = APPWIDTH - 20;
+    _addDefalutTagsView.mininumTagWidth =MininumTagWidth;
+    _addDefalutTagsView.maximumTagWidth = MaxinumTagWidth;
     _addDefalutTagsView.tagHeight  = TagHeight;
     _addDefalutTagsView.tag = 888888;
     _addDefalutTagsView.tagBackgroundColor =[UIColor colorWithRed:0.902 green:0.9059 blue:0.9137 alpha:1.0] ;
@@ -332,13 +393,13 @@
 - (void)addTagsViewReSetFrame
 {
     
-    _addHasTagsView.frame = CGRectMake(20, 10, APPWIDTH - 40, 70);
+    _addHasTagsView.frame = CGRectMake(20, 10, APPWIDTH - 40, 2*(TagHeight+10));
     
     _addTagsLb.frame = CGRectMake(0, CGRectGetMaxY(_addHasTagsView.frame), APPWIDTH, 40);
     _addTextField.frame = CGRectMake(20, CGRectGetMaxY(_addTagsLb.frame), 220*ScreenMultiple, 30);
     _addSure.frame = CGRectMake(CGRectGetMaxX(_addTextField.frame) + 15,  CGRectGetMaxY(_addTagsLb.frame) + 2, 52*ScreenMultiple, _addTextField.height - 4);
     
-    _addDefalutTagsView.frame = CGRectMake(20, CGRectGetMaxY(_addTextField.frame) + 20, APPWIDTH -40, 70);
+    _addDefalutTagsView.frame = CGRectMake(20, CGRectGetMaxY(_addTextField.frame) + 20, APPWIDTH -40, 2*(TagHeight+10));
     
     [UIView animateWithDuration:0.3 animations:^{
          _addTagsView.frame =CGRectMake(0,APPHEIGHT -  CGRectGetMaxY(_addDefalutTagsView.frame) -20, APPWIDTH , CGRectGetMaxY(_addDefalutTagsView.frame) + 20);
@@ -400,8 +461,8 @@
     _productTagsView.contentInsets = UIEdgeInsetsZero;
     _productTagsView.tagInsets = UIEdgeInsetsMake(5, 15, 5, 15);
     _productTagsView.tagcornerRadius = 2;
-    _productTagsView.mininumTagWidth = (APPWIDTH - 100)/4.0;
-    _productTagsView.maximumTagWidth = APPWIDTH - 20;
+    _productTagsView.mininumTagWidth = MininumTagWidth;
+    _productTagsView.maximumTagWidth = MaxinumTagWidth;
     _productTagsView.tagHeight  = TagHeight;
     _productTagsView.tag = 88;
     _productTagsView.tagBackgroundColor = AppMainColor;
@@ -439,8 +500,8 @@
     _resourseTagsView.tagInsets = UIEdgeInsetsMake(5, 15, 5, 15);
     _resourseTagsView.tagcornerRadius = 2;
     _resourseTagsView.tag = 888;
-    _resourseTagsView.mininumTagWidth = (APPWIDTH - 100)/4.0;
-    _resourseTagsView.maximumTagWidth = APPWIDTH - 20;
+    _resourseTagsView.mininumTagWidth = MininumTagWidth;
+    _resourseTagsView.maximumTagWidth = MaxinumTagWidth;
     _resourseTagsView.tagHeight  = TagHeight;
     
     _resourseTagsView.tagBackgroundColor = [UIColor colorWithRed:0.9843 green:0.451 blue:0.2549 alpha:1.0];
@@ -487,8 +548,8 @@
     _personsTagsView.tagInsets = UIEdgeInsetsMake(5, 15, 5, 15);
     _personsTagsView.tagcornerRadius = 2;
     _personsTagsView.tag = 8888;
-    _personsTagsView.mininumTagWidth = (APPWIDTH - 100)/4.0;
-    _personsTagsView.maximumTagWidth = APPWIDTH - 20;
+    _personsTagsView.mininumTagWidth =MininumTagWidth;
+    _personsTagsView.maximumTagWidth = MaxinumTagWidth;
     _personsTagsView.tagHeight  = TagHeight;
     
     _personsTagsView.tagBackgroundColor = AppMainColor;
@@ -534,12 +595,12 @@
 - (void)tagsViewReSetFrame
 {
     
-    _productTagsView.frame = CGRectMake(20, 45, APPWIDTH - 40, 70);
+    _productTagsView.frame = CGRectMake(20, 45, APPWIDTH - 40, 2*(TagHeight+10));
     _resourseTagsLb.frame = CGRectMake(20, CGRectGetMaxY(_productTagsView.frame), APPWIDTH, 35);
-    _resourseTagsView.frame = CGRectMake(20, CGRectGetMaxY(_resourseTagsLb.frame), APPWIDTH - 40, 70);
+    _resourseTagsView.frame = CGRectMake(20, CGRectGetMaxY(_resourseTagsLb.frame), APPWIDTH - 40,2*(TagHeight+10));
     _line1.frame = CGRectMake(0, CGRectGetMaxY(_resourseTagsView.frame), APPWIDTH, 10);
     _personsTagsLb.frame = CGRectMake(20, CGRectGetMaxY(_line1.frame), APPWIDTH, 35);
-    _personsTagsView.frame =CGRectMake(20, CGRectGetMaxY(_personsTagsLb.frame), APPWIDTH - 40, 70);
+    _personsTagsView.frame =CGRectMake(20, CGRectGetMaxY(_personsTagsLb.frame), APPWIDTH - 40, 2*(TagHeight+10));
     _tagsView.frame = frame(0, 0, APPWIDTH, CGRectGetMaxY(_personsTagsView.frame) + 10);
 
     
