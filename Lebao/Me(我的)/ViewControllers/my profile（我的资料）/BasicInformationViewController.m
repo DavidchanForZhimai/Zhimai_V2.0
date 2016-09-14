@@ -15,13 +15,14 @@
 #import "UpLoadImageManager.h"//上传头像和背景
 #import "NSString+File.h"
 #import "CoreArchive.h"
+#import "DWTagsView.h"
+#define TagHeight 22
 //获取位置详情 URL:appinterface/areainfo
 #define AreainfoURL [NSString stringWithFormat:@"%@common/area-ios",HttpURL]
-
 //我的URL ：appinterface/personal
 #define MemberURL [NSString stringWithFormat:@"%@user/member",HttpURL]
 #define SaveMemberURL [NSString stringWithFormat:@"%@user/save-member",HttpURL]
-@interface BasicInformationViewController ()<UITableViewDataSource,UITableViewDelegate,GWLCustomPikerViewDataSource, GWLCustomPikerViewDelegate>
+@interface BasicInformationViewController ()<UITableViewDataSource,UITableViewDelegate,GWLCustomPikerViewDataSource, GWLCustomPikerViewDelegate,DWTagsViewDelegate>
 @property(nonatomic,strong)BaseButton *saveBtn;
 @property(nonatomic,strong)BasicInfoModal *modal;
 @property(nonatomic,strong)UITableView    *basicInfoTableView;
@@ -34,6 +35,31 @@
 @property (strong, nonatomic) NSMutableArray            *personAndoptionalArray;
 @property (strong, nonatomic) NSMutableArray            *recommendArray;
 @property (strong, nonatomic) NSMutableArray            *optionalArray;
+
+
+@property(nonatomic,strong)UIView * tagsView;//所有标签的父视图
+@property(nonatomic,strong)DWTagsView *productTagsView;//产品标签
+@property(nonatomic,strong)DWTagsView *resourseTagsView;//资源标签
+@property(nonatomic,copy)NSMutableArray *productsTags;//产品标签array
+@property(nonatomic,copy)NSMutableArray *resourseaTags;//资源标签array
+@property(nonatomic,strong)DWTagsView *personsTagsView;//个人标签
+@property(nonatomic,copy)NSMutableArray *personsTags;//个人标签array
+@property(nonatomic,strong)UILabel *productTagsLb;//产品标签
+@property(nonatomic,strong)UILabel *resourseTagsLb;//资源标签
+@property(nonatomic,strong)UILabel *personsTagsLb;//个人标签
+@property(nonatomic,strong)UIView *line1;//间隔
+
+@property(nonatomic,strong)BaseButton *addTagsBgView;//背景
+@property(nonatomic,strong)UIView * addTagsView;//所有add标签的父视图
+@property(nonatomic,strong)DWTagsView *addHasTagsView;//添加标签
+@property(nonatomic,strong)DWTagsView *addDefalutTagsView;//默认选择标签
+@property(nonatomic,strong)UILabel *addTagsLb;//点击添加新的关注行业
+
+@property(nonatomic,copy)NSMutableArray *addTags;//添加的标签
+@property(nonatomic,copy)NSMutableArray *addDefalutTags;//默认的标签
+
+@property(nonatomic,strong)UITextField *addTextField;//添加标签输入框
+@property(nonatomic,strong)BaseButton *addSure;//确定按钮
 @end
 
 @implementation BasicInfoModal
@@ -44,6 +70,7 @@
 {
     float footerHeight;
 }
+
 
 
 - (void)viewDidLoad {
@@ -57,7 +84,7 @@
 #pragma mark - Navi_View
 - (void)navView
 {
-    [self navViewTitleAndBackBtn:@"基本资料"];
+    [self navViewTitleAndBackBtn:@"个人资料"];
     _saveBtn = [[BaseButton alloc]initWithFrame:frame(APPWIDTH - 50, StatusBarHeight, 50, NavigationBarHeight) setTitle:@"保存" titleSize:28*SpacedFonts titleColor:BlackTitleColor textAlignment:NSTextAlignmentCenter backgroundColor:[UIColor clearColor] inView:self.view];
     _saveBtn.hidden = YES;
     __weak BasicInformationViewController *weakSelf = self;
@@ -68,6 +95,456 @@
         
     };
 }
+#pragma mark
+#pragma mark - DWTagsViewDelegate
+
+- (BOOL)tagsView:(DWTagsView *)tagsView shouldSelectTagAtIndex:(NSUInteger)index
+{
+    return YES;
+}
+- (void)tagsView:(DWTagsView *)tagsView didSelectTagAtIndex:(NSUInteger)index
+{
+    switch (tagsView.tag) {
+        case 88:
+        {
+            if (index==_productsTags.count-1) {
+                NSLog(@"产品标签++");
+                [self addTagsWithType:tagsView andDataSource:_productsTags andDefalutDataSource:self.addDefalutTags];
+            }
+            else
+            {
+                [_productsTags removeObjectAtIndex:index];
+                [_productTagsView removeTagAtIndex:index];
+            }
+        }
+            break;
+        case 888:
+        {
+            if (index==_resourseaTags.count-1) {
+                NSLog(@"资源特点++");
+                [self addTagsWithType:tagsView andDataSource:_resourseaTags andDefalutDataSource:self.addDefalutTags];
+            }
+            else
+            {
+                [_resourseaTags removeObjectAtIndex:index];
+                [_resourseTagsView removeTagAtIndex:index];
+            }
+            
+        }
+            break;
+        case 8888:
+        {
+            if (index==_personsTags.count-1) {
+                NSLog(@"个人标签++");
+                 [self addTagsWithType:tagsView andDataSource:_personsTags andDefalutDataSource:self.addDefalutTags];
+            }
+            else
+            {
+                [_personsTags removeObjectAtIndex:index];
+                [_personsTagsView removeTagAtIndex:index];
+            }
+            
+        }
+            break;
+            
+        default:
+            break;
+    }
+}
+#pragma mark 
+#pragma mark add Tags View
+- (void)addTagsWithType:(DWTagsView *)type andDataSource:(NSMutableArray *)dataSource andDefalutDataSource:(NSMutableArray *)defalutDataSource;
+{
+    NSLog(@" =%@",dataSource);
+    [self.view addSubview:self.addTagsBgView];
+    [self.view addSubview:self.addTagsView];
+    __weak typeof(self) weakSelf = self;
+    self.addTagsBgView.didClickBtnBlock = ^
+    {
+        [weakSelf.addTagsBgView removeFromSuperview];
+         weakSelf.addTagsBgView = nil;
+       
+        [UIView animateWithDuration:0.3 animations:^{
+            weakSelf.addTagsView.frame = frame(0, APPHEIGHT, APPWIDTH, weakSelf.addTagsView.height);
+        } completion:^(BOOL finished) {
+            
+        [weakSelf.addHasTagsView removeFromSuperview];
+        weakSelf.addHasTagsView = nil;
+        [weakSelf.addTagsLb removeFromSuperview];
+        weakSelf.addTagsLb = nil;
+        [weakSelf.addTextField removeFromSuperview];
+        weakSelf.addTextField = nil;
+        [weakSelf.addSure removeFromSuperview];
+        weakSelf.addSure = nil;
+        [weakSelf.addDefalutTagsView removeFromSuperview];
+        weakSelf.addDefalutTagsView = nil;
+        [weakSelf.addTagsView removeFromSuperview];
+        weakSelf.addTagsView = nil;
+            
+        }];
+     
+        
+    };
+    [self.addTagsView addSubview:self.addHasTagsView];
+    [dataSource removeObject:@"+"];
+    _addHasTagsView.tagsArray = dataSource;
+     [dataSource addObject:@"+"];
+    [self.addTagsView addSubview:self.addTagsLb];
+    [self.addTagsView addSubview:self.addTextField];
+    [self.addTagsView addSubview:self.addSure];
+    self.addSure.didClickBtnBlock = ^{
+        NSLog(@"type =%@",type);
+        if ([weakSelf.addTextField.text isEqualToString:@""]) {
+            [[ToolManager shareInstance] showInfoWithStatus:@"标签不能为空"];
+            return;
+        }
+
+        [dataSource addObject:weakSelf.addTextField.text];
+        [type insertTag:weakSelf.addTextField.text AtIndex:dataSource.count-2];
+        [weakSelf.addHasTagsView addTag:weakSelf.addTextField.text];
+        weakSelf.addTextField.text=@"";
+        [weakSelf.addTextField resignFirstResponder];
+    };
+    [self.addTagsView addSubview:self.addDefalutTagsView];
+    _addDefalutTagsView.tagsArray = defalutDataSource;
+
+    [self addTagsViewReSetFrame];
+}
+#pragma mark
+#pragma mark getter addtagsView
+- (BaseButton *)addTagsBgView
+{
+    if (_addTagsBgView) {
+        return _addTagsBgView;
+    }
+    _addTagsBgView = [[BaseButton alloc]initWithFrame:self.view.frame backgroundImage:nil iconImage:nil highlightImage:nil inView:nil];
+    _addTagsBgView.backgroundColor = rgba(0, 0, 0, 0.3);
+   
+    return _addTagsBgView;
+}
+- (UIView *)addTagsView
+{
+    if (_addTagsView) {
+        return _addTagsView;
+    }
+    _addTagsView = [[UIView alloc]initWithFrame:frame(0, APPHEIGHT, APPWIDTH, 0)];
+    _addTagsView.backgroundColor = WhiteColor;
+    return _addTagsView;
+    
+}
+- (DWTagsView *)addHasTagsView
+{
+    if (_addHasTagsView) {
+        return _addHasTagsView;
+    }
+    _addHasTagsView = allocAndInitWithFrame(DWTagsView, CGRectZero);
+    _addHasTagsView.contentInsets = UIEdgeInsetsZero;
+    _addHasTagsView.tagInsets = UIEdgeInsetsMake(5, 15, 5, 15);
+    _addHasTagsView.tagcornerRadius = 2;
+    _addHasTagsView.mininumTagWidth = (APPWIDTH - 100)/4.0;
+    _addHasTagsView.maximumTagWidth = APPWIDTH - 20;
+    _addHasTagsView.tagHeight  = TagHeight;
+    _addHasTagsView.tag = 88888;
+    _addHasTagsView.tagBackgroundColor = AppMainColor;
+    _addHasTagsView.lineSpacing = 10;
+    _addHasTagsView.interitemSpacing = 20;
+    _addHasTagsView.tagFont = [UIFont systemFontOfSize:14];
+    _addHasTagsView.tagTextColor = WhiteColor;
+    _addHasTagsView.tagSelectedBackgroundColor = _addHasTagsView.tagBackgroundColor;
+    _addHasTagsView.tagSelectedTextColor = _addHasTagsView.tagTextColor;
+    
+    _addHasTagsView.delegate = self;
+
+    
+    return _addHasTagsView;
+    
+}
+- (UILabel *)addTagsLb
+{
+    if (_addTagsLb) {
+        return  _addTagsLb;
+    }
+    _addTagsLb =[UILabel createLabelWithFrame:CGRectZero text:@"-----点击添加自定义标签-----" fontSize:14 textColor:LightBlackTitleColor textAlignment:NSTextAlignmentCenter inView:nil];
+    
+    return  _addTagsLb;
+    
+}
+- (UITextField *)addTextField
+{
+    if (_addTextField) {
+        return _addTextField;
+    }
+    _addTextField = [[UITextField alloc]initWithFrame:CGRectZero];
+    _addTextField.backgroundColor = WhiteColor;
+    _addTextField.placeholder = @"请输入自定义标签";
+    _addTextField.font = [UIFont systemFontOfSize:14.0];
+    [_addTextField setBorder:LineBg width:0.5];
+    [_addTextField setRadius:2.0];
+    
+    return _addTextField;
+}
+- (BaseButton *)addSure
+{
+    if (_addSure) {
+        return _addSure;
+    }
+    _addSure = [[BaseButton alloc]initWithFrame:CGRectZero setTitle:@"确定" titleSize:14 titleColor:WhiteColor textAlignment:NSTextAlignmentCenter backgroundColor:AppMainColor inView:nil];
+    [_addSure setRadius:2.0];
+    
+    return  _addSure;
+}
+- (DWTagsView *)addDefalutTagsView
+{
+    if (_addDefalutTagsView) {
+        return _addDefalutTagsView;
+    }
+    _addDefalutTagsView = allocAndInitWithFrame(DWTagsView, CGRectZero);
+    _addDefalutTagsView.contentInsets = UIEdgeInsetsZero;
+    _addDefalutTagsView.tagInsets = UIEdgeInsetsMake(5, 15, 5, 15);
+    _addDefalutTagsView.tagcornerRadius = 2;
+    _addDefalutTagsView.mininumTagWidth = (APPWIDTH - 100)/4.0;
+    _addDefalutTagsView.maximumTagWidth = APPWIDTH - 20;
+    _addDefalutTagsView.tagHeight  = TagHeight;
+    _addDefalutTagsView.tag = 888888;
+    _addDefalutTagsView.tagBackgroundColor =[UIColor colorWithRed:0.902 green:0.9059 blue:0.9137 alpha:1.0] ;
+    _addDefalutTagsView.lineSpacing = 10;
+    _addDefalutTagsView.interitemSpacing = 20;
+    _addDefalutTagsView.tagFont = [UIFont systemFontOfSize:14];
+    _addDefalutTagsView.tagTextColor = WhiteColor;
+    _addDefalutTagsView.tagSelectedBackgroundColor = AppMainColor;
+    _addDefalutTagsView.tagSelectedTextColor = _addDefalutTagsView.tagTextColor;
+    
+    _addDefalutTagsView.delegate = self;
+    _addDefalutTagsView.allowsMultipleSelection = YES;
+    
+    return _addDefalutTagsView;
+}
+- (NSMutableArray *)addDefalutTags
+{
+    if (_addDefalutTags) {
+        return _addDefalutTags;
+    }
+    _addDefalutTags = [[NSMutableArray alloc]initWithObjects:@"商务4",@"开发",@"产品",@"经理",@"老板",@"业务", nil];
+    return _addDefalutTags;
+}
+#pragma mark
+#pragma mark resetFrame
+- (void)addTagsViewReSetFrame
+{
+    
+    _addHasTagsView.frame = CGRectMake(20, 10, APPWIDTH - 40, 70);
+    
+    _addTagsLb.frame = CGRectMake(0, CGRectGetMaxY(_addHasTagsView.frame), APPWIDTH, 40);
+    _addTextField.frame = CGRectMake(20, CGRectGetMaxY(_addTagsLb.frame), 220*ScreenMultiple, 30);
+    _addSure.frame = CGRectMake(CGRectGetMaxX(_addTextField.frame) + 15,  CGRectGetMaxY(_addTagsLb.frame) + 2, 52*ScreenMultiple, _addTextField.height - 4);
+    
+    _addDefalutTagsView.frame = CGRectMake(20, CGRectGetMaxY(_addTextField.frame) + 20, APPWIDTH -40, 70);
+    
+    [UIView animateWithDuration:0.3 animations:^{
+         _addTagsView.frame =CGRectMake(0,APPHEIGHT -  CGRectGetMaxY(_addDefalutTagsView.frame) -20, APPWIDTH , CGRectGetMaxY(_addDefalutTagsView.frame) + 20);
+    }];
+   
+    
+}
+
+#pragma mark
+#pragma mark getter tagsView
+
+- (UIView *)tagsView
+{
+    if (_tagsView) {
+        return _tagsView;
+    }
+    
+    _tagsView = [[UIView alloc]initWithFrame:CGRectZero];
+    _tagsView.backgroundColor = WhiteColor;
+    
+    UIView * line = [[UIView alloc]initWithFrame:frame(0, 0, APPWIDTH, 10)];
+    line.backgroundColor = self.view.backgroundColor;
+    [_tagsView addSubview:line];
+    
+    //产品标签
+    [self.tagsView addSubview:self.productTagsLb];
+
+    [self.tagsView addSubview:self.productTagsView];
+    
+    // 资源特点
+    [self.tagsView addSubview:self.resourseTagsLb];;
+    [self.tagsView addSubview:self.resourseTagsView];
+    
+    // 个人特点
+    [self.tagsView addSubview:self.line1];
+    
+    [self.tagsView addSubview:self.personsTagsLb];
+    [self.tagsView addSubview:self.personsTagsView];
+    //设置位置
+    [self tagsViewReSetFrame];
+    return _tagsView;
+}
+- (UILabel *)productTagsLb
+{
+    if (_productTagsLb) {
+        return  _productTagsLb;
+    }
+    _productTagsLb =[UILabel createLabelWithFrame:CGRectMake(20, 10, APPWIDTH - 40, 35) text:@"产品标签" fontSize:14 textColor:AppMainColor textAlignment:NSTextAlignmentLeft inView:nil];
+    
+    return  _productTagsLb;
+    
+}
+- (DWTagsView *)productTagsView
+{
+    if (_productTagsView) {
+        return _productTagsView;
+    }
+    _productTagsView = allocAndInitWithFrame(DWTagsView, CGRectZero);
+    _productTagsView.contentInsets = UIEdgeInsetsZero;
+    _productTagsView.tagInsets = UIEdgeInsetsMake(5, 15, 5, 15);
+    _productTagsView.tagcornerRadius = 2;
+    _productTagsView.mininumTagWidth = (APPWIDTH - 100)/4.0;
+    _productTagsView.maximumTagWidth = APPWIDTH - 20;
+    _productTagsView.tagHeight  = TagHeight;
+    _productTagsView.tag = 88;
+    _productTagsView.tagBackgroundColor = AppMainColor;
+    _productTagsView.lineSpacing = 10;
+    _productTagsView.interitemSpacing = 20;
+    _productTagsView.tagFont = [UIFont systemFontOfSize:14];
+    _productTagsView.tagTextColor = WhiteColor;
+    _productTagsView.tagSelectedBackgroundColor = _productTagsView.tagBackgroundColor;
+    _productTagsView.tagSelectedTextColor = _productTagsView.tagTextColor;
+    
+    _productTagsView.delegate = self;
+    _productTagsView.tagsArray = self.productsTags;
+    
+    return _productTagsView;
+
+}
+- (UILabel *)resourseTagsLb
+{
+    if (_resourseTagsLb) {
+        return  _resourseTagsLb;
+    }
+    _resourseTagsLb =[UILabel createLabelWithFrame:CGRectZero text:@"资源特点" fontSize:14 textColor:[UIColor colorWithRed:0.9843 green:0.5137 blue:0.3412 alpha:1.0] textAlignment:NSTextAlignmentLeft inView:self.tagsView];
+    
+    return  _resourseTagsLb;
+    
+}
+
+- (DWTagsView *)resourseTagsView
+{
+    if (_resourseTagsView) {
+        return _resourseTagsView;
+    }
+    _resourseTagsView = allocAndInitWithFrame(DWTagsView, CGRectZero);
+    _resourseTagsView.contentInsets = UIEdgeInsetsZero;
+    _resourseTagsView.tagInsets = UIEdgeInsetsMake(5, 15, 5, 15);
+    _resourseTagsView.tagcornerRadius = 2;
+    _resourseTagsView.tag = 888;
+    _resourseTagsView.mininumTagWidth = (APPWIDTH - 100)/4.0;
+    _resourseTagsView.maximumTagWidth = APPWIDTH - 20;
+    _resourseTagsView.tagHeight  = TagHeight;
+    
+    _resourseTagsView.tagBackgroundColor = [UIColor colorWithRed:0.9843 green:0.451 blue:0.2549 alpha:1.0];
+    _resourseTagsView.lineSpacing = 10;
+    _resourseTagsView.interitemSpacing = 20;
+    _resourseTagsView.tagFont = [UIFont systemFontOfSize:14];
+    _resourseTagsView.tagTextColor = WhiteColor;
+    _resourseTagsView.tagSelectedBackgroundColor = _resourseTagsView.tagBackgroundColor;
+    _resourseTagsView.tagSelectedTextColor = _resourseTagsView.tagTextColor;
+    
+    _resourseTagsView.delegate = self;
+    _resourseTagsView.tagsArray = self.resourseaTags;
+    
+    return _resourseTagsView;
+    
+}
+- (UIView *)line1
+{
+    if (_line1) {
+        return _line1;
+    }
+    _line1 = [[UIView alloc]initWithFrame:CGRectZero];
+    _line1.backgroundColor = self.view.backgroundColor;
+    return _line1;
+}
+- (UILabel *)personsTagsLb
+{
+    if (_personsTagsLb) {
+        return  _personsTagsLb;
+    }
+    _personsTagsLb =[UILabel createLabelWithFrame:CGRectZero text:@"个人特点" fontSize:14 textColor:AppMainColor textAlignment:NSTextAlignmentLeft inView:self.tagsView];
+    
+    return  _personsTagsLb;
+    
+}
+
+- (DWTagsView *)personsTagsView
+{
+    if (_personsTagsView) {
+        return _personsTagsView;
+    }
+    _personsTagsView = allocAndInitWithFrame(DWTagsView, CGRectZero);
+    _personsTagsView.contentInsets = UIEdgeInsetsZero;
+    _personsTagsView.tagInsets = UIEdgeInsetsMake(5, 15, 5, 15);
+    _personsTagsView.tagcornerRadius = 2;
+    _personsTagsView.tag = 8888;
+    _personsTagsView.mininumTagWidth = (APPWIDTH - 100)/4.0;
+    _personsTagsView.maximumTagWidth = APPWIDTH - 20;
+    _personsTagsView.tagHeight  = TagHeight;
+    
+    _personsTagsView.tagBackgroundColor = AppMainColor;
+    _personsTagsView.lineSpacing = 10;
+    _personsTagsView.interitemSpacing = 20;
+    _personsTagsView.tagFont = [UIFont systemFontOfSize:14];
+    _personsTagsView.tagTextColor = WhiteColor;
+    _personsTagsView.tagSelectedBackgroundColor = _personsTagsView.tagBackgroundColor;
+    _personsTagsView.tagSelectedTextColor = _personsTagsView.tagTextColor;
+    
+    _personsTagsView.delegate = self;
+    _personsTagsView.tagsArray = self.personsTags;
+    
+    return _personsTagsView;
+    
+}
+- (NSMutableArray *)productsTags
+{
+    if (_productsTags) {
+        return _productsTags;
+    }
+    _productsTags = [[NSMutableArray alloc]initWithObjects:@"商务1",@"开发",@"产品",@"经理",@"老板",@"业务",@"+", nil];
+    return _productsTags;
+}
+- (NSMutableArray *)resourseaTags
+{
+    if (_resourseaTags) {
+        return _resourseaTags;
+    }
+    _resourseaTags = [[NSMutableArray alloc]initWithObjects:@"商务2",@"开发",@"产品",@"经理",@"老板",@"业务",@"+", nil];
+    return _resourseaTags;
+}
+- (NSMutableArray *)personsTags
+{
+    if (_personsTags) {
+        return _personsTags;
+    }
+    _personsTags = [[NSMutableArray alloc]initWithObjects:@"商务3",@"开发",@"产品",@"经理",@"老板",@"业务",@"+", nil];
+    return _personsTags;
+}
+#pragma mark
+#pragma mark resetFrame
+- (void)tagsViewReSetFrame
+{
+    
+    _productTagsView.frame = CGRectMake(20, 45, APPWIDTH - 40, 70);
+    _resourseTagsLb.frame = CGRectMake(20, CGRectGetMaxY(_productTagsView.frame), APPWIDTH, 35);
+    _resourseTagsView.frame = CGRectMake(20, CGRectGetMaxY(_resourseTagsLb.frame), APPWIDTH - 40, 70);
+    _line1.frame = CGRectMake(0, CGRectGetMaxY(_resourseTagsView.frame), APPWIDTH, 10);
+    _personsTagsLb.frame = CGRectMake(20, CGRectGetMaxY(_line1.frame), APPWIDTH, 35);
+    _personsTagsView.frame =CGRectMake(20, CGRectGetMaxY(_personsTagsLb.frame), APPWIDTH - 40, 70);
+    _tagsView.frame = frame(0, 0, APPWIDTH, CGRectGetMaxY(_personsTagsView.frame) + 10);
+
+    
+}
+
 #pragma mark
 #pragma mark - buttonAction -
 - (void)buttonAction:(UIButton *)sender
@@ -91,7 +568,7 @@
     _basicInfoTableView.delegate = self;
     _basicInfoTableView.dataSource = self;
     _basicInfoTableView.backgroundColor =[UIColor clearColor];
-    
+    _basicInfoTableView.tableFooterView = self.tagsView;
     [self.view addSubview:_basicInfoTableView];
     
     [[ToolManager shareInstance] showWithStatus:@"获取信息..."];
@@ -194,11 +671,14 @@
 #pragma mark - TableViewDelegate TableViewDataSource
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 8;
+    if (section==0) {
+        return 5;
+    }
+    return 4;
 }
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 1;
+    return 2;
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
@@ -208,178 +688,25 @@
 }
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
-    
     return allocAndInit(UIView);
 }
 - (CGFloat) tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
-    NSMutableDictionary  *height = [self footerView];
+ 
+    return 0.1;
     
-    return [height[@"height"] floatValue];
 }
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
 {
-    NSMutableDictionary  *view = [self footerView];
-    
-    return (UIView *)view[@"view"];
+
+    return allocAndInit(UIView);
+   
 }
 
 
-- (NSMutableDictionary *)footerView
-{
-    UIView *footerView = allocAndInitWithFrame(UIView, frame(0, 0, frameWidth(_basicInfoTableView), footerHeight));
-    footerView.backgroundColor = [UIColor clearColor];
-    
-    UIView *recommendView;
-    UIView *personView = allocAndInitWithFrame(UIView, frame(0, 10, frameWidth(footerView), 88));
-    personView.backgroundColor = WhiteColor;
-    [footerView addSubview:personView];
-    
-    [UILabel createLabelWithFrame:frame(10, 0, frameWidth(personView), 35) text:@"个人标签" fontSize:28*SpacedFonts textColor:BlackTitleColor textAlignment:NSTextAlignmentLeft inView:personView];
-    [UILabel CreateLineFrame:frame(10, 35, frameWidth(personView) - 20, 0.5) inView:personView];
-    
-    float titleX = 10;
-    float titleY = 45;
-    float titleW  =0;
-    float titleH = 27;
-    float titleXW = 10;
-    
-    __weak typeof(self) weakSelf = self;
-    for (int i = 0; i<_personAndoptionalArray.count; i++) {
-        NSString *tille =_personAndoptionalArray[i];
-        titleW = tille.length*28*SpacedFonts + 10;
-        if (titleW>frameWidth(footerView) - 20) {
-            titleW = frameWidth(footerView) - 20;
-            
-        }
-        titleXW =titleW+titleX+10;
-        if (titleXW>APPWIDTH) {
-            titleY +=(10+titleH);
-            titleX =10;
-            titleXW = 10;
-        }
-        UIColor *titleColor;
-        UIColor  *setBorder;
-        if (i==_personAndoptionalArray.count-1) {
-            
-            titleColor = BlackTitleColor;
-            setBorder =LineBg;
-        }
-        else
-        {
-            titleColor = BlackTitleColor;
-            setBorder =LineBg;
-            titleColor = AppMainColor;
-            setBorder =AppMainColor;
-        }
-        
-        BaseButton *_selectedTag = [[BaseButton alloc]initWithFrame:frame(titleX, titleY, titleW, titleH) setTitle:tille titleSize:28*SpacedFonts titleColor:titleColor textAlignment:NSTextAlignmentCenter backgroundColor:WhiteColor inView:personView];
-        [_selectedTag setRadius:10];
-        [_selectedTag setBorder:setBorder width:0.5];
-        _selectedTag.didClickBtnBlock = ^
-        {
-            weakSelf.saveBtn.hidden = NO;
-            if (i==_personAndoptionalArray.count-1) {
-                EditNameViewController *edit = allocAndInit(EditNameViewController);
-                
-                edit.editPageTag =EditeTag;
-                edit.textView =  @"标签";
-                edit.editBlock = ^(NSString *text)
-                {
-                    
-                    [_personAndoptionalArray insertObject:text atIndex:0];
-                    [_optionalArray addObject:text];
-                    [_basicInfoTableView reloadData];
-                    
-                };
-                PushView(self, edit);
-            }
-            else
-            {
-                
-                if ([_optionalArray containsObject:_personAndoptionalArray[i]]) {
-                    [_optionalArray removeObject:_personAndoptionalArray[i]];
-                }
-                if ([_personArray containsObject:_personAndoptionalArray[i]]) {
-                    [_personArray removeObject:_personAndoptionalArray[i]];
-                }
-                [_personAndoptionalArray removeObjectAtIndex:i];
-                
-                [_basicInfoTableView reloadData];
-            }
-            
-        };
-        
-        titleX +=titleW + 10;
-        personView.frame = frame(frameX(personView), frameY(personView), frameWidth(personView), titleY + titleH + 10);
-        
-    }
-    
-    
-    recommendView = allocAndInitWithFrame(UIView, frame(0, CGRectGetMaxY(personView.frame), frameWidth(footerView), 70));
-    recommendView.backgroundColor = [UIColor clearColor];
-    [footerView addSubview:recommendView];
-    
-    [UILabel createLabelWithFrame:frame(10, 0, frameWidth(personView), 35) text:@"推荐标签" fontSize:28*SpacedFonts textColor:BlackTitleColor textAlignment:NSTextAlignmentLeft inView:recommendView];
-    
-    float s_titleX = 10;
-    float s_titleY = 35;
-    float s_titleW  =0;
-    float s_titleH = 27;
-    float s_titleXW = 10;
-    
-    for (int i = 0; i<_recommendArray.count; i++) {
-        NSString *tille =_recommendArray[i];
-        s_titleW = tille.length*28*SpacedFonts + 10;
-        if (s_titleW>frameWidth(recommendView) - 20) {
-            s_titleW = frameWidth(recommendView) - 20;
-            
-        }
-        s_titleXW =s_titleW+s_titleX+10;
-        
-        if (s_titleXW>APPWIDTH) {
-            s_titleY +=(10+s_titleH);
-            s_titleX =10;
-            s_titleXW = 10;
-        }
-        UIColor *titleColor;
-        UIColor  *setBorder;
-        titleColor = BlackTitleColor;
-        setBorder =LineBg;
-        
-        BaseButton *_selectedTag = [[BaseButton alloc]initWithFrame:frame(s_titleX, s_titleY , s_titleW, s_titleH) setTitle:tille titleSize:28*SpacedFonts titleColor:titleColor textAlignment:NSTextAlignmentCenter backgroundColor:WhiteColor inView:recommendView];
-        [_selectedTag setRadius:10];
-        [_selectedTag setBorder:setBorder width:0.5];
-        _selectedTag.didClickBtnBlock = ^
-        {
-            
-            if ([_personAndoptionalArray containsObject:weakSelf.recommendArray[i]]) {
-                
-                [[ToolManager shareInstance] showInfoWithStatus:@"重复选择！"];
-                return ;
-            }
-            weakSelf.saveBtn.hidden = NO;
-            [_personAndoptionalArray insertObject:weakSelf.recommendArray[i] atIndex:0];
-            
-            [_personArray addObject:weakSelf.recommendArray[i]];
-            
-            
-            [_basicInfoTableView reloadData];
-            
-            
-        };
-        
-        s_titleX +=s_titleW + 10;
-        recommendView.frame = frame(frameX(recommendView),CGRectGetMaxY(personView.frame), frameWidth(recommendView), s_titleY + s_titleH + 10);
-        
-    }
-    
-    NSMutableDictionary *viewAndHeight = [NSMutableDictionary dictionaryWithObjectsAndKeys:footerView,@"view",@(CGRectGetMaxY(recommendView.frame) + 10),@"height", nil];
-    return viewAndHeight;
-}
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.row ==0 ) {
+    if (indexPath.row ==0&&indexPath.section==0) {
         return 50.0f;
     }
     else
@@ -394,7 +721,7 @@
     BasicInformationView *cell = [tableView dequeueReusableCellWithIdentifier:cellID];
     
     float cellH;
-    if (indexPath.row ==0) {
+    if (indexPath.row ==0&&indexPath.section==0) {
         cellH = 50.0f;
     }
     else
@@ -405,73 +732,88 @@
         
         cell = [[BasicInformationView alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellID cellHeight:cellH cellWidth:frameWidth(_basicInfoTableView)];
     }
-    
-    switch (indexPath.row) {
-        case 0:
-            if (!_modal.imgurl) {
-                _modal.imgurl =@"";
-            }
-            
-            [cell  showTitle:@"头像" icon:_modal.imgurl bg:nil detail:nil canEdit:YES];
-            break;
-        case 1:
-            [cell  showTitle:@"姓名" icon:nil bg:nil detail:_modal.realname canEdit:YES];
-            break;
-        case 2:
-            if ([_modal.sex isEqualToString:@"1"]) {
-                [cell  showTitle:@"性别" icon:nil bg:nil detail:@"男" canEdit:YES];
-            }
-            else
-            {
-                [cell  showTitle:@"性别" icon:nil bg:nil detail:@"女" canEdit:YES];
-            }
-            
-            break;
-        case 3:
-            [cell  showTitle:@"手机" icon:nil bg:nil detail:_modal.tel  canEdit:NO];
-            break;
-        case 4:
-            
-        {
-            NSString *address = _modal.area;
-            if (!address||[address isEqualToString:@""]) {
-                address =@"";
-            }
-            else
-            {
-                NSString *pro;
-                NSString *city;
-                NSArray *addressArray = [address componentsSeparatedByString:@"-"];
-                if (addressArray.count>1) {
-                    
-                    NSString *pathDocuments = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-                    NSString *createPath = [NSString stringWithFormat:@"%@/%@_code.plist",pathDocuments,[CoreArchive  strForKey:AddressNewVersion]];
-                    
-                    NSDictionary *citiesArray                 = [NSDictionary dictionaryWithContentsOfFile:createPath];
-                    city = citiesArray[@"city"][[NSString stringWithFormat:@"%@",addressArray[1]]];
-                    pro = citiesArray[@"province"][[NSString stringWithFormat:@"%@",addressArray[0]]];
-                    address = [NSString stringWithFormat:@"%@-%@",pro,city];
+    if (indexPath.section ==0) {
+        switch (indexPath.row) {
+            case 0:
+                if (!_modal.imgurl) {
+                    _modal.imgurl =@"";
                 }
                 
+                [cell  showTitle:@"头像" icon:_modal.imgurl bg:nil detail:nil canEdit:YES];
+                break;
+            case 1:
+                [cell  showTitle:@"姓名" icon:nil bg:nil detail:_modal.realname canEdit:YES];
+                break;
+            case 2:
+                if ([_modal.sex isEqualToString:@"1"]) {
+                    [cell  showTitle:@"性别" icon:nil bg:nil detail:@"男" canEdit:YES];
+                }
+                else
+                {
+                    [cell  showTitle:@"性别" icon:nil bg:nil detail:@"女" canEdit:YES];
+                }
+                
+                break;
+            case 3:
+                [cell  showTitle:@"手机" icon:nil bg:nil detail:_modal.tel  canEdit:NO];
+                break;
+            case 4:
+                
+            {
+                NSString *address = _modal.area;
+                if (!address||[address isEqualToString:@""]) {
+                    address =@"";
+                }
+                else
+                {
+                    NSString *pro;
+                    NSString *city;
+                    NSArray *addressArray = [address componentsSeparatedByString:@"-"];
+                    if (addressArray.count>1) {
+                        
+                        NSString *pathDocuments = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+                        NSString *createPath = [NSString stringWithFormat:@"%@/%@_code.plist",pathDocuments,[CoreArchive  strForKey:AddressNewVersion]];
+                        
+                        NSDictionary *citiesArray                 = [NSDictionary dictionaryWithContentsOfFile:createPath];
+                        city = citiesArray[@"city"][[NSString stringWithFormat:@"%@",addressArray[1]]];
+                        pro = citiesArray[@"province"][[NSString stringWithFormat:@"%@",addressArray[0]]];
+                        address = [NSString stringWithFormat:@"%@-%@",pro,city];
+                    }
+                    
+                }
+                [cell  showTitle:@"地区" icon:nil bg:nil detail:address canEdit:YES];
             }
-            [cell  showTitle:@"地区" icon:nil bg:nil detail:address canEdit:YES];
-        }
-            break;
-        case 5:
+                break;
+            default:
+                break;
+    }
+    }
+    else{
+        
+    switch (indexPath.row) {
+    
+    case 0:
+        
+        [cell  showTitle:@"公司" icon:nil bg:nil detail:_modal.synopsis canEdit:YES];
+        break;
+    case 1:
+        
+        [cell  showTitle:@"职业" icon:nil bg:nil detail:_modal.address canEdit:YES];
+        break;
             
-            [cell  showTitle:@"简介" icon:nil bg:nil detail:_modal.synopsis canEdit:YES];
-            break;
-        case 6:
+    case 2:
             
-            [cell  showTitle:@"公司" icon:nil bg:nil detail:_modal.address canEdit:YES];
+        [cell  showTitle:@"行业" icon:nil bg:nil detail:_modal.address canEdit:YES];
             break;
-        case 7:
-            
-            [cell  showTitle:@"从业年限" icon:nil bg:nil detail:_modal.workyears canEdit:YES];
-            break;
-            
-        default:
-            break;
+    case 3:
+        
+        [cell  showTitle:@"从业年限" icon:nil bg:nil detail:_modal.workyears canEdit:YES];
+        break;
+
+        
+    }
+
+    
     }
     
     return cell;
@@ -737,7 +1079,6 @@
         _selectedCity                        = row;
     }
     
-    //    ProvinceModel *provinceModel         = self.citiesData[_selectedProvince];
     
 }
 

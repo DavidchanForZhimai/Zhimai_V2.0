@@ -90,11 +90,7 @@
     
     _header = [CExpandHeader expandWithScrollView:_meTableView expandView:customView];
     
-    
-    
- 
-    
-    
+
     
 }
 - (void)viewWillAppear:(BOOL)animated
