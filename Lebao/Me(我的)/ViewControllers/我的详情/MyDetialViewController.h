@@ -9,5 +9,5 @@
 #import "BaseViewController.h"
 
 @interface MyDetialViewController : BaseViewController
-
+@property(nonatomic,strong)NSString *userID;
 @end

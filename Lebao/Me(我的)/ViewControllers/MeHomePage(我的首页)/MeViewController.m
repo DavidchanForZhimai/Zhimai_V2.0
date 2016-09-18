@@ -18,12 +18,14 @@
 #import "BasicInformationViewController.h"
 #import "MyGuanZhuVC.h"//我的关注
 #import "MyFansVC.h"//我的粉丝
-#import "JJRDetailVC.h"
+#import "MyDetialViewController.h"
 #import "AuthenticationViewController.h"
+#import "OtherDynamicdViewController.h"
 #define cellH  40
 #define PersonalURL [NSString stringWithFormat:@"%@user/index",HttpURL]
 @interface MeViewController ()<UITableViewDataSource,UITableViewDelegate>
-
+@property(nonatomic,strong)NSMutableArray *datas;
+@property(nonatomic,strong)UITableView *tableView;
 @end
 
 @implementation MeViewModal
@@ -37,18 +39,19 @@
 
 @implementation MeViewController
 {
-    NSMutableArray *_meArray;
-    UITableView    *_meTableView;
+
     CExpandHeader *_header;
-    
     UIImageView *userIcon;
     UILabel *username;
     UILabel *descrip;
-    
     MeViewModal *modal;
     
 }
-
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [self netWork];
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
@@ -59,29 +62,11 @@
     
     modal =[[MeViewModal alloc]init];
     modal.authen = 1;
-    _meArray = [NSMutableArray new];
     
-    NSArray *_sectionOne =[NSArray arrayWithObjects:[NSDictionary dictionaryWithObjectsAndKeys:@"我的消息",@"name",@"me_messages",@"image",@"1",@"show",@"NotificationViewController",@"viewController",nil],[NSDictionary dictionaryWithObjectsAndKeys:@"我的跨界",@"name",@"iconfont-wodekuajie",@"image" ,@"1",@"show",@"MyKuaJieVC",@"viewController",nil] ,nil];
+
+    [self.view addSubview:self.tableView];
     
-    NSArray *_sectionTwo =[NSArray arrayWithObjects:[NSDictionary dictionaryWithObjectsAndKeys:@"我的钱包",@"name",@"iconfont-wodeqianbao",@"image",@"1",@"show",@"EarnestMoneyViewController",@"viewController",nil], [NSDictionary dictionaryWithObjectsAndKeys:@"我的资料",@"name",@"iconfont-mingpian",@"image",@"1",@"show",@"BasicInformationViewController",@"viewController",nil],[NSDictionary dictionaryWithObjectsAndKeys:@"认证状态",@"name",@"iconfont-vip",@"image" ,@"1",@"show",@"AuthenticationViewController",@"viewController",nil],nil];
-    
-    NSArray *_sectionThree =[NSArray arrayWithObjects:[NSDictionary dictionaryWithObjectsAndKeys:@"满意值",@"name",@"iconfont-xinyongfen",@"image" ,@"1",@"show",@"SatisfactionViewController",@"viewController",nil],[NSDictionary dictionaryWithObjectsAndKeys:@"活跃值",@"name",@"iconfont-xinyongzhi",@"image" ,@"0",@"show",@"ActiveValueViewController",@"viewController",nil],nil];
-    
-    NSArray *_sectionFour =[NSArray arrayWithObjects:[NSDictionary dictionaryWithObjectsAndKeys:@"邀请好友",@"name",@"iconfont-yaoqing",@"image" ,@"0",@"show",@"InviteFriendsViewController",@"viewController",nil],nil];
-    
-    [_meArray addObject:_sectionOne];
-    [_meArray addObject:_sectionTwo];
-    [_meArray addObject:_sectionThree];
-    [_meArray addObject:_sectionFour];
-    
-    _meTableView =[[UITableView alloc]initWithFrame:frame(0, StatusBarHeight, APPWIDTH - 60*ScreenMultiple, APPHEIGHT - StatusBarHeight - 49) style:UITableViewStyleGrouped];
-    _meTableView.delegate = self;
-    _meTableView.dataSource = self;
-    _meTableView.backgroundColor =AppViewBGColor;
-    _meTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    [self.view addSubview:_meTableView];
-    
-    UIView *customView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, frameWidth(_meTableView), 120 )];
+    UIView *customView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, frameWidth(self.tableView), 120 )];
     UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, frameWidth(customView), frameHeight(customView))];
     [imageView setImage:[UIImage imageFromContextWithColor:AppMainColor]];
     
@@ -94,13 +79,11 @@
     
     [self addHeadView:customView];
     
-    _header = [CExpandHeader expandWithScrollView:_meTableView expandView:customView];
-    
-    
+    _header = [CExpandHeader expandWithScrollView:self.tableView expandView:customView];
     
     //设置
-    UIImage *image = [UIImage imageNamed:@"iconfont-shezhi"];
-    BaseButton *set =  [[BaseButton alloc]initWithFrame:frame(frameWidth(_meTableView) - 54, APPHEIGHT - 49,54, 49) setTitle:@"设置" titleSize:24*SpacedFonts titleColor:hexColor(5a5a5a) backgroundImage:nil iconImage:image highlightImage:nil setTitleOrgin:CGPointMake(20,5) setImageOrgin:CGPointMake(20, 0) inView:self.view];
+    UIImage *image = [UIImage imageNamed:@"iconfonticon_me_shezhi"];
+    BaseButton *set =  [[BaseButton alloc]initWithFrame:frame(frameWidth(self.tableView) - 54, APPHEIGHT - 49,54, 49) setTitle:@"设置" titleSize:24*SpacedFonts titleColor:hexColor(5a5a5a) backgroundImage:nil iconImage:image highlightImage:nil setTitleOrgin:CGPointMake(20,5) setImageOrgin:CGPointMake(20, 0) inView:self.view];
     set.didClickBtnBlock = ^
     {
         [[ToolManager shareInstance].drawerController closeDrawerAnimated:YES completion:^(BOOL finished) {
@@ -112,22 +95,41 @@
         
     };
     
+
     
-    
-    
-}
-- (void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-    [self netWork];
 }
 
+#pragma mark
+#pragma mark getters
+- (NSMutableArray *)datas
+{
+    if (_datas) {
+        return _datas;
+    }
+   
+    _datas =[NSMutableArray arrayWithObjects:[NSDictionary dictionaryWithObjectsAndKeys:@"我的动态",@"name",@"icon_me_wodedongtai",@"image",@"1",@"show",@"OtherDynamicdViewController",@"viewController",nil],[NSDictionary dictionaryWithObjectsAndKeys:@"会员特权",@"name",@"icon_me_VIP",@"image",@"1",@"show",@"",@"viewController",nil] ,[NSDictionary dictionaryWithObjectsAndKeys:@"我的钱包",@"name",@"icon_me_qianbao",@"image",@"1",@"show",@"EarnestMoneyViewController",@"viewController",nil],[NSDictionary dictionaryWithObjectsAndKeys:@"我的资料",@"name",@"icon_me_zhiliao",@"image",@"1",@"show",@"BasicInformationViewController",@"viewController",nil],[NSDictionary dictionaryWithObjectsAndKeys:@"身份认证",@"name",@"icon_me_renzheng",@"image",@"1",@"show",@"",@"viewController",nil],[NSDictionary dictionaryWithObjectsAndKeys:@"活跃值",@"name",@"icon_me_huoyuezhi",@"image",@"1",@"show",@"ActiveValueViewController",@"viewController",nil],[NSDictionary dictionaryWithObjectsAndKeys:@"好友印象",@"name",@"icon_me_yinxiang",@"image",@"1",@"show",@"",@"viewController",nil],[NSDictionary dictionaryWithObjectsAndKeys:@"邀请好友",@"name",@"icon_me_yaoqinghaoyou",@"image",@"0",@"show",@"InviteFriendsViewController",@"viewController",nil],nil];
+    
+    
+    return _datas;
+}
+- (UITableView *)tableView
+{
+    if (_tableView) {
+        return _tableView;
+    }
+    _tableView =[[UITableView alloc]initWithFrame:frame(0, StatusBarHeight, APPWIDTH - 60*ScreenMultiple, APPHEIGHT - StatusBarHeight - 49) style:UITableViewStyleGrouped];
+    _tableView.delegate = self;
+    _tableView.dataSource = self;
+    _tableView.backgroundColor =AppViewBGColor;
+    _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    return _tableView;
+}
 #pragma mark
 #pragma mark - headView
 - (void)addHeadView:(UIView *)view
 {
     //headIcon
-    userIcon =allocAndInitWithFrame(UIImageView, frame((frameWidth(_meTableView) -53)/2.0,14, 53, 53));
+    userIcon =allocAndInitWithFrame(UIImageView, frame((frameWidth(_tableView) -53)/2.0,14, 53, 53));
     
     userIcon.backgroundColor =[UIColor clearColor];
     userIcon.userInteractionEnabled =YES;
@@ -143,11 +145,11 @@
     [userIcon addGestureRecognizer:tap];
     
     //userName
-    username = [UILabel createLabelWithFrame:frame(0, CGRectGetMaxY(userIcon.frame)+ 8, frameWidth(_meTableView), 28.0*SpacedFonts) text:@"" fontSize:28.0*SpacedFonts textColor:WhiteColor textAlignment: NSTextAlignmentCenter inView:view];
+    username = [UILabel createLabelWithFrame:frame(0, CGRectGetMaxY(userIcon.frame)+ 8, frameWidth(_tableView), 28.0*SpacedFonts) text:@"" fontSize:28.0*SpacedFonts textColor:WhiteColor textAlignment: NSTextAlignmentCenter inView:view];
     
     
     //descrip
-    descrip =[UILabel createLabelWithFrame:frame(0, CGRectGetMaxY(username.frame)+ 10, frameWidth(_meTableView), 24.0*SpacedFonts) text:@"钱包余额:00.00元" fontSize:24*SpacedFonts textColor:WhiteColor textAlignment: NSTextAlignmentCenter inView:view];
+    descrip =[UILabel createLabelWithFrame:frame(0, CGRectGetMaxY(username.frame)+ 10, frameWidth(_tableView), 24.0*SpacedFonts) text:@"钱包余额:00.00元" fontSize:24*SpacedFonts textColor:WhiteColor textAlignment: NSTextAlignmentCenter inView:view];
     
 }
 - (void)netWork
@@ -164,7 +166,7 @@
                 [[ToolManager shareInstance] imageView:userIcon setImageWithURL:modal.imgurl placeholderType:PlaceholderTypeUserHead];
                 username.text = modal.realname;
                 descrip.text  = [NSString stringWithFormat:@"诚意金:%@元",modal.amount];
-                [_meTableView  reloadData];
+                [_tableView  reloadData];
             }
             
             else
@@ -186,10 +188,9 @@
     [[ToolManager shareInstance].drawerController closeDrawerAnimated:YES completion:^(BOOL finished) {
         UITabBarController *tabBar = (UITabBarController *)[ToolManager shareInstance].drawerController.centerViewController;
         UINavigationController *nav =(UINavigationController *)tabBar.viewControllers[getAppDelegate().mainTab.selectedIndex];
-        JJRDetailVC *jjRVC = allocAndInit(JJRDetailVC);
-        jjRVC.jjrID = modal.ID;
-        
-        modal.ID?[nav pushViewController:jjRVC animated:YES]:[[ToolManager shareInstance] showInfoWithStatus:@"经纪人id不能为空"];
+        MyDetialViewController *myDetialVC = allocAndInit(MyDetialViewController);
+        myDetialVC.userID = modal.ID;
+        modal.ID?[nav pushViewController:myDetialVC animated:YES]:[[ToolManager shareInstance] showInfoWithStatus:@"信息参数不全"];
         
         
     }];
@@ -198,12 +199,12 @@
 #pragma mark - TableViewDelegate TableViewDataSource
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    NSArray *_sectionArray = _meArray[section];
-    return _sectionArray.count;
+
+    return self.datas.count;
 }
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return _meArray.count;
+    return 1;
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
@@ -217,18 +218,24 @@
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
     if (section==0) {
-        UIView *view = allocAndInitWithFrame(UIView, frame(0, 0, frameWidth(_meTableView), 50));
+        UIView *view = allocAndInitWithFrame(UIView, frame(0, 0, frameWidth(
+                                                           self.tableView), 50));
         
-        UIView  *attentionAndfensView = allocAndInitWithFrame(UIView, frame(0, 0, frameWidth(_meTableView), 40));
+        UIView  *attentionAndfensView = allocAndInitWithFrame(UIView, frame(0, 0, frameWidth(self.tableView), 40));
         attentionAndfensView.backgroundColor = WhiteColor;
         [view addSubview:attentionAndfensView];
         
-        UILabel *line = allocAndInitWithFrame(UILabel , frame(frameWidth(_meTableView)/2.0 - 0.5, 7, 0.5, 26));
+        UILabel *line = allocAndInitWithFrame(UILabel , frame(frameWidth(self.tableView)/2.0 - 0.5, 7, 0.5, 26));
         line.backgroundColor = LineBg;
         [view addSubview:line];
         NSString *str = @"0";
-        BaseButton *attention = [[BaseButton alloc]initWithFrame:frame(0, 0, frameWidth(attentionAndfensView)/2.0, frameHeight(attentionAndfensView)) setTitle:[NSString stringWithFormat:@"关注(%@)",modal.follownum?modal.follownum:str] titleSize:24*SpacedFonts titleColor:AppMainColor textAlignment:NSTextAlignmentCenter backgroundColor:WhiteColor inView:attentionAndfensView];
-        //        __weak typeof(self) weakSelf = self;
+        BaseButton *attention = [[BaseButton alloc]initWithFrame:frame(0, 0, frameWidth(attentionAndfensView)/2.0, frameHeight(attentionAndfensView)) setTitle:[NSString stringWithFormat:@"%@\n我的人脉",modal.follownum?modal.follownum:str] titleSize:24*SpacedFonts titleColor:AppMainColor textAlignment:NSTextAlignmentCenter backgroundColor:WhiteColor inView:attentionAndfensView];
+        attention.titleLabel.numberOfLines = 0;
+        NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc]initWithString:attention.titleLabel.text];
+        [attributedString addAttribute:NSFontAttributeName value:Size(28) range:[attention.titleLabel.text rangeOfString:modal.follownum?modal.follownum:str]];
+//        [attributedString addAttribute:NSForegroundColorAttributeName value:[UIColor redColor] range:[attention.titleLabel.text rangeOfString:modal.follownum?modal.follownum:str]];
+        attention.titleLabel.attributedText =attributedString;
+        
         attention.didClickBtnBlock = ^
         {
             [[ToolManager shareInstance].drawerController closeDrawerAnimated:YES completion:^(BOOL finished) {
@@ -243,7 +250,15 @@
             
         };
         
-        BaseButton *fens = [[BaseButton alloc]initWithFrame:frame(CGRectGetMaxX(attention.frame), frameY(attention), frameWidth(attention), frameHeight(attention)) setTitle:[NSString stringWithFormat:@"粉丝(%@)",modal.fansnum?modal.fansnum:str] titleSize:24*SpacedFonts titleColor:AppMainColor textAlignment:NSTextAlignmentCenter backgroundColor:WhiteColor inView:attentionAndfensView];
+        BaseButton *fens = [[BaseButton alloc]initWithFrame:frame(CGRectGetMaxX(attention.frame), frameY(attention), frameWidth(attention), frameHeight(attention)) setTitle:[NSString stringWithFormat:@"%@\n约见成功",modal.fansnum?modal.fansnum:str] titleSize:24*SpacedFonts titleColor:AppMainColor textAlignment:NSTextAlignmentCenter backgroundColor:WhiteColor inView:attentionAndfensView];
+        fens.titleLabel.numberOfLines = 0;
+        
+        NSMutableAttributedString *attributedString1 = [[NSMutableAttributedString alloc]initWithString:fens.titleLabel.text];
+//        [attributedString1 addAttribute:NSForegroundColorAttributeName value:AppMainColor range:[fens.titleLabel.text rangeOfString:modal.fansnum?modal.fansnum:str]];
+
+        [attributedString1 addAttribute:NSFontAttributeName value:Size(28) range:[fens.titleLabel.text rangeOfString:modal.fansnum?modal.fansnum:str]];
+                fens.titleLabel.attributedText =attributedString1;
+        
         fens.didClickBtnBlock = ^
         {
             [[ToolManager shareInstance].drawerController closeDrawerAnimated:YES completion:^(BOOL finished) {
@@ -279,12 +294,11 @@
     static NSString *cellID =@"MeCell";
     MeCell *cell = [tableView dequeueReusableCellWithIdentifier:cellID];
     if (!cell) {
-        cell = [[MeCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellID cellHeight:cellH cellWidth:frameWidth(_meTableView)];
+        cell = [[MeCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellID cellHeight:cellH cellWidth:frameWidth(self.tableView)];
         
         
     }
-    NSArray * _sectionArray = _meArray[indexPath.section];
-    NSDictionary *dict = _sectionArray[indexPath.row];
+    NSDictionary *dict = self.datas[indexPath.row];
     if ([dict[@"viewController"] isEqualToString:@"NotificationViewController"]) {
         cell.message.hidden = !modal.newmsg;
     }
@@ -300,7 +314,7 @@
     {
         cell.detail.hidden = YES;
     }
-    if (indexPath.section ==1&&indexPath.row ==2) {
+    if (indexPath.row ==4) {
         
         cell.authen.hidden = NO;
         
@@ -335,8 +349,8 @@
 {
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    NSArray * _sectionArray = _meArray[indexPath.section];
-    NSDictionary *dict = _sectionArray[indexPath.row];
+   
+    NSDictionary *dict = self.datas[indexPath.row];
     
     if ([dict[@"viewController"] hasPrefix:@"http://"]) {
         
@@ -355,11 +369,22 @@
                 [nav pushViewController:authen animated:YES];
                 return ;
             }
+            if ([dict[@"viewController"] isEqualToString:@"OtherDynamicdViewController"]) {
+                OtherDynamicdViewController *otherDynamicdVC = allocAndInit(OtherDynamicdViewController);
+                otherDynamicdVC.dynamicdID = modal.ID;
+                otherDynamicdVC.dynamicdName = @"我的动态";
+                [nav pushViewController:otherDynamicdVC animated:YES];
+                return ;
+            }
             [nav pushViewController:allocAndInit((NSClassFromString(dict[@"viewController"] )))animated:YES];
             
         }];
         
         
+    }
+    else
+    {
+        [[ToolManager shareInstance] showAlertMessage:@"暂未开放"];
     }
     
 }

@@ -79,13 +79,21 @@
     UIImageView *imageView = [[UIImageView alloc]initWithFrame:CGRectMake((APPWIDTH/3.0 - image.size.width)/2.0, 5, image.size.width, image.size.height)];
     imageView.image = image;
     [cell addSubview:imageView];
-    NSLog(@" name.length =%ld ", name.length);
     [UILabel createLabelWithFrame:frame(0, image.size.height + 20, APPWIDTH/3.0, 26*SpacedFonts) text:name fontSize:26*SpacedFonts textColor:BlackTitleColor textAlignment:NSTextAlignmentCenter inView:cell];
     
     return cell;
 }
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
+    NSString *vcStr =_collections[indexPath.section][indexPath.row][@"viewController"];
+    if (NSClassFromString(vcStr)) {
+         PushView(self, allocAndInit(NSClassFromString(vcStr)));
+    }
+    else
+    {
+        [[ToolManager shareInstance] showAlertMessage:@"未知页面"];
+    }
+   
     NSLog(@"indexPath.se = %ld  row = %ld",indexPath.section,indexPath.row);
 }
 #pragma mark 
@@ -96,8 +104,8 @@
         return _collections;
     }
     _collections = [NSMutableArray new];
-    NSArray *title1 = [NSArray arrayWithObjects:[NSDictionary dictionaryWithObjectsAndKeys:@"线索大厅",@"name",@"icon_discover_xiansuo",@"image",@"WBHomePageVC",@"viewController", nil],[NSDictionary dictionaryWithObjectsAndKeys:@"红包转发",@"name",@"icon_discover_hongbao",@"image",@"ReadhotViewController",@"viewController", nil],[NSDictionary dictionaryWithObjectsAndKeys:@"封装链接",@"name",@"icon_discover_fengzhuanglianjie",@"image",@"ReadhotViewController",@"viewController", nil], nil];
-    NSArray *title2 =[NSArray arrayWithObjects:[NSDictionary dictionaryWithObjectsAndKeys:@"编辑文章",@"name",@"icon_discover_liaoku",@"image",@"WBHomePageVC",@"viewController", nil],[NSDictionary dictionaryWithObjectsAndKeys:@"我的内容",@"name",@"icon_discover_wodewnzhang",@"image",@"ReadhotViewController",@"viewController", nil],[NSDictionary dictionaryWithObjectsAndKeys:@"读我最多",@"name",@"icon_discover_duwozuiduo",@"image",@"ReadhotViewController",@"viewController", nil], [NSDictionary dictionaryWithObjectsAndKeys:@"文章数据",@"name",@"icon_discover_shuju",@"image",@"ReadhotViewController",@"viewController", nil],nil];
+    NSArray *title1 = [NSArray arrayWithObjects:[NSDictionary dictionaryWithObjectsAndKeys:@"线索大厅",@"name",@"icon_discover_xiansuo",@"image",@"WBHomePageVC",@"viewController", nil],[NSDictionary dictionaryWithObjectsAndKeys:@"红包转发",@"name",@"icon_discover_hongbao",@"image",@"RedpacketsforwardingViewController",@"viewController", nil],[NSDictionary dictionaryWithObjectsAndKeys:@"封装链接",@"name",@"icon_discover_fengzhuanglianjie",@"image",@"",@"viewController", nil], nil];
+    NSArray *title2 =[NSArray arrayWithObjects:[NSDictionary dictionaryWithObjectsAndKeys:@"编辑文章",@"name",@"icon_discover_liaoku",@"image",@"",@"viewController", nil],[NSDictionary dictionaryWithObjectsAndKeys:@"我的内容",@"name",@"icon_discover_wodewnzhang",@"image",@"",@"viewController", nil],[NSDictionary dictionaryWithObjectsAndKeys:@"读我最多",@"name",@"icon_discover_duwozuiduo",@"image",@"ReadMeMostViewController",@"viewController", nil], [NSDictionary dictionaryWithObjectsAndKeys:@"文章数据",@"name",@"icon_discover_shuju",@"image",@"",@"viewController", nil],nil];
     [_collections  addObject:title1];
     [_collections addObject:title2];
     return _collections;
@@ -124,8 +132,6 @@
     [collect registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:@"DiscoverHomePageView"];
     
     collect.backgroundColor = WhiteColor;
-    
-    
     
     _collectionView = collect;
     return _collectionView;

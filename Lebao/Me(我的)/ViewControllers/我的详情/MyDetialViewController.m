@@ -12,6 +12,8 @@
 #import "LWTextParser.h"
 #import "Gallop.h"
 #import "Parameter.h"
+#import "BasicInformationViewController.h"
+#import "OtherDynamicdViewController.h"
 #define TagHeight 22
 #define MininumTagWidth (APPWIDTH - 120)/5.0
 #define MaxinumTagWidth (APPWIDTH - 20)
@@ -179,7 +181,10 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    NSLog(@"我的动态");
+    OtherDynamicdViewController *otherDynamicdVC =[[OtherDynamicdViewController alloc]init];
+    otherDynamicdVC.dynamicdName = @"我的动态";
+    otherDynamicdVC.dynamicdID   = _userID;
+    [self.navigationController pushViewController:otherDynamicdVC animated:YES];
 }
 
 #pragma mark getter
@@ -190,10 +195,11 @@
     }
     _edit = [[BaseButton alloc]initWithFrame:frame(APPWIDTH - 50 ,StatusBarHeight,50, NavigationBarHeight) setTitle:@"编辑" titleSize:28*SpacedFonts titleColor:BlackTitleColor textAlignment:NSTextAlignmentRight backgroundColor:[UIColor clearColor] inView:nil];
     _edit.shouldAnmial = NO;
-//    __weak typeof(self) weakSelf = self;
+    __weak typeof(self) weakSelf = self;
     _edit.didClickBtnBlock = ^
     {
-        
+        BasicInformationViewController *basicInfoVc = [[BasicInformationViewController alloc]init];
+        [weakSelf.navigationController pushViewController:basicInfoVc animated:YES];
     };
     return _edit;
 }

@@ -73,19 +73,40 @@
     
     self.view.backgroundColor = [UIColor colorWithWhite:0.941 alpha:1.000];
     [self setButtomScr];
-    [self getjjrJson];
+    [self getjjrJsonIsRefresh:NO andIsLoadMoreData:NO andShouldClearData:NO];
     //评论
     [self addToolBar];
 }
 //动态数据加载
--(void)getjjrJson
+-(void)getjjrJsonIsRefresh:(BOOL)isRefresh andIsLoadMoreData:(BOOL)isLoadMoreData andShouldClearData:(BOOL)shouldClearData
 {
     
     [[HomeInfo shareInstance]getHomePageDT:jjrpageNumb brokerid:nil andcallBack:^(BOOL issucced, NSString* info, NSDictionary* jsonDic) {
+        
+        if (isRefresh) {
+            [[ToolManager shareInstance] endHeaderWithRefreshing:_dtTab];
+        }
+        if (isLoadMoreData)
+        {
+          [[ToolManager shareInstance] endFooterWithRefreshing:_dtTab];
+        }
+        
         if (issucced == YES) {
+            if (shouldClearData) {
+                [self.jjrJsonArr removeAllObjects];
+            }
             
             StatusModel *model = [StatusModel mj_objectWithKeyValues:jsonDic];
             [[ToolManager shareInstance]dismiss];
+            if (jjrpageNumb==1) {
+                
+                [[ToolManager shareInstance] moreDataStatus:_dtTab];
+            }
+            if (jjrpageNumb ==model.allpage) {
+                
+                [[ToolManager shareInstance] noMoreDataStatus:_dtTab];
+            }
+            
             if (model.datas.count > 0) {
                 
                 for (NSInteger i = 0; i < model.datas.count; i ++) {
@@ -109,11 +130,8 @@
                     [self.jjrJsonArr addObject:layout];
                 }
                 [_dtTab reloadData];
-            }else
-            {
-                [[ToolManager shareInstance] showAlertMessage:@"没有更多数据了"];
-                
             }
+            
             
         }else
         {
@@ -219,19 +237,16 @@
     _dtTab.backgroundColor = [UIColor clearColor];
     _dtTab.tag = jjrTabTag;
     _dtTab.separatorStyle = UITableViewCellSeparatorStyleNone;
-    _dtTab.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
+    [[ToolManager shareInstance] scrollView:_dtTab headerWithRefreshingBlock:^{
         jjrpageNumb = 1;
-        if (_jjrJsonArr.count >0) {
-            [_jjrJsonArr removeAllObjects];
-        }
-        [_dtTab reloadData];
-        [_dtTab.mj_header endRefreshing];
+         [self getjjrJsonIsRefresh:YES andIsLoadMoreData:NO andShouldClearData:YES];
         
-        [self getjjrJson];
+    }];
+    [[ToolManager shareInstance] scrollView:_dtTab footerWithRefreshingBlock:^{
+        jjrpageNumb +=1;
+        [self getjjrJsonIsRefresh:NO andIsLoadMoreData:YES andShouldClearData:NO];
     }];
     
-    _dtTab.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreJJR)];
-    _dtTab.footer.automaticallyHidden = NO;
     [buttomScr addSubview:_dtTab];
     
 }
@@ -251,14 +266,9 @@
     {   PublishDynamicVC *publishDynamicVC  =  allocAndInit(PublishDynamicVC);
         publishDynamicVC.faBuSucceedBlock = ^
         {
-            //            NSLog(@"faBuSucceedBlock");
+          
             jjrpageNumb = 1;
-            if (_jjrJsonArr.count >0) {
-                [_jjrJsonArr removeAllObjects];
-            }
-            [_dtTab reloadData];
-            
-            [self getjjrJson];
+            [self getjjrJsonIsRefresh:NO andIsLoadMoreData:NO andShouldClearData:YES];
         };
         PushView(self, publishDynamicVC);
     };
@@ -277,15 +287,6 @@
     [self.navigationController pushViewController:jjr animated:YES];
 }
 
-/**
- *  加载更多经纪人
- */
--(void)loadMoreJJR
-{
-    jjrpageNumb ++;
-    [self getjjrJson];
-    [_dtTab.mj_footer endRefreshing];
-}
 #pragma mark----tableview代理和资源方法
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {

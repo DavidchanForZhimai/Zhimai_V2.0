@@ -134,7 +134,6 @@
 
     _dtTab.tableFooterView = [[UIView alloc]init];
     _dtTab.backgroundColor = [UIColor clearColor];
-
     _dtTab.separatorStyle = UITableViewCellSeparatorStyleNone;
     
     [buttomScr addSubview:_dtTab];
