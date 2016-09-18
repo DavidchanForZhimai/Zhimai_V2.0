@@ -16,4 +16,11 @@
 
 @implementation MeetingData
 
++ (NSDictionary *)mj_replacedKeyFromPropertyName
+{
+    return @{@"meetId" : @"id",
+             };
+}
+
+
 @end

@@ -28,6 +28,7 @@
 @property (nonatomic,assign)int agreePage;
 @property (nonatomic,strong)NSString *state;
 @property (nonatomic,strong)NSMutableArray *oprationArr;
+@property (nonatomic,strong)NSMutableArray *oprationSourceArr;
 @property (nonatomic,strong)NSMutableArray *agreeArr;
 @property (nonatomic,strong)NSMutableArray *refuseArr;
 
@@ -36,6 +37,34 @@
 
 @implementation MeWantMeetVC
 
+-(NSMutableArray *)refuseArr
+{
+    if (!_refuseArr) {
+        _refuseArr=[[NSMutableArray alloc]init];
+    }
+    return _refuseArr;
+}
+-(NSMutableArray *)agreeArr
+{
+    if (!_agreeArr) {
+        _agreeArr=[[NSMutableArray alloc]init];
+    }
+    return _agreeArr;
+}
+-(NSMutableArray *)oprationArr
+{
+    if (!_oprationArr) {
+        _oprationArr=[[NSMutableArray alloc]init];
+    }
+    return _oprationArr;
+}
+-(NSMutableArray *)oprationSourceArr
+{
+    if (!_oprationSourceArr) {
+        _oprationSourceArr=[[NSMutableArray alloc]init];
+    }
+    return _oprationSourceArr;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -46,13 +75,11 @@
     _agreePage=1;
     _oprationPage=1;
     _state=@"10";
-    _oprationArr=[[NSMutableArray alloc]init];
-    _agreeArr=[[NSMutableArray alloc]init];
-    _refuseArr=[[NSMutableArray alloc]init];
+
     [self setButtomScr];
     [self addTheBtnView];
     
-    [self netWorkRefresh:NO andIsLoadMoreData:NO isShouldClearData:NO withState:_state andTabView:_oprationTab andArr:_oprationArr andPage:_oprationPage];
+    [self netWorkRefresh:NO andIsLoadMoreData:NO isShouldClearData:NO withState:_state andTabView:_oprationTab andArr:self.oprationArr andPage:_oprationPage];
 }
 /**
  *  最下层的scrollview
@@ -203,8 +230,7 @@
     NSMutableDictionary *param=[Parameter parameterWithSessicon];
     [param setObject:state forKey:@"state"];
     [param setObject:@(page) forKey:@"page"];
-    
-    NSLog(@"parem -------------%@",param);
+
     [XLDataService putWithUrl:IWantMeetURL param:param modelClass:nil responseBlock:^(id dataObj, NSError *error) {
         if (isRefresh) {
             [[ToolManager shareInstance]endHeaderWithRefreshing:tabView];
@@ -213,9 +239,9 @@
             [[ToolManager shareInstance]endFooterWithRefreshing:tabView];
         }if (isShouldClearData) {
             [arr removeAllObjects];
+            [self.oprationSourceArr removeAllObjects];
         }
-        
-        NSLog(@"iwantmeetdataObj========%@",dataObj);
+
         if (dataObj) {
             
             MeetingModel *modal = [MeetingModel mj_objectWithKeyValues:dataObj];
@@ -233,9 +259,10 @@
                 for (MeetingData *data in modal.datas) {
                     if ([state isEqualToString:@"10"]) {
                         [arr addObject:[[WantMeetLayout alloc]initCellLayoutWithModel:data andBtn:YES]];
-                    }else if ([state isEqualToString:@"10"]) {
+                        [self.oprationSourceArr addObject:data];
+                    }else if ([state isEqualToString:@"20"]) {
                         [arr addObject:[[WantMeetLayout alloc]initCellLayoutWithModel:data andBtn:NO]];
-                    }else if ([state isEqualToString:@"10"]) {
+                    }else if ([state isEqualToString:@"90"]) {
                         [arr addObject:[[WantMeetLayout alloc]initCellLayoutWithModel:data andBtn:NO]];
                     }
                     
@@ -271,8 +298,8 @@
         [_underLineV setFrame:CGRectMake((SCREEN_WIDTH/3-50)/2, 65+35-2, 50, 2)];
         [buttomScr setContentOffset:CGPointMake(0, 0)];
     }];
-    if (_oprationArr.count==0) {
-        [self netWorkRefresh:NO andIsLoadMoreData:NO isShouldClearData:YES withState:_state andTabView:_oprationTab andArr:_oprationArr andPage:_oprationPage];
+    if (_oprationArr==nil) {
+        [self netWorkRefresh:NO andIsLoadMoreData:NO isShouldClearData:NO withState:_state andTabView:_oprationTab andArr:self.oprationArr andPage:_oprationPage];
     }
     
 
@@ -288,9 +315,9 @@
         [_underLineV setFrame:CGRectMake((SCREEN_WIDTH/3-50)/2+SCREEN_WIDTH/3, 65+35-2, 50, 2)];
         [buttomScr setContentOffset:CGPointMake(SCREEN_WIDTH, 0)];
     }];
-    if (_agreeArr.count==0) {
-        [self netWorkRefresh:NO andIsLoadMoreData:NO isShouldClearData:YES withState:_state andTabView:_agreeTab andArr:_agreeArr andPage:_agreePage];
-
+    if (_agreeArr==nil) {
+        [self netWorkRefresh:NO andIsLoadMoreData:NO isShouldClearData:NO withState:_state andTabView:_agreeTab andArr:self.agreeArr andPage:_agreePage];
+        
     }
    
     
@@ -301,13 +328,14 @@
     sender.selected = YES;
     _oprationBtn.selected = NO;
     _agreeBtn.selected=NO;
-    _state=@"99";
+    _state=@"90";
     [UIView animateWithDuration:0.3f animations:^{
         [_underLineV setFrame:CGRectMake((SCREEN_WIDTH/3-50)/2+SCREEN_WIDTH/3*2, 65+35-2, 50, 2)];
         [buttomScr setContentOffset:CGPointMake(SCREEN_WIDTH*2, 0)];
     }];
-    if (_refuseArr.count==0) {
-         [self netWorkRefresh:NO andIsLoadMoreData:NO isShouldClearData:YES withState:_state andTabView:_refuseTab andArr:_refuseArr andPage:_refusePage];
+    if (_refuseArr==nil) {
+        [self netWorkRefresh:NO andIsLoadMoreData:NO isShouldClearData:NO withState:_state andTabView:_refuseTab andArr:self.refuseArr andPage:_refusePage];
+        
     }
    
 
@@ -405,34 +433,46 @@
     [UIView animateWithDuration:0.3f animations:^{
         if ((int)point.x % (int)SCREEN_WIDTH == 0) {
             if (point.x/SCREEN_WIDTH ==0) {
-                _agreeBtn.selected = NO;
-                _oprationBtn.selected = YES;
-                _refuseBtn.selected=NO;
-                [_underLineV setFrame:CGRectMake((SCREEN_WIDTH/3-50)/2, 65+35-2, 50, 2)];
-            }else if(point.x/SCREEN_WIDTH ==1)
-            {
-                
-                _agreeBtn.selected = YES;
-                _oprationBtn.selected = NO;
-                _refuseBtn.selected=NO;
-                [_underLineV setFrame:CGRectMake((SCREEN_WIDTH/3-50)/2+SCREEN_WIDTH/3, 65+35-2, 50, 2)];
+                [self oprationBtn:_oprationBtn];
+            }else if(point.x/SCREEN_WIDTH ==1) {
+                [self agreeBtn:_agreeBtn];
             }
-            else if(point.x/SCREEN_WIDTH ==2)
-            {
-                
-                _agreeBtn.selected = NO;
-                _oprationBtn.selected = NO;
-                _refuseBtn.selected=YES;
-                [_underLineV setFrame:CGRectMake((SCREEN_WIDTH/3-50)/2+SCREEN_WIDTH/3*2, 65+35-2, 50, 2)];
+            else if(point.x/SCREEN_WIDTH ==2){
+                [self refuseBtn:_refuseBtn];
             }
-            
         }
-        
     }];
     
 }
 #pragma mark 约见按钮点击事件
 - (void)tableViewCellDidSeleteMeetingBtn:(UIButton *)btn andIndexPath:(NSIndexPath *)indexPath
+{
+    MeetingData *data=self.oprationSourceArr[indexPath.row];
+    NSMutableDictionary *param=[Parameter parameterWithSessicon];
+    [param setObject:data.meetId forKey:@"invitedid"];
+    [XLDataService putWithUrl:MeetCancelURL param:param modelClass:nil responseBlock:^(id dataObj, NSError *error) {
+        if (dataObj) {
+            MeetingModel *modal = [MeetingModel mj_objectWithKeyValues:dataObj];
+             if (modal.rtcode ==1) {
+                [self.oprationArr removeObjectAtIndex:indexPath.row];
+                [self.oprationTab deleteRowsAtIndexPaths:[NSArray arrayWithObjects:indexPath, nil] withRowAnimation:UITableViewRowAnimationRight];
+                [self.oprationTab reloadData];
+            }
+            else
+            {
+                [[ToolManager shareInstance] showAlertMessage:modal.rtmsg];
+            }
+        }
+        else
+        {
+            [[ToolManager shareInstance] showInfoWithStatus];
+        }
+}];
+
+    
+    
+   }
+-(void)tableViewCellDidSeleteAudioBtn:(UIButton *)btn andIndexPath:(NSIndexPath *)indexPath
 {
     
 }

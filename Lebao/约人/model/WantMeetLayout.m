@@ -74,6 +74,8 @@
         
         
         _line1Rect  = CGRectMake(0, _avatarStorage.bottom + 10, APPWIDTH, 0.5);
+
+        _audioBtnRect=CGRectMake(5, _line1Rect.origin.y, nameTextStorage.left-10, nameTextStorage.left-10);
         
         //约见理由
         LWTextStorage *meetReasonTextStorage=[[LWTextStorage alloc]init];

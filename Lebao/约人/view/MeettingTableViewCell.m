@@ -72,7 +72,7 @@
 {
     if (!_meetingBtn) {
         _meetingBtn=[UIButton buttonWithType:UIButtonTypeCustom];
-        
+        _meetingBtn.titleLabel.font=[UIFont systemFontOfSize:14];
         _meetingBtn.backgroundColor=AppMainColor;
         [_meetingBtn setTitle:@"约见" forState:UIControlStateNormal];
         [_meetingBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];

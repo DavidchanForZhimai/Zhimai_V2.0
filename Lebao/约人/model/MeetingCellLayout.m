@@ -43,7 +43,7 @@
         LWTextStorage* nameTextStorage = [[LWTextStorage alloc] init];
         nameTextStorage.text = [NSString stringWithFormat:@"%@ %@",model.realname,renzen];
         nameTextStorage.font = Size(28.0);
-        nameTextStorage.frame = CGRectMake(_avatarStorage.right + 10, 12.0, SCREEN_WIDTH - (_avatarStorage.right), CGFLOAT_MAX);
+        nameTextStorage.frame = CGRectMake(_avatarStorage.right + 10, 15.0, SCREEN_WIDTH - (_avatarStorage.right), CGFLOAT_MAX);
         [nameTextStorage lw_addLinkWithData:[NSString stringWithFormat:@"%@",model.userid]
                                       range:NSMakeRange(0,model.realname.length)
                                   linkColor:BlackTitleColor
@@ -81,75 +81,90 @@
         if (![model.service isEqualToString:@""]&&model.service) {
             NSArray *productArr=[model.service componentsSeparatedByString:@"/"];
             NSMutableString *productStr = allocAndInit(NSMutableString);
-          
+             CGFloat height1=0;
             CGFloat wid1=0;
             for (int i=0; i<productArr.count; i++) {
+                if([productArr[i] length]==0){//去空格
+                    continue;
+                }else{
+                    NSString *trimedString = [productArr[i] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+                    if([trimedString length]==0){
+                        continue;
+                    }
+                }  //去空格
                 UIImage *img=[UIImage imageNamed:@"[biaoqian]"];
-                NSString *text = [NSString stringWithFormat:@" %@   ",productArr[i]];
-                CGSize expectSize=[text sizeWithFont:Size(26) maxSize:CGSizeMake(1000,900)];
+                NSString *text = [NSString stringWithFormat:@"  %@   ",productArr[i]];
+                CGSize expectSize=[text sizeWithFont:Size(24) maxSize:CGSizeMake(1000,900)];
                 wid1 += (img.size.width + expectSize.width);
-                if (wid1>(SCREEN_WIDTH - (productTextStorage.right) - 20)) {
-                    [productStr appendString:@"\n"];
-                     wid1 =img.size.width + expectSize.width;
-
+                if (wid1>(SCREEN_WIDTH - (productTextStorage.right) - 10)||i==productArr.count-1) {//如果长度过长,换行
+                    if (i==productArr.count-1&&wid1<=(SCREEN_WIDTH - (productTextStorage.right) - 10)) {
+                        [productStr appendFormat:@"[biaoqian]  %@   ",productArr[i]];
+                    }
+                    LWTextStorage* productLbStorage = [[LWTextStorage alloc] init];
+                    productLbStorage.font = Size(24.0);
+                    productLbStorage.textColor = [UIColor colorWithRed:0.482 green:0.486 blue:0.494 alpha:1.000];
+                    productLbStorage.text = productStr;
+                    productLbStorage.frame = CGRectMake(productTextStorage.right + 10, productTextStorage.top+height1, SCREEN_WIDTH - (productTextStorage.right) - 20, CGFLOAT_MAX);
+                    [LWTextParser parseEmojiWithTextStorage:productLbStorage];
+                     [self addStorage:productLbStorage];
+                    productLbStorageheight = productLbStorage.bottom;
+                    wid1 =(img.size.width + expectSize.width+10);
+                    height1+=(10+productTextStorage.height);
+                    productStr=allocAndInit(NSMutableString);
                 }
-
-                  [productStr appendFormat:@"[biaoqian] %@   ",productArr[i]];
-                
-               
+                 [productStr appendFormat:@"[biaoqian]  %@   ",productArr[i]];
             }
-            LWTextStorage* productLbStorage = [[LWTextStorage alloc] init];
-            productLbStorage.font = Size(26.0);
-            productLbStorage.textColor = [UIColor colorWithRed:0.482 green:0.486 blue:0.494 alpha:1.000];
-            productLbStorage.text = productStr;
-            productLbStorage.frame = CGRectMake(productTextStorage.right + 10, productTextStorage.top, SCREEN_WIDTH - (productTextStorage.right) - 20, CGFLOAT_MAX);
-            [LWTextParser parseEmojiWithTextStorage:productLbStorage];
-            
-            [self addStorage:productLbStorage];
-            productLbStorageheight = productLbStorage.bottom;
-        }
+                   }
+       
+        
+        
+        
+        
         
         LWTextStorage *resourceTextStorage=[[LWTextStorage alloc]init];
         resourceTextStorage.text=@"资源特点";
         resourceTextStorage.font=Size(26.0);
         resourceTextStorage.frame=CGRectMake(_avatarStorage.left, productLbStorageheight + 10, 52, CGFLOAT_MAX);
         resourceTextStorage.textColor = [UIColor colorWithRed:0.522 green:0.525 blue:0.529 alpha:1.000];
+        
+        
         float resourceTextStorageheight = resourceTextStorage.bottom;
         if (![model.resource isEqualToString:@""]&&model.resource) {
             NSArray *resourceArr=[model.resource componentsSeparatedByString:@"/"];
             NSMutableString *resourceStr = allocAndInit(NSMutableString);
+            CGFloat height1=0;
             CGFloat wid1=0;
             for (int i=0; i<resourceArr.count; i++) {
+                if([resourceArr[i] length]==0){//去空格
+                    continue;
+                }else{
+                    NSString *trimedString = [resourceArr[i] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+                    if([trimedString length]==0){
+                        continue;
+                    }
+                }  //去空格
                 UIImage *img=[UIImage imageNamed:@"[biaoqian]"];
-                NSString *text = [NSString stringWithFormat:@" %@   ",resourceArr[i]];
-                CGSize expectSize=[text sizeWithFont:Size(26) maxSize:CGSizeMake(1000,900)];
+                NSString *text = [NSString stringWithFormat:@"  %@   ",resourceArr[i]];
+                CGSize expectSize=[text sizeWithFont:Size(24) maxSize:CGSizeMake(1000,900)];
                 wid1 += (img.size.width + expectSize.width);
-                if (wid1>(SCREEN_WIDTH - (productTextStorage.right) - 20)) {
-                    [resourceStr appendString:@"\n"];
-                    wid1 =img.size.width + expectSize.width;
-                    
+                if (wid1>(SCREEN_WIDTH - (productTextStorage.right) - 10)||i==resourceArr.count-1) {//如果长度过长,换行
+                    if (i==resourceArr.count-1&&wid1<=(SCREEN_WIDTH - (resourceTextStorage.right) - 10)) {
+                        [resourceStr appendFormat:@"[biaoqian]  %@   ",resourceArr[i]];
+                    }
+                    LWTextStorage* resourceLbStorage = [[LWTextStorage alloc] init];
+                    resourceLbStorage.font = Size(24.0);
+                    resourceLbStorage.textColor = [UIColor colorWithRed:0.482 green:0.486 blue:0.494 alpha:1.000];
+                    resourceLbStorage.text = resourceStr;
+                    resourceLbStorage.frame = CGRectMake(resourceTextStorage.right + 10, resourceTextStorage.top+height1, SCREEN_WIDTH - (resourceTextStorage.right) - 20, CGFLOAT_MAX);
+                    [LWTextParser parseEmojiWithTextStorage:resourceLbStorage];
+                    [self addStorage:resourceLbStorage];
+                    resourceTextStorageheight = resourceLbStorage.bottom;
+                    wid1 =(img.size.width + expectSize.width+10);
+                    height1+=(10+resourceTextStorage.height);
+                    resourceStr=allocAndInit(NSMutableString);
                 }
-                
-                [resourceStr appendFormat:@"[biaoqian] %@   ",resourceArr[i]];
-                
-                
+                [resourceStr appendFormat:@"[biaoqian]  %@   ",resourceArr[i]];
             }
-            LWTextStorage* resourceLbStorage = [[LWTextStorage alloc] init];
-            resourceLbStorage.text = resourceStr;
-            
-//            NSMutableAttributedString *resourceAttrStr = [[NSMutableAttributedString alloc]initWithString:resourceLbStorage.text];
-//            NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
-//            [paragraphStyle setLineSpacing:10];
-//            [resourceAttrStr addAttribute:NSParagraphStyleAttributeName value:paragraphStyle range:NSMakeRange(0, [resourceLbStorage.text length])];
-//            resourceLbStorage.attributedText =resourceAttrStr;
-            resourceLbStorage.linespacing = 10;
-            resourceLbStorage.font = Size(26.0);
-            resourceLbStorage.textColor = [UIColor colorWithRed:0.482 green:0.486 blue:0.494 alpha:1.000];
-            
-            resourceLbStorage.frame = CGRectMake(resourceTextStorage.right + 10, resourceTextStorage.top, SCREEN_WIDTH - (resourceTextStorage.right) - 20, CGFLOAT_MAX);
-            [LWTextParser parseEmojiWithTextStorage:resourceLbStorage];
-            resourceTextStorageheight = resourceLbStorage.bottom;
-            [self addStorage:resourceLbStorage];
         }
         
         

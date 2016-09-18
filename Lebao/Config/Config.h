@@ -27,6 +27,12 @@
 #define IWantMeetURL [NSString stringWithFormat:@"%@meet/invitedlist",HttpURL]
 //首页我想约见和想约见我的人数
 #define WantURL [NSString stringWithFormat:@"%@meet/invitedcount",HttpURL]
+//约见请求接口
+#define MeetyouURL [NSString stringWithFormat:@"%@meet/invited",HttpURL]
+//邀约处理操作接口
+#define MeetOperationURL [NSString stringWithFormat:@"%@meet/operation",HttpURL]
+//约见取消接口
+#define MeetCancelURL [NSString stringWithFormat:@"%@meet/cancel",HttpURL]
 //请求参数
 #define DeviceToken @"deviceToken"
 #define userName @"username"

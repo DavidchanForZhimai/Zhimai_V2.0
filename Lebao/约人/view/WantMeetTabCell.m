@@ -26,6 +26,7 @@
         [self.contentView addSubview:self.meetingBtn];
         [self.contentView.layer addSublayer:self.cellline];
         [self.contentView.layer addSublayer:self.line1];
+        [self.contentView addSubview:self.audioBtn];
         [self.contentView.layer addSublayer:self.line2];
         
     }
@@ -40,6 +41,7 @@
     self.cellline.frame = self.cellLayout.cellMarginsRect;
     self.meetingBtn.frame = self.cellLayout.meetBtnRect;
     self.line1.frame = self.cellLayout.line1Rect;
+    self.audioBtn.frame=self.cellLayout.audioBtnRect;
     self.line2.frame = self.cellLayout.line2Rect;
 }
 
@@ -73,7 +75,7 @@
 {
     if (!_meetingBtn) {
         _meetingBtn=[UIButton buttonWithType:UIButtonTypeCustom];
-        
+        _meetingBtn.titleLabel.font=[UIFont systemFontOfSize:14];
         _meetingBtn.backgroundColor=AppMainColor;
         [_meetingBtn setTitle:@"取消" forState:UIControlStateNormal];
         [_meetingBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
@@ -83,6 +85,15 @@
     
     return _meetingBtn;
     
+}
+-(UIButton *)audioBtn
+{
+    if (!_audioBtn) {
+        _audioBtn=[UIButton buttonWithType:UIButtonTypeCustom];
+        [_audioBtn setImage:[UIImage imageNamed:@"yujianyuyin"] forState:UIControlStateNormal];
+        [_audioBtn addTarget:self action:@selector(audioBtnClick:) forControlEvents:UIControlEventTouchUpInside];
+    }
+    return _audioBtn;
 }
 - (CALayer *)line1
 {
@@ -109,6 +120,12 @@
 {
     if ([_delegate conformsToProtocol:@protocol(MeettingTableViewDelegate)]&&[_delegate respondsToSelector:@selector(tableViewCellDidSeleteMeetingBtn: andIndexPath:)]) {
         [_delegate tableViewCellDidSeleteMeetingBtn:sender andIndexPath:_indexPath];
+    }
+}
+-(void)audioBtnClick:(UIButton *)sender
+{
+    if ([_delegate conformsToProtocol:@protocol(MeettingTableViewDelegate)]&&[_delegate respondsToSelector:@selector(tableViewCellDidSeleteAudioBtn: andIndexPath:)]) {
+        [_delegate tableViewCellDidSeleteAudioBtn:sender andIndexPath:_indexPath];
     }
 }
 - (void)awakeFromNib {

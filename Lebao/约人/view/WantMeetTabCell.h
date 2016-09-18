@@ -12,12 +12,15 @@
 
 //约见按钮
 - (void)tableViewCellDidSeleteMeetingBtn:(UIButton *)btn andIndexPath:(NSIndexPath *)indexPath;
-
+//语音按钮
+- (void)tableViewCellDidSeleteAudioBtn:(UIButton *)btn andIndexPath:(NSIndexPath *)indexPath;
 @end
+
 @interface WantMeetTabCell : UITableViewCell
 @property(nonatomic,strong)WantMeetLayout *cellLayout;
 @property(nonatomic,strong)NSIndexPath *indexPath;
 @property (nonatomic,strong)UIButton *meetingBtn;//约见
+@property (nonatomic,strong)UIButton *audioBtn;
 @property(nonatomic,weak)id <MeettingTableViewDelegate > delegate;
 
 @end

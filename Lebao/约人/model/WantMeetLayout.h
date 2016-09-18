@@ -14,8 +14,8 @@
 @property (nonatomic,assign) CGRect line1Rect;
 @property (nonatomic,assign) CGRect line2Rect;
 @property (nonatomic,assign) CGRect cellMarginsRect;
-@property(nonatomic,assign)float cellHeight;
-
+@property (nonatomic,assign)float cellHeight;
+@property (nonatomic,assign)CGRect audioBtnRect;
 - (WantMeetLayout *)initCellLayoutWithModel:(MeetingData *)model andBtn:(BOOL )Btn;
 
 @end

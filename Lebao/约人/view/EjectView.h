@@ -22,6 +22,7 @@
 @property (nonatomic, copy) NSString *titleStr;
 @property (nonatomic,copy)NSString *title2Str;
 @property (nonatomic, strong) UIView *middleView;
+@property (nonatomic,strong)NSIndexPath * indexth;
 @property(nonatomic, weak) id<EjectViewDelegate> delegate;
 /**
  * 弹窗在视图中的中心点

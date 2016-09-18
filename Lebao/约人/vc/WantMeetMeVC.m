@@ -14,6 +14,7 @@
 @interface WantMeetMeVC ()<UITableViewDelegate,UITableViewDataSource,UIScrollViewDelegate,UITextFieldDelegate,MeettingTableViewDelegate>
 {
     UIScrollView * buttomScr;
+    NSIndexPath * clickRow;
 }
 @property (strong,nonatomic)UITableView *oprationTab;
 @property (strong,nonatomic)UITableView *agreeTab;
@@ -27,6 +28,7 @@
 @property (nonatomic,assign)int agreePage;
 @property (nonatomic,strong)NSString *state;
 @property (nonatomic,strong)NSMutableArray *oprationArr;
+@property (nonatomic,strong)NSMutableArray *oprationSourceArr;
 @property (nonatomic,strong)NSMutableArray *agreeArr;
 @property (nonatomic,strong)NSMutableArray *refuseArr;
 
@@ -35,7 +37,27 @@
 
 @implementation WantMeetMeVC
 
-
+-(NSMutableArray *)refuseArr
+{
+    if (!_refuseArr) {
+        _refuseArr=[[NSMutableArray alloc]init];
+    }
+    return _refuseArr;
+}
+-(NSMutableArray *)agreeArr
+{
+    if (!_agreeArr) {
+        _agreeArr=[[NSMutableArray alloc]init];
+    }
+    return _agreeArr;
+}
+-(NSMutableArray *)oprationArr
+{
+    if (!_oprationArr) {
+        _oprationArr=[[NSMutableArray alloc]init];
+    }
+    return _oprationArr;
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
     
@@ -45,13 +67,14 @@
     _agreePage=1;
     _oprationPage=1;
     _state=@"10";
-    _oprationArr=[[NSMutableArray alloc]init];
-    _agreeArr=[[NSMutableArray alloc]init];
-    _refuseArr=[[NSMutableArray alloc]init];
+
+    _oprationSourceArr=[[NSMutableArray alloc]init];
+
+    
     [self setButtomScr];
     [self addTheBtnView];
     
-    [self netWorkRefresh:NO andIsLoadMoreData:NO isShouldClearData:NO withState:_state andTabView:_oprationTab andArr:_oprationArr andPage:_oprationPage];
+    [self netWorkRefresh:NO andIsLoadMoreData:NO isShouldClearData:NO withState:_state andTabView:_oprationTab andArr:self.oprationArr andPage:_oprationPage];
 }
 /**
  *  最下层的scrollview
@@ -177,12 +200,12 @@
     [[ToolManager shareInstance] scrollView:_refuseTab headerWithRefreshingBlock:^{
         
         _refusePage =1;
-        [self netWorkRefresh:YES andIsLoadMoreData:NO isShouldClearData:YES withState:@"99" andTabView:_refuseTab andArr:_refuseArr andPage:_refusePage];
+        [self netWorkRefresh:YES andIsLoadMoreData:NO isShouldClearData:YES withState:@"90" andTabView:_refuseTab andArr:_refuseArr andPage:_refusePage];
         
     }];
     [[ToolManager shareInstance] scrollView:_refuseTab footerWithRefreshingBlock:^{
         _refusePage ++;
-        [self netWorkRefresh:NO andIsLoadMoreData:YES isShouldClearData:NO withState:@"99" andTabView:_refuseTab andArr:_refuseArr andPage:_refusePage];
+        [self netWorkRefresh:NO andIsLoadMoreData:YES isShouldClearData:NO withState:@"90" andTabView:_refuseTab andArr:_refuseArr andPage:_refusePage];
         
     }];
     
@@ -212,6 +235,7 @@
             [[ToolManager shareInstance]endFooterWithRefreshing:tabView];
         }if (isShouldClearData) {
             [arr removeAllObjects];
+
         }
         
         NSLog(@"WantMeetMeURL========%@",dataObj);
@@ -232,14 +256,15 @@
                 for (MeetingData *data in modal.datas) {
                     if ([state isEqualToString:@"10"]) {
                         [arr addObject:[[WantMeetLayout alloc]initCellLayoutWithModel:data andBtn:YES]];
-                    }else if ([state isEqualToString:@"10"]) {
+                        [_oprationSourceArr addObject:data];
+                    }else if ([state isEqualToString:@"20"]) {
                         [arr addObject:[[WantMeetLayout alloc]initCellLayoutWithModel:data andBtn:NO]];
-                    }else if ([state isEqualToString:@"10"]) {
+                    }else if ([state isEqualToString:@"90"]) {
                         [arr addObject:[[WantMeetLayout alloc]initCellLayoutWithModel:data andBtn:NO]];
                     }
                     
                 }
-                [tabView reloadData];
+                
                 
             }
             
@@ -247,7 +272,7 @@
             {
                 [[ToolManager shareInstance] showAlertMessage:modal.rtmsg];
             }
-            
+            [tabView reloadData];
         }
         else
         {
@@ -270,8 +295,8 @@
         [_underLineV setFrame:CGRectMake((SCREEN_WIDTH/3-50)/2, 65+35-2, 50, 2)];
         [buttomScr setContentOffset:CGPointMake(0, 0)];
     }];
-    if (_oprationArr.count==0) {
-        [self netWorkRefresh:NO andIsLoadMoreData:NO isShouldClearData:YES withState:_state andTabView:_oprationTab andArr:_oprationArr andPage:_oprationPage];
+    if (_oprationArr==nil) {
+        [self netWorkRefresh:NO andIsLoadMoreData:NO isShouldClearData:NO withState:_state andTabView:_oprationTab andArr:self.oprationArr andPage:_oprationPage];
     }
     
     
@@ -287,8 +312,8 @@
         [_underLineV setFrame:CGRectMake((SCREEN_WIDTH/3-50)/2+SCREEN_WIDTH/3, 65+35-2, 50, 2)];
         [buttomScr setContentOffset:CGPointMake(SCREEN_WIDTH, 0)];
     }];
-    if (_agreeArr.count==0) {
-        [self netWorkRefresh:NO andIsLoadMoreData:NO isShouldClearData:YES withState:_state andTabView:_agreeTab andArr:_agreeArr andPage:_agreePage];
+    if (_agreeArr==nil) {
+        [self netWorkRefresh:NO andIsLoadMoreData:NO isShouldClearData:NO withState:_state andTabView:_agreeTab andArr:self.agreeArr andPage:_agreePage];
         
     }
     
@@ -300,15 +325,16 @@
     sender.selected = YES;
     _oprationBtn.selected = NO;
     _agreeBtn.selected=NO;
-    _state=@"99";
+    _state=@"90";
     [UIView animateWithDuration:0.3f animations:^{
         [_underLineV setFrame:CGRectMake((SCREEN_WIDTH/3-50)/2+SCREEN_WIDTH/3*2, 65+35-2, 50, 2)];
         [buttomScr setContentOffset:CGPointMake(SCREEN_WIDTH*2, 0)];
     }];
-    if (_refuseArr.count==0) {
-        [self netWorkRefresh:NO andIsLoadMoreData:NO isShouldClearData:YES withState:_state andTabView:_refuseTab andArr:_refuseArr andPage:_refusePage];
+    if (_refuseArr==nil) {
+        [self netWorkRefresh:NO andIsLoadMoreData:NO isShouldClearData:NO withState:_state andTabView:_refuseTab andArr:self.refuseArr andPage:_refusePage];
+        
     }
-    
+   
     
 }
 #pragma mark----tableview代理和资源方法
@@ -370,15 +396,17 @@
         cell.backgroundColor=[UIColor clearColor];
     }
     WantMeetLayout *layout;
-    if (tableView == _oprationTab) {
+    
+    if (tableView.tag ==1) {
         layout =self.oprationArr[indexPath.row];
         [cell.meetingBtn setTitle:@"操作" forState:UIControlStateNormal];
         
-    }else  if (tableView==_agreeTab) {
+    }if (tableView.tag==2) {
         
         layout =self.agreeArr[indexPath.row];
         
-    }else  if (tableView==_refuseTab){
+    }if (tableView.tag==3){
+        
         layout =self.refuseArr[indexPath.row];
     }
     
@@ -405,29 +433,71 @@
     [UIView animateWithDuration:0.3f animations:^{
         if ((int)point.x % (int)SCREEN_WIDTH == 0) {
             if (point.x/SCREEN_WIDTH ==0) {
-                _agreeBtn.selected = NO;
-                _oprationBtn.selected = YES;
-                _refuseBtn.selected=NO;
-                [_underLineV setFrame:CGRectMake((SCREEN_WIDTH/3-50)/2, 65+35-2, 50, 2)];
-            }else if(point.x/SCREEN_WIDTH ==1)
-            {
-                
-                _agreeBtn.selected = YES;
-                _oprationBtn.selected = NO;
-                _refuseBtn.selected=NO;
-                [_underLineV setFrame:CGRectMake((SCREEN_WIDTH/3-50)/2+SCREEN_WIDTH/3, 65+35-2, 50, 2)];
+                [self oprationBtn:_oprationBtn];
+            }else if(point.x/SCREEN_WIDTH ==1) {
+                [self agreeBtn:_agreeBtn];
             }
-            else if(point.x/SCREEN_WIDTH ==2)
-            {
+            else if(point.x/SCREEN_WIDTH ==2){
+                [self refuseBtn:_refuseBtn];
+            }
+        }
+     }];
+    
+}
+#pragma mark 约见按钮点击事件
+- (void)tableViewCellDidSeleteMeetingBtn:(UIButton *)btn andIndexPath:(NSIndexPath *)indexPath
+{
+   
+    MeetingData *data=_oprationSourceArr[indexPath.row];
+   
+    UIAlertView *alertView=[[UIAlertView alloc]initWithTitle:@"温馨提示" message:[NSString stringWithFormat:@"同意约见后,您将获得%@元约见打赏",data.reward] delegate:self cancelButtonTitle:@"拒绝" otherButtonTitles:@"同意", nil];
+    [alertView show];
+    clickRow=indexPath;
+    
+}
+#pragma mark 语音按钮点击事件
+-(void)tableViewCellDidSeleteAudioBtn:(UIButton *)btn andIndexPath:(NSIndexPath *)indexPath
+{
+    NSLog(@"语音按钮被点击");
+}
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    
+   MeetingData *data=_oprationSourceArr[clickRow.row];
+    NSMutableDictionary *parame=[Parameter parameterWithSessicon];
+    
+    if (buttonIndex==0) {
+        [parame setObject:@"refuse" forKey:@"conduct"];
+    }else if (buttonIndex==1) {
+        [parame setObject:@"agree" forKey:@"conduct"];
+    }
+   
+    [parame setObject:data.meetId forKey:@"invitedid"];
+   
+    [XLDataService putWithUrl:MeetOperationURL param:parame modelClass:nil responseBlock:^(id dataObj, NSError *error) {
+        
+        if(dataObj){
+            
+            MeetingModel *model=[MeetingModel mj_objectWithKeyValues:dataObj];
+            
+            
+            if (model.rtcode==1) {
+                [self.oprationArr removeObjectAtIndex:clickRow.row];
+                [self.oprationTab deleteRowsAtIndexPaths:[NSArray arrayWithObjects:clickRow, nil] withRowAnimation:UITableViewRowAnimationAutomatic];
                 
-                _agreeBtn.selected = NO;
-                _oprationBtn.selected = NO;
-                _refuseBtn.selected=YES;
-                [_underLineV setFrame:CGRectMake((SCREEN_WIDTH/3-50)/2+SCREEN_WIDTH/3*2, 65+35-2, 50, 2)];
+                [self.oprationTab reloadData];
             }
             
+            else
+            {
+                [[ToolManager shareInstance] showAlertMessage:model.rtmsg];
+            }
+            
+        }else
+        {
+            [[ToolManager shareInstance] showInfoWithStatus];
+
         }
-        
     }];
     
 }

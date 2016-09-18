@@ -97,9 +97,10 @@
     _wantMeBtn.frame=CGRectMake(20, bgImgV.height-80, 60, 60);
     _wantMeBtn.layer.cornerRadius=30;
     _wantMeBtn.layer.borderWidth=2;
+    
     _wantMeBtn.layer.borderColor=[UIColor colorWithWhite:1.0 alpha:0.3].CGColor;
-    [_wantMeBtn setTitleColor:WhiteColor forState:UIControlStateNormal];
-    _wantMeBtn.titleLabel.font = Size(40);
+    _wantMeBtn.titleLabel.textColor=WhiteColor;
+    _wantMeBtn.titleLabel.font = Size(20);
     _wantMeBtn.titleLabel.textAlignment = NSTextAlignmentCenter;
 
     [_wantMeBtn addTarget:self action:@selector(wantMeClick:) forControlEvents:UIControlEventTouchUpInside];
@@ -110,10 +111,10 @@
     _meWantBtn.frame=CGRectMake(APPWIDTH-80, bgImgV.height-80, 60, 60);
     _meWantBtn.layer.cornerRadius=30;
     _meWantBtn.layer.borderWidth=2;
-    [_meWantBtn setTitleColor:WhiteColor forState:UIControlStateNormal];
+    _meWantBtn.titleLabel.textColor=WhiteColor;
     _meWantBtn.layer.borderColor=[UIColor colorWithWhite:1.0 alpha:0.3].CGColor;
     
-    _meWantBtn.titleLabel.font = Size(40);
+    _meWantBtn.titleLabel.font = Size(20);
     _meWantBtn.titleLabel.textAlignment = NSTextAlignmentCenter;
 
     [_meWantBtn addTarget:self action:@selector(IwantClick:) forControlEvents:UIControlEventTouchUpInside];
@@ -127,7 +128,7 @@
     layer1.position=_wantMeBtn.center;
     layer1.fillColor=[UIColor clearColor].CGColor;
     layer1.strokeColor=[UIColor whiteColor].CGColor;
-    layer1.strokeEnd=0.5;
+    layer1.strokeEnd=1.0;
     layer1.lineWidth=2;
     layer1.shouldRasterize=YES;
     UIBezierPath *bezier1=[UIBezierPath bezierPathWithOvalInRect:layer1.bounds];
@@ -140,7 +141,7 @@
     layer2.position=_meWantBtn.center;
     layer2.fillColor=[UIColor clearColor].CGColor;
     layer2.strokeColor=[UIColor whiteColor].CGColor;
-    layer2.strokeEnd=0.5;
+    layer2.strokeEnd=1.0;
     layer2.lineWidth=2;
     layer2.shouldRasterize=YES;
     UIBezierPath *bezier2=[UIBezierPath bezierPathWithOvalInRect:layer2.bounds];
@@ -155,7 +156,7 @@
     _midBtn.layer.cornerRadius=_midBtn.width/2.0;
     _midBtn.layer.borderWidth=10;
     _midBtn.layer.borderColor=[UIColor colorWithRed:0.314 green:0.686 blue:0.988 alpha:0.72].CGColor;
-    [_midBtn setTitleColor:WhiteColor forState:UIControlStateNormal];
+   
     _midBtn.titleLabel.font=Size(22);
     _midBtn.titleLabel.textColor=AppMainColor;
     _midBtn.titleLabel.text=@"可约\n0\n位经纪人";
