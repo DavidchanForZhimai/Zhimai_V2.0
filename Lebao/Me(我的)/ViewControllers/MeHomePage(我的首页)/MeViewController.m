@@ -107,7 +107,7 @@
         return _datas;
     }
    
-    _datas =[NSMutableArray arrayWithObjects:[NSDictionary dictionaryWithObjectsAndKeys:@"我的动态",@"name",@"icon_me_wodedongtai",@"image",@"1",@"show",@"OtherDynamicdViewController",@"viewController",nil],[NSDictionary dictionaryWithObjectsAndKeys:@"会员特权",@"name",@"icon_me_VIP",@"image",@"1",@"show",@"",@"viewController",nil] ,[NSDictionary dictionaryWithObjectsAndKeys:@"我的钱包",@"name",@"icon_me_qianbao",@"image",@"1",@"show",@"EarnestMoneyViewController",@"viewController",nil],[NSDictionary dictionaryWithObjectsAndKeys:@"我的资料",@"name",@"icon_me_zhiliao",@"image",@"1",@"show",@"BasicInformationViewController",@"viewController",nil],[NSDictionary dictionaryWithObjectsAndKeys:@"身份认证",@"name",@"icon_me_renzheng",@"image",@"1",@"show",@"",@"viewController",nil],[NSDictionary dictionaryWithObjectsAndKeys:@"活跃值",@"name",@"icon_me_huoyuezhi",@"image",@"1",@"show",@"ActiveValueViewController",@"viewController",nil],[NSDictionary dictionaryWithObjectsAndKeys:@"好友印象",@"name",@"icon_me_yinxiang",@"image",@"1",@"show",@"",@"viewController",nil],[NSDictionary dictionaryWithObjectsAndKeys:@"邀请好友",@"name",@"icon_me_yaoqinghaoyou",@"image",@"0",@"show",@"InviteFriendsViewController",@"viewController",nil],nil];
+    _datas =[NSMutableArray arrayWithObjects:[NSDictionary dictionaryWithObjectsAndKeys:@"会员特权",@"name",@"icon_me_VIP",@"image",@"1",@"show",@"",@"viewController",nil] ,[NSDictionary dictionaryWithObjectsAndKeys:@"我的钱包",@"name",@"icon_me_qianbao",@"image",@"1",@"show",@"EarnestMoneyViewController",@"viewController",nil],[NSDictionary dictionaryWithObjectsAndKeys:@"我的资料",@"name",@"icon_me_zhiliao",@"image",@"1",@"show",@"BasicInformationViewController",@"viewController",nil],[NSDictionary dictionaryWithObjectsAndKeys:@"身份认证",@"name",@"icon_me_renzheng",@"image",@"1",@"show",@"",@"viewController",nil],[NSDictionary dictionaryWithObjectsAndKeys:@"活跃值",@"name",@"icon_me_huoyuezhi",@"image",@"1",@"show",@"ActiveValueViewController",@"viewController",nil],[NSDictionary dictionaryWithObjectsAndKeys:@"好友印象",@"name",@"icon_me_yinxiang",@"image",@"1",@"show",@"",@"viewController",nil],[NSDictionary dictionaryWithObjectsAndKeys:@"邀请好友",@"name",@"icon_me_yaoqinghaoyou",@"image",@"1",@"show",@"InviteFriendsViewController",@"viewController",nil],[NSDictionary dictionaryWithObjectsAndKeys:@"我的客服",@"name",@"icon_me_kefu",@"image",@"0",@"show",@"",@"viewController",nil],nil];
     
     
     return _datas;
@@ -165,7 +165,7 @@
                 
                 [[ToolManager shareInstance] imageView:userIcon setImageWithURL:modal.imgurl placeholderType:PlaceholderTypeUserHead];
                 username.text = modal.realname;
-                descrip.text  = [NSString stringWithFormat:@"诚意金:%@元",modal.amount];
+                descrip.text  = [NSString stringWithFormat:@"钱包余额: %@元",modal.amount];
                 [_tableView  reloadData];
             }
             
@@ -229,7 +229,7 @@
         line.backgroundColor = LineBg;
         [view addSubview:line];
         NSString *str = @"0";
-        BaseButton *attention = [[BaseButton alloc]initWithFrame:frame(0, 0, frameWidth(attentionAndfensView)/2.0, frameHeight(attentionAndfensView)) setTitle:[NSString stringWithFormat:@"%@\n我的人脉",modal.follownum?modal.follownum:str] titleSize:24*SpacedFonts titleColor:AppMainColor textAlignment:NSTextAlignmentCenter backgroundColor:WhiteColor inView:attentionAndfensView];
+        BaseButton *attention = [[BaseButton alloc]initWithFrame:frame(0, 0, frameWidth(attentionAndfensView)/2.0, frameHeight(attentionAndfensView)) setTitle:[NSString stringWithFormat:@"%@\n约见成功",modal.follownum?modal.follownum:str] titleSize:24*SpacedFonts titleColor:AppMainColor textAlignment:NSTextAlignmentCenter backgroundColor:WhiteColor inView:attentionAndfensView];
         attention.titleLabel.numberOfLines = 0;
         NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc]initWithString:attention.titleLabel.text];
         [attributedString addAttribute:NSFontAttributeName value:Size(28) range:[attention.titleLabel.text rangeOfString:modal.follownum?modal.follownum:str]];
@@ -239,10 +239,12 @@
         attention.didClickBtnBlock = ^
         {
             [[ToolManager shareInstance].drawerController closeDrawerAnimated:YES completion:^(BOOL finished) {
-                
-                UITabBarController *tabBar = (UITabBarController *)[ToolManager shareInstance].drawerController.centerViewController;
-                UINavigationController *nav =(UINavigationController *)tabBar.viewControllers[getAppDelegate().mainTab.selectedIndex];
-                [nav pushViewController:allocAndInit(MyGuanZhuVC)animated:YES];
+                [[ToolManager shareInstance] showAlertMessage:@"暂未开放"];
+//                UITabBarController *tabBar = (UITabBarController *)[ToolManager shareInstance].drawerController.centerViewController;
+//                UINavigationController *nav =(UINavigationController *)tabBar.viewControllers[getAppDelegate().mainTab.selectedIndex];
+//                
+//                
+//                [nav pushViewController:allocAndInit(MyGuanZhuVC)animated:YES];
                 
             }];
             
@@ -250,7 +252,7 @@
             
         };
         
-        BaseButton *fens = [[BaseButton alloc]initWithFrame:frame(CGRectGetMaxX(attention.frame), frameY(attention), frameWidth(attention), frameHeight(attention)) setTitle:[NSString stringWithFormat:@"%@\n约见成功",modal.fansnum?modal.fansnum:str] titleSize:24*SpacedFonts titleColor:AppMainColor textAlignment:NSTextAlignmentCenter backgroundColor:WhiteColor inView:attentionAndfensView];
+        BaseButton *fens = [[BaseButton alloc]initWithFrame:frame(CGRectGetMaxX(attention.frame), frameY(attention), frameWidth(attention), frameHeight(attention)) setTitle:[NSString stringWithFormat:@"%@\n我的动态",modal.fansnum?modal.fansnum:str] titleSize:24*SpacedFonts titleColor:AppMainColor textAlignment:NSTextAlignmentCenter backgroundColor:WhiteColor inView:attentionAndfensView];
         fens.titleLabel.numberOfLines = 0;
         
         NSMutableAttributedString *attributedString1 = [[NSMutableAttributedString alloc]initWithString:fens.titleLabel.text];
@@ -265,7 +267,11 @@
                 
                 UITabBarController *tabBar = (UITabBarController *)[ToolManager shareInstance].drawerController.centerViewController;
                 UINavigationController *nav =(UINavigationController *)tabBar.viewControllers[getAppDelegate().mainTab.selectedIndex];
-                [nav pushViewController:allocAndInit(MyFansVC)animated:YES];
+                
+                OtherDynamicdViewController *otherDynamicdVC = allocAndInit(OtherDynamicdViewController);
+                otherDynamicdVC.dynamicdID = modal.ID;
+                otherDynamicdVC.dynamicdName = @"我的动态";
+                [nav pushViewController:otherDynamicdVC animated:YES];
                 
             }];
             
@@ -369,13 +375,7 @@
                 [nav pushViewController:authen animated:YES];
                 return ;
             }
-            if ([dict[@"viewController"] isEqualToString:@"OtherDynamicdViewController"]) {
-                OtherDynamicdViewController *otherDynamicdVC = allocAndInit(OtherDynamicdViewController);
-                otherDynamicdVC.dynamicdID = modal.ID;
-                otherDynamicdVC.dynamicdName = @"我的动态";
-                [nav pushViewController:otherDynamicdVC animated:YES];
-                return ;
-            }
+            
             [nav pushViewController:allocAndInit((NSClassFromString(dict[@"viewController"] )))animated:YES];
             
         }];

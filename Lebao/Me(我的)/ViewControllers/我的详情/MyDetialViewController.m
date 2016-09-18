@@ -32,6 +32,7 @@
 @end
 
 @interface HeaderViewLayout : LWLayout
+@property(nonatomic,assign)float height;
 - (HeaderViewLayout *)initCellLayoutWithModel:(HeaderModel *)model;
 @end
 
@@ -44,7 +45,7 @@
     if (self) {
         //用户头像
         LWImageStorage *_avatarStorage = [[LWImageStorage alloc]initWithIdentifier:@"avatar"];
-        _avatarStorage.frame = CGRectMake(10, 13, 44, 44);
+        _avatarStorage.frame = CGRectMake((APPWIDTH - 44)/2.0, 13, 44, 44);
         model.imgurl = [[ToolManager shareInstance] urlAppend:model.imgurl];
         //        NSLog(@"model.imgurl  =%@",model.imgurl );
         _avatarStorage.contents = model.imgurl;
@@ -56,44 +57,51 @@
         }
         _avatarStorage.cornerRadius = _avatarStorage.width/2.0;
         //用户名
-        NSString *renzen;
-        if ([model.authen intValue]==3) {
-            renzen = @"[renzhen]";
-        }
-        else
-        {
-            renzen=@"[weirenzhen]";
-        }
         //名字模型 nameTextStorage
         LWTextStorage* nameTextStorage = [[LWTextStorage alloc] init];
-        nameTextStorage.text = [NSString stringWithFormat:@"%@ %@",model.realname,renzen];
+        nameTextStorage.text = model.realname;
         nameTextStorage.font = Size(28.0);
-        nameTextStorage.frame = CGRectMake(_avatarStorage.right + 10, 12.0, SCREEN_WIDTH - (_avatarStorage.right), CGFLOAT_MAX);
-        [nameTextStorage lw_addLinkWithData:[NSString stringWithFormat:@"%@",model.userid]
-                                      range:NSMakeRange(0,model.realname.length)
-                                  linkColor:BlackTitleColor
-                             highLightColor:RGB(0, 0, 0, 0.15)];
-        
-        [LWTextParser parseEmojiWithTextStorage:nameTextStorage];
-        
-        
-        //行业
+        nameTextStorage.textColor = BlackTitleColor;
+        nameTextStorage.frame = CGRectMake(0, _avatarStorage.bottom + 8, SCREEN_WIDTH , CGFLOAT_MAX);
+        nameTextStorage.textAlignment = NSTextAlignmentCenter;
+         //行业
         LWTextStorage* industryTextStorage = [[LWTextStorage alloc] init];
+        if (model.company&&model.company.length>0) {
+            industryTextStorage.text =[NSString stringWithFormat:@"%@\n",model.company];
+        }
         if (model.industry&&model.industry.length>0) {
-            industryTextStorage.text =[NSString stringWithFormat:@"%@  ",[Parameter industryForChinese:model.industry]];
+            industryTextStorage.text =[NSString stringWithFormat:@"%@%@  ",industryTextStorage.text,[Parameter industryForChinese:model.industry]];
         }
         if (model.workyears&&model.workyears.length>0) {
-            industryTextStorage.text=[NSString stringWithFormat:@"%@从业%@年",industryTextStorage.text,model.workyears];
+            industryTextStorage.text=[NSString stringWithFormat:@"%@从业%@年\n",industryTextStorage.text,model.workyears];
         }
-        
+        industryTextStorage.text =[NSString stringWithFormat:@"%@ [iconprofilerenzhen] [iconprofilevip] ",industryTextStorage.text];
         
         industryTextStorage.textColor = [UIColor colorWithRed:0.549 green:0.5569 blue:0.5608 alpha:1.0];
         industryTextStorage.font = Size(24.0);
         industryTextStorage.frame = CGRectMake(nameTextStorage.left, nameTextStorage.bottom + 8, nameTextStorage.width, CGFLOAT_MAX);
         
+//        NSString *range = @"";
+//        if (model.industry&&model.industry.length>0) {
+//            range =[Parameter industryForChinese:model.industry];
+//        }
+//        if (model.workyears&&model.workyears.length>0) {
+//            range=[NSString stringWithFormat:@"%@从业%@年\n",range,model.workyears];
+//        }
+//        
+//        NSMutableAttributedString *str = [[NSMutableAttributedString alloc]initWithString:industryTextStorage.text];
+//        
+//        [str addAttribute:NSFontAttributeName value:Size(20.0) range:[industryTextStorage.text rangeOfString:range]];
+//        industryTextStorage.attributedText = str;
+        industryTextStorage.textAlignment = NSTextAlignmentCenter;
+        
+        
+        [LWTextParser parseEmojiWithTextStorage:industryTextStorage];
+        
         [self addStorage:_avatarStorage];
         [self addStorage:nameTextStorage];
         [self addStorage:industryTextStorage];
+         self.height  = [self suggestHeightWithBottomMargin:50.0];
     }
     return self;
 }
@@ -129,6 +137,15 @@
      [self navViewTitleAndBackBtn:@"我的详情"];
     [self.view addSubview:self.edit];
     [self.view addSubview:self.myDetailTV];
+    
+    HeaderModel *headerModel = [[HeaderModel alloc]init];
+    headerModel.imgurl = @"";
+    headerModel.realname = @"陈大伟";
+    headerModel.industry = @"car";
+    headerModel.workyears = @"18";
+    headerModel.company = @"厦门知脉科技有限公司";
+    self.headerViewLayout = [[HeaderViewLayout alloc]initCellLayoutWithModel:headerModel];
+
     _myDetailTV.tableHeaderView = self.viewHeader;
     _myDetailTV.tableFooterView = self.viewFooter;
 }
@@ -222,25 +239,49 @@
     if (_viewHeader) {
         return _viewHeader;
     }
-    _viewHeader = [[UIView alloc]initWithFrame:CGRectMake(0, 0, APPWIDTH, 72)];
+    _viewHeader = [[UIView alloc]initWithFrame:CGRectMake(0, 0, APPWIDTH, self.headerViewLayout.height)];
     _viewHeader.backgroundColor = WhiteColor;
     [_viewHeader addSubview:self.userView];
-    HeaderModel *headerModel = [[HeaderModel alloc]init];
-    headerModel.imgurl = @"";
-    headerModel.realname = @"陈大伟";
-    headerModel.industry = @"car";
-    headerModel.workyears = @"18";
-    headerModel.company = @"厦门知脉科技有限公司";
-    self.headerViewLayout = [[HeaderViewLayout alloc]initCellLayoutWithModel:headerModel];
-      return _viewHeader;
+
+    //人脉
+    BaseButton *renmai = [self addViewWithFrame:frame(0, self.userView.y + self.userView.height + 10, APPWIDTH/3, 40) andTitle:@"人脉" rangeText:@"10" andView:_viewHeader];
+    renmai.didClickBtnBlock = ^
+    {
+        NSLog(@"人脉");
+        
+    };
+    //约见成功
+    BaseButton *yuejian = [self addViewWithFrame:frame(CGRectGetMaxX(renmai.frame),renmai.y,renmai.width, renmai.height) andTitle:@"约见成功" rangeText:@"18" andView:_viewHeader];
+    yuejian.didClickBtnBlock = ^
+    {
+        NSLog(@"约见成功");
+        
+    };
+    
+    //想约
+    BaseButton *xiangyue = [self addViewWithFrame:frame(CGRectGetMaxX(yuejian.frame),yuejian.y,yuejian.width, yuejian.height) andTitle:@"想约" rangeText:@"18" andView:_viewHeader];
+    xiangyue.didClickBtnBlock = ^
+    {
+        NSLog(@"想约");
+        
+    };
+    
+    [self addLine:frame(0, self.userView.y + self.userView.height + 10, APPWIDTH, 0.5) andView:_viewHeader];
+    
+    [self addLine:frame(APPWIDTH/3.0 - 0.5, self.userView.height + self.userView.y + 15, 0.5, 30) andView:_viewHeader];
+    
+    [self addLine:frame(2*APPWIDTH/3.0 - 0.5, self.userView.height + self.userView.y + 15, 0.5, 30) andView:_viewHeader];
+    
+    return _viewHeader;
 }
+
 - (LWAsyncDisplayView *)userView
 {
     if (_userView) {
         return  _userView;
     }
     
-    _userView = [[LWAsyncDisplayView alloc]initWithFrame:frame(0, 0, APPWIDTH, 72)];
+    _userView = [[LWAsyncDisplayView alloc]initWithFrame:frame(0, 0, APPWIDTH, self.headerViewLayout.height - 50)];
 //    _userView.delegate = self;
     return _userView;
     
@@ -254,6 +295,7 @@
     self.userView.layout = headerViewLayout;
    
 }
+
 #pragma mark
 #pragma mark getter tagsView
 
@@ -452,6 +494,31 @@
 - (void)buttonAction:(UIButton *)sender
 {
     PopView(self);
+}
+
+
+#pragma mark
+#pragma mark 私有方法
+//线条
+- (void)addLine:(CGRect)frame andView:(UIView *)view
+{
+    UILabel *line = allocAndInitWithFrame(UILabel , frame);
+    line.backgroundColor = LineBg;
+    [view addSubview:line];
+}
+//人脉 约见成功 想约
+- (BaseButton *)addViewWithFrame:(CGRect)frame andTitle:(NSString *)text rangeText:(NSString *)rangeText andView:(UIView *)view{
+    NSString *str = @"";
+    
+    BaseButton *btn = [[BaseButton alloc]initWithFrame:frame setTitle:[NSString stringWithFormat:@"%@\n%@",rangeText?rangeText:str,text] titleSize:22*SpacedFonts titleColor:BlackTitleColor textAlignment:NSTextAlignmentCenter backgroundColor:WhiteColor inView:view];
+    btn.titleLabel.numberOfLines = 0;
+    
+    NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc]initWithString:btn.titleLabel.text];
+    [attributedString addAttribute:NSFontAttributeName value:Size(28) range:[btn.titleLabel.text rangeOfString:rangeText?rangeText:str]];
+    
+    btn.titleLabel.attributedText =attributedString;
+    
+    return btn;
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
