@@ -33,19 +33,18 @@
 
 - (void)navViewTitle:(NSString *)title
 {
-    _homePageBtn = [[BaseButton alloc]initWithFrame:frame(APPWIDTH - 50, StatusBarHeight, 50, NavigationBarHeight) backgroundImage:nil iconImage:[UIImage imageNamed:@"xinxi"] highlightImage:nil inView:self.view];
-    __weak typeof(self) weakSelf = self;
+    _homePageBtn = [[BaseButton alloc]initWithFrame:frame(APPWIDTH - 50, StatusBarHeight, 50, NavigationBarHeight) backgroundImage:nil iconImage:[UIImage imageNamed:@"icon_dicover_me"] highlightImage:nil inView:self.view];
     _homePageBtn.didClickBtnBlock = ^
     {
-        NotificationViewController * messageVC = [[NotificationViewController alloc] init];
-        
-        [weakSelf.navigationController pushViewController:messageVC animated:YES];
+        [CoreArchive removeStrForKey:@"isread"];
+        [[ToolManager shareInstance].drawerController openDrawerSide:MMDrawerSideRight animated:YES completion:^(BOOL finished) {
+            
+        }];
 
         
     };
-    _homePageBtn.hidden = YES;
    
-    [self navViewTitle:title leftBtn:nil rightBtn:nil];
+    [self navViewTitle:title leftBtn:nil rightBtn:_homePageBtn];
 }
 
 - (void)navViewTitleAndBackBtn:(NSString *)title

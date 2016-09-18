@@ -18,7 +18,7 @@
 #import "BasicInformationViewController.h"
 #import "MyGuanZhuVC.h"//我的关注
 #import "MyFansVC.h"//我的粉丝
-#import "MyDetialViewController.h"
+#import "JJRDetailVC.h"
 #import "AuthenticationViewController.h"
 #define cellH  40
 #define PersonalURL [NSString stringWithFormat:@"%@user/index",HttpURL]
@@ -52,32 +52,38 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    [self setTabbarIndex:3];
-//    UIView *head = allocAndInitWithFrame(UIView, frame(0, 0,APPWIDTH,  StatusBarHeight));
-//    head.backgroundColor = AppMainColor;
-//    [self.view addSubview:head];
+    
+    UIView *head = allocAndInitWithFrame(UIView, frame(0, 0,APPWIDTH,  StatusBarHeight));
+    head.backgroundColor = AppMainColor;
+    [self.view addSubview:head];
     
     modal =[[MeViewModal alloc]init];
     modal.authen = 1;
     _meArray = [NSMutableArray new];
-
-    NSArray *_sectionTwo =[NSArray arrayWithObjects:[NSDictionary dictionaryWithObjectsAndKeys:@"会员特权",@"name",@"VIP",@"image",@"1",@"show",@"",@"viewController",nil],[NSDictionary dictionaryWithObjectsAndKeys:@"我的钱包",@"name",@"qianbao",@"image",@"1",@"show",@"EarnestMoneyViewController",@"viewController",nil], [NSDictionary dictionaryWithObjectsAndKeys:@"我的资料",@"name",@"zhiliao",@"image",@"1",@"show",@"BasicInformationViewController",@"viewController",nil],[NSDictionary dictionaryWithObjectsAndKeys:@"身份认证",@"name",@"shenfenrenzheng",@"image" ,@"1",@"show",@"AuthenticationViewController",@"viewController",nil],[NSDictionary dictionaryWithObjectsAndKeys:@"活跃值",@"name",@"huoyuezhi",@"image" ,@"1",@"show",@"ActiveValueViewController",@"viewController",nil],[NSDictionary dictionaryWithObjectsAndKeys:@"邀请好友",@"name",@"yaoqinghaoyou",@"image" ,@"1",@"show",@"InviteFriendsViewController",@"viewController",nil],[NSDictionary dictionaryWithObjectsAndKeys:@"设置",@"name",@"shezhi",@"image" ,@"0",@"show",@"SettingViewController",@"viewController",nil],nil];
     
-
-
-
+    NSArray *_sectionOne =[NSArray arrayWithObjects:[NSDictionary dictionaryWithObjectsAndKeys:@"我的消息",@"name",@"me_messages",@"image",@"1",@"show",@"NotificationViewController",@"viewController",nil],[NSDictionary dictionaryWithObjectsAndKeys:@"我的跨界",@"name",@"iconfont-wodekuajie",@"image" ,@"1",@"show",@"MyKuaJieVC",@"viewController",nil] ,nil];
+    
+    NSArray *_sectionTwo =[NSArray arrayWithObjects:[NSDictionary dictionaryWithObjectsAndKeys:@"我的钱包",@"name",@"iconfont-wodeqianbao",@"image",@"1",@"show",@"EarnestMoneyViewController",@"viewController",nil], [NSDictionary dictionaryWithObjectsAndKeys:@"我的资料",@"name",@"iconfont-mingpian",@"image",@"1",@"show",@"BasicInformationViewController",@"viewController",nil],[NSDictionary dictionaryWithObjectsAndKeys:@"认证状态",@"name",@"iconfont-vip",@"image" ,@"1",@"show",@"AuthenticationViewController",@"viewController",nil],nil];
+    
+    NSArray *_sectionThree =[NSArray arrayWithObjects:[NSDictionary dictionaryWithObjectsAndKeys:@"满意值",@"name",@"iconfont-xinyongfen",@"image" ,@"1",@"show",@"SatisfactionViewController",@"viewController",nil],[NSDictionary dictionaryWithObjectsAndKeys:@"活跃值",@"name",@"iconfont-xinyongzhi",@"image" ,@"0",@"show",@"ActiveValueViewController",@"viewController",nil],nil];
+    
+    NSArray *_sectionFour =[NSArray arrayWithObjects:[NSDictionary dictionaryWithObjectsAndKeys:@"邀请好友",@"name",@"iconfont-yaoqing",@"image" ,@"0",@"show",@"InviteFriendsViewController",@"viewController",nil],nil];
+    
+    [_meArray addObject:_sectionOne];
     [_meArray addObject:_sectionTwo];
-
-    _meTableView =[[UITableView alloc]initWithFrame:frame(0, 0, APPWIDTH, APPHEIGHT  - 49) style:UITableViewStyleGrouped];
+    [_meArray addObject:_sectionThree];
+    [_meArray addObject:_sectionFour];
+    
+    _meTableView =[[UITableView alloc]initWithFrame:frame(0, StatusBarHeight, APPWIDTH - 60*ScreenMultiple, APPHEIGHT - StatusBarHeight - 49) style:UITableViewStyleGrouped];
     _meTableView.delegate = self;
     _meTableView.dataSource = self;
     _meTableView.backgroundColor =AppViewBGColor;
     _meTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self.view addSubview:_meTableView];
     
-    UIView *customView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, frameWidth(_meTableView), 167 )];
+    UIView *customView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, frameWidth(_meTableView), 120 )];
     UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, frameWidth(customView), frameHeight(customView))];
-    [imageView setImage:[UIImage imageNamed:@"wodeBG"]];
+    [imageView setImage:[UIImage imageFromContextWithColor:AppMainColor]];
     
     //关键步骤 设置可变化背景view属性
     imageView.autoresizingMask = UIViewAutoresizingFlexibleHeight| UIViewAutoresizingFlexibleWidth;
@@ -90,7 +96,24 @@
     
     _header = [CExpandHeader expandWithScrollView:_meTableView expandView:customView];
     
-
+    
+    
+    //设置
+    UIImage *image = [UIImage imageNamed:@"iconfont-shezhi"];
+    BaseButton *set =  [[BaseButton alloc]initWithFrame:frame(frameWidth(_meTableView) - 54, APPHEIGHT - 49,54, 49) setTitle:@"设置" titleSize:24*SpacedFonts titleColor:hexColor(5a5a5a) backgroundImage:nil iconImage:image highlightImage:nil setTitleOrgin:CGPointMake(20,5) setImageOrgin:CGPointMake(20, 0) inView:self.view];
+    set.didClickBtnBlock = ^
+    {
+        [[ToolManager shareInstance].drawerController closeDrawerAnimated:YES completion:^(BOOL finished) {
+            UITabBarController *tabBar = (UITabBarController *)[ToolManager shareInstance].drawerController.centerViewController;
+            UINavigationController *nav =(UINavigationController *)tabBar.viewControllers[getAppDelegate().mainTab.selectedIndex];
+            [nav pushViewController:allocAndInit((NSClassFromString(@"SettingViewController")))animated:YES];
+            
+        }];
+        
+    };
+    
+    
+    
     
 }
 - (void)viewWillAppear:(BOOL)animated
@@ -104,7 +127,7 @@
 - (void)addHeadView:(UIView *)view
 {
     //headIcon
-    userIcon =allocAndInitWithFrame(UIImageView, frame((frameWidth(_meTableView) -53)/2.0,38, 60, 60));
+    userIcon =allocAndInitWithFrame(UIImageView, frame((frameWidth(_meTableView) -53)/2.0,14, 53, 53));
     
     userIcon.backgroundColor =[UIColor clearColor];
     userIcon.userInteractionEnabled =YES;
@@ -120,11 +143,11 @@
     [userIcon addGestureRecognizer:tap];
     
     //userName
-    username = [UILabel createLabelWithFrame:frame(0, CGRectGetMaxY(userIcon.frame)+ 13, frameWidth(_meTableView), 32.0*SpacedFonts) text:@"" fontSize:32.0*SpacedFonts textColor:WhiteColor textAlignment: NSTextAlignmentCenter inView:view];
+    username = [UILabel createLabelWithFrame:frame(0, CGRectGetMaxY(userIcon.frame)+ 8, frameWidth(_meTableView), 28.0*SpacedFonts) text:@"" fontSize:28.0*SpacedFonts textColor:WhiteColor textAlignment: NSTextAlignmentCenter inView:view];
     
     
     //descrip
-    descrip =[UILabel createLabelWithFrame:frame(0, CGRectGetMaxY(username.frame)+ 13, frameWidth(_meTableView), 28.0*SpacedFonts) text:@"钱包余额:00.00元" fontSize:28*SpacedFonts textColor:WhiteColor textAlignment: NSTextAlignmentCenter inView:view];
+    descrip =[UILabel createLabelWithFrame:frame(0, CGRectGetMaxY(username.frame)+ 10, frameWidth(_meTableView), 24.0*SpacedFonts) text:@"钱包余额:00.00元" fontSize:24*SpacedFonts textColor:WhiteColor textAlignment: NSTextAlignmentCenter inView:view];
     
 }
 - (void)netWork
@@ -163,9 +186,10 @@
     [[ToolManager shareInstance].drawerController closeDrawerAnimated:YES completion:^(BOOL finished) {
         UITabBarController *tabBar = (UITabBarController *)[ToolManager shareInstance].drawerController.centerViewController;
         UINavigationController *nav =(UINavigationController *)tabBar.viewControllers[getAppDelegate().mainTab.selectedIndex];
-        MyDetialViewController *myDetialVC = allocAndInit(MyDetialViewController);
-//        myDetialVC.jjrID = modal.ID;
-        modal.ID?[nav pushViewController:myDetialVC animated:YES]:[[ToolManager shareInstance] showInfoWithStatus:@"经纪人id不能为空"];
+        JJRDetailVC *jjRVC = allocAndInit(JJRDetailVC);
+        jjRVC.jjrID = modal.ID;
+        
+        modal.ID?[nav pushViewController:jjRVC animated:YES]:[[ToolManager shareInstance] showInfoWithStatus:@"经纪人id不能为空"];
         
         
     }];
@@ -193,17 +217,17 @@
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
     if (section==0) {
-        UIView *view = allocAndInitWithFrame(UIView, frame(0, 0, frameWidth(_meTableView), 53));
+        UIView *view = allocAndInitWithFrame(UIView, frame(0, 0, frameWidth(_meTableView), 50));
         
-        UIView  *attentionAndfensView = allocAndInitWithFrame(UIView, frame(0, 0, frameWidth(_meTableView), 43));
+        UIView  *attentionAndfensView = allocAndInitWithFrame(UIView, frame(0, 0, frameWidth(_meTableView), 40));
         attentionAndfensView.backgroundColor = WhiteColor;
         [view addSubview:attentionAndfensView];
         
-        UILabel *line = allocAndInitWithFrame(UILabel , frame(frameWidth(_meTableView)/2.0 - 0.5, 7, 0.5, 29));
+        UILabel *line = allocAndInitWithFrame(UILabel , frame(frameWidth(_meTableView)/2.0 - 0.5, 7, 0.5, 26));
         line.backgroundColor = LineBg;
         [view addSubview:line];
         NSString *str = @"0";
-        BaseButton *attention = [[BaseButton alloc]initWithFrame:frame(0, 0, frameWidth(attentionAndfensView)/2.0, frameHeight(attentionAndfensView)) setTitle:[NSString stringWithFormat:@"关注(%@)",modal.follownum?modal.follownum:str] titleSize:30*SpacedFonts titleColor:AppMainColor textAlignment:NSTextAlignmentCenter backgroundColor:WhiteColor inView:attentionAndfensView];
+        BaseButton *attention = [[BaseButton alloc]initWithFrame:frame(0, 0, frameWidth(attentionAndfensView)/2.0, frameHeight(attentionAndfensView)) setTitle:[NSString stringWithFormat:@"关注(%@)",modal.follownum?modal.follownum:str] titleSize:24*SpacedFonts titleColor:AppMainColor textAlignment:NSTextAlignmentCenter backgroundColor:WhiteColor inView:attentionAndfensView];
         //        __weak typeof(self) weakSelf = self;
         attention.didClickBtnBlock = ^
         {
@@ -211,9 +235,7 @@
                 
                 UITabBarController *tabBar = (UITabBarController *)[ToolManager shareInstance].drawerController.centerViewController;
                 UINavigationController *nav =(UINavigationController *)tabBar.viewControllers[getAppDelegate().mainTab.selectedIndex];
-                MyGuanZhuVC *guanzhuVC=[[MyGuanZhuVC alloc]init];
-                guanzhuVC.Numb=modal.follownum?modal.follownum:str;
-                [nav pushViewController:guanzhuVC animated:YES];
+                [nav pushViewController:allocAndInit(MyGuanZhuVC)animated:YES];
                 
             }];
             
@@ -221,18 +243,14 @@
             
         };
         
-        BaseButton *fens = [[BaseButton alloc]initWithFrame:frame(CGRectGetMaxX(attention.frame), frameY(attention), frameWidth(attention), frameHeight(attention)) setTitle:[NSString stringWithFormat:@"粉丝(%@)",modal.fansnum?modal.fansnum:str] titleSize:30*SpacedFonts titleColor:AppMainColor textAlignment:NSTextAlignmentCenter backgroundColor:WhiteColor inView:attentionAndfensView];
+        BaseButton *fens = [[BaseButton alloc]initWithFrame:frame(CGRectGetMaxX(attention.frame), frameY(attention), frameWidth(attention), frameHeight(attention)) setTitle:[NSString stringWithFormat:@"粉丝(%@)",modal.fansnum?modal.fansnum:str] titleSize:24*SpacedFonts titleColor:AppMainColor textAlignment:NSTextAlignmentCenter backgroundColor:WhiteColor inView:attentionAndfensView];
         fens.didClickBtnBlock = ^
         {
             [[ToolManager shareInstance].drawerController closeDrawerAnimated:YES completion:^(BOOL finished) {
                 
                 UITabBarController *tabBar = (UITabBarController *)[ToolManager shareInstance].drawerController.centerViewController;
                 UINavigationController *nav =(UINavigationController *)tabBar.viewControllers[getAppDelegate().mainTab.selectedIndex];
-                MyFansVC *fansVC=[[MyFansVC alloc]init];
-                fansVC.Numb=modal.fansnum?modal.fansnum:str;
-                [nav pushViewController:fansVC animated:YES];
-
-//                [nav pushViewController:allocAndInit(MyFansVC)animated:YES];
+                [nav pushViewController:allocAndInit(MyFansVC)animated:YES];
                 
             }];
             

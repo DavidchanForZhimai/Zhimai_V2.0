@@ -14,6 +14,7 @@
 #import "NotificationDetailViewController.h"
 #import "NotificationSettingViewController.h"
 #import "CustomerServiceViewController.h"
+#import "CoreArchive.h"
 #define cellH  40
 #define MessageURL [NSString stringWithFormat:@"%@message/index",HttpURL]
 @interface NotificationViewController ()<UITableViewDelegate, UITableViewDataSource>
@@ -28,10 +29,24 @@
 {
     NotificationModal *modal;
 }
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    if ([CoreArchive strForKey:@"isread"]) {
+        [self.homePageBtn setImage:[UIImage imageNamed:@"icon_dicover_me_selected"] forState:UIControlStateNormal];
+    }
+    else
+    {
+        
+        [self.homePageBtn setImage:[UIImage imageNamed:@"icon_dicover_me"] forState:UIControlStateNormal];
+    }
+    
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    [self setTabbarIndex:2];
     _page = 1;
     [self navView];
     [self netWork:NO isFooter:NO isShouldClear:NO];
@@ -46,15 +61,14 @@
 #pragma mark - Navi_View
 - (void)navView
 {
-    
-    [self navViewTitleAndBackBtn:@"消息"];
+    [self navViewTitle:@"消息"];
     _notificationArray = allocAndInit(NSMutableArray);
     _secondNotificationArray = allocAndInit(NSMutableArray);
      NSArray *_sectionOne =[NSArray arrayWithObjects:[NSDictionary dictionaryWithObjectsAndKeys:@"系统消息",@"name",@"meessage_system",@"image",@"1",@"show",@"",@"viewController",nil],[NSDictionary dictionaryWithObjectsAndKeys:@"跨界提醒",@"name",@"iconfont-wodekuajie",@"image" ,@"1",@"show",@"",@"viewController",nil] ,[NSDictionary dictionaryWithObjectsAndKeys:@"知脉客服",@"name",@"meessage_custom",@"image" ,@"0",@"show",@"",@"viewController",nil],nil];
     [_notificationArray addObject:_sectionOne];
     [_notificationArray addObject:_secondNotificationArray];
     
-    _notificationView = [[UITableView alloc]initWithFrame:frame(0, StatusBarHeight + NavigationBarHeight, frameWidth(self.view), APPHEIGHT -(StatusBarHeight + NavigationBarHeight) ) style:UITableViewStyleGrouped];
+    _notificationView = [[UITableView alloc]initWithFrame:frame(0, StatusBarHeight + NavigationBarHeight, frameWidth(self.view), APPHEIGHT -(StatusBarHeight + NavigationBarHeight + TabBarHeight) ) style:UITableViewStyleGrouped];
     _notificationView.separatorStyle = UITableViewCellSeparatorStyleNone;
     _notificationView.backgroundColor = [UIColor clearColor];
     _notificationView.delegate = self;

@@ -51,18 +51,16 @@
 @implementation DynamicVC
 -(void)viewWillAppear:(BOOL)animated
 {
-
     [super viewWillAppear:animated];
     if ([CoreArchive strForKey:@"isread"]) {
-        [self.homePageBtn setImage:[UIImage imageNamed:@"xingxi"] forState:UIControlStateNormal];
+        [self.homePageBtn setImage:[UIImage imageNamed:@"icon_dicover_me_selected"] forState:UIControlStateNormal];
     }
     else
     {
-        [self.homePageBtn setImage:[UIImage imageNamed:@"xingxi"] forState:UIControlStateNormal];
+        
+        [self.homePageBtn setImage:[UIImage imageNamed:@"icon_dicover_me"] forState:UIControlStateNormal];
     }
     
-    self.homePageBtn.hidden = NO;
-
 }
 
 - (void)viewDidLoad {
@@ -70,7 +68,6 @@
     [self setTabbarIndex:1];
     [self navViewTitle:@"动态"];
     
-    [self.view addSubview:self.homePageBtn];
     jjrpageNumb = 1;
     _jjrJsonArr = [[NSMutableArray alloc]init];
     
@@ -79,7 +76,6 @@
     [self getjjrJson];
     //评论
     [self addToolBar];
-    [self navLeftAddressBtn];
 }
 //动态数据加载
 -(void)getjjrJson
@@ -772,40 +768,40 @@
     
     
 }
-#pragma mark - 选择地址
--(void)navLeftAddressBtn
-{
-    if (![CoreArchive strForKey:AddressID]) {
-        [CoreArchive setStr:@"全国" key:LocationAddress];
-        [CoreArchive setStr:@"0" key:AddressID];
-        
-    }
-    UIImage *upImage =[UIImage imageNamed:@"exhibition_up"];
-    UILabel *lbUp = allocAndInit(UILabel);
-    CGSize sizeUp = [lbUp sizeWithContent:[CoreArchive strForKey:LocationAddress] font:[UIFont systemFontOfSize:28*SpacedFonts]];
-    float sizeW = sizeUp.width;
-    if (sizeUp.width>=140*SpacedFonts) {
-        sizeW = 160*SpacedFonts;
-    }
-    _selectedAddress  =[[BaseButton alloc]initWithFrame:frame(0, StatusBarHeight, sizeW + 15 + upImage.size.width, NavigationBarHeight) setTitle:[CoreArchive strForKey:LocationAddress] titleSize:28*SpacedFonts titleColor:BlackTitleColor backgroundImage:nil iconImage:upImage highlightImage:nil setTitleOrgin:CGPointMake( (NavigationBarHeight -28*SpacedFonts)/2.0 ,10-(upImage.size.width)) setImageOrgin:CGPointMake((NavigationBarHeight - upImage.size.height)/2.0,sizeW + 15) inView:self.view];
-    __weak DynamicVC *weakSelf =self;
-    _selectedAddress.didClickBtnBlock =^
-    {
-        ViewController *vc=[[ViewController alloc]init];
-        
-        [vc returnText:^(NSString *cityname,NSString *cityID) {
-            
-            [weakSelf.selectedAddress setTitle:cityname forState:UIControlStateNormal];
-
-            
-        }];
-        
-        [weakSelf.navigationController pushViewController:vc animated:NO];
-    };
-    
-
-
-}
+//#pragma mark - 选择地址
+//-(void)navLeftAddressBtn
+//{
+//    if (![CoreArchive strForKey:AddressID]) {
+//        [CoreArchive setStr:@"全国" key:LocationAddress];
+//        [CoreArchive setStr:@"0" key:AddressID];
+//        
+//    }
+//    UIImage *upImage =[UIImage imageNamed:@"exhibition_up"];
+//    UILabel *lbUp = allocAndInit(UILabel);
+//    CGSize sizeUp = [lbUp sizeWithContent:[CoreArchive strForKey:LocationAddress] font:[UIFont systemFontOfSize:28*SpacedFonts]];
+//    float sizeW = sizeUp.width;
+//    if (sizeUp.width>=140*SpacedFonts) {
+//        sizeW = 160*SpacedFonts;
+//    }
+//    _selectedAddress  =[[BaseButton alloc]initWithFrame:frame(0, StatusBarHeight, sizeW + 15 + upImage.size.width, NavigationBarHeight) setTitle:[CoreArchive strForKey:LocationAddress] titleSize:28*SpacedFonts titleColor:BlackTitleColor backgroundImage:nil iconImage:upImage highlightImage:nil setTitleOrgin:CGPointMake( (NavigationBarHeight -28*SpacedFonts)/2.0 ,10-(upImage.size.width)) setImageOrgin:CGPointMake((NavigationBarHeight - upImage.size.height)/2.0,sizeW + 15) inView:self.view];
+//    __weak DynamicVC *weakSelf =self;
+//    _selectedAddress.didClickBtnBlock =^
+//    {
+//        ViewController *vc=[[ViewController alloc]init];
+//        
+//        [vc returnText:^(NSString *cityname,NSString *cityID) {
+//            
+//            [weakSelf.selectedAddress setTitle:cityname forState:UIControlStateNormal];
+//
+//            
+//        }];
+//        
+//        [weakSelf.navigationController pushViewController:vc animated:NO];
+//    };
+//    
+//
+//
+//}
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.

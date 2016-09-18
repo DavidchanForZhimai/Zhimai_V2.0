@@ -29,9 +29,9 @@
     {
         _clickCenterButton = clickCenterButton;
         
-        NSArray *iconNormal = [NSArray arrayWithObjects:@"weixianyuejian",@"weixiandongtai", @"weixianfaxian",@"weixuanwode",nil];
-        NSArray *iconPressed = [NSArray arrayWithObjects:@"yuejian",@"dongtai",@"faxian",@"wode", nil];
-        NSArray *name = [NSArray arrayWithObjects:@"约人", @"动态",@"发现",@"我的",nil];
+        NSArray *iconNormal = [NSArray arrayWithObjects:@"weixianyuejian",@"weixiandongtai", @"icon_bar_message",@"weixianfaxian",nil];
+        NSArray *iconPressed = [NSArray arrayWithObjects:@"yuejian",@"dongtai",@"icon_bar_selected_message",@"faxian", nil];
+        NSArray *name = [NSArray arrayWithObjects:@"约人", @"动态",@"消息",@"发现",nil];
         
         tabItemWidth  = APPWIDTH/iconNormal.count;
         tabItemHeight = self.frame.size.height;

@@ -8,9 +8,8 @@
 
 #import "BaseTabBarViewController.h"
 #import "DiscoverHomePageViewController.h"
-//#import "WBHomePageVC.h"
 #import "DynamicVC.h"
-#import "MeViewController.h"
+#import "NotificationViewController.h"
 #import "MeetingVC.h"
 @interface BaseTabBarViewController ()
 
@@ -34,8 +33,7 @@
 #pragma mark App底栏设置
 - (void)setNaviViewControllers
 {
-    
-    
+
     DiscoverHomePageViewController *discoverVC = [[DiscoverHomePageViewController alloc] init];
     self.discoverNav = [[UINavigationController alloc] initWithRootViewController:discoverVC];
     
@@ -43,14 +41,14 @@
     self.tansboundaryNav = [[UINavigationController alloc] initWithRootViewController:meetingVC];
     DynamicVC *dynamicVC = [[DynamicVC alloc] init];
     self.dynamicNav = [[UINavigationController alloc] initWithRootViewController:dynamicVC];
-    MeViewController *meVC = [[MeViewController alloc] init];
-    self.meNav = [[UINavigationController alloc] initWithRootViewController:meVC];
+    NotificationViewController *notificationVC = [[NotificationViewController alloc] init];
+    self.notificationNav = [[UINavigationController alloc] initWithRootViewController:notificationVC];
     
 }
 - (void)setMainTabbar
 {
 
-    self.viewControllers = [NSArray arrayWithObjects:self.tansboundaryNav,self.dynamicNav,self.discoverNav, self.meNav,nil];
+    self.viewControllers = [NSArray arrayWithObjects:self.tansboundaryNav,self.dynamicNav,self.notificationNav,self.discoverNav, nil];
     [self.tabBar setHidden:YES];
     
     //隐藏tabbar

@@ -13,5 +13,5 @@
 @property (strong, nonatomic) UINavigationController *discoverNav;
 @property (strong, nonatomic) UINavigationController *tansboundaryNav;
 @property (strong, nonatomic) UINavigationController *dynamicNav;
-@property (strong, nonatomic) UINavigationController *meNav;
+@property (strong, nonatomic) UINavigationController *notificationNav;
 @end
