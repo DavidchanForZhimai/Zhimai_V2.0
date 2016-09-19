@@ -800,9 +800,16 @@
 		707CCA561D8F8D1D00E0E730 /* ZSSRichTextEditor.js in Resources */ = {isa = PBXBuildFile; fileRef = 707CCA441D8F8D1D00E0E730 /* ZSSRichTextEditor.js */; };
 		707CCA571D8F8D1D00E0E730 /* ZSSRichTextEditor.m in Sources */ = {isa = PBXBuildFile; fileRef = 707CCA451D8F8D1D00E0E730 /* ZSSRichTextEditor.m */; };
 		707CCA581D8F8D1D00E0E730 /* ZSSTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 707CCA471D8F8D1D00E0E730 /* ZSSTextView.m */; };
-		707CCA661D8F949000E0E730 /* D3RecordButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 707CCA631D8F948F00E0E730 /* D3RecordButton.m */; };
-		707CCA671D8F949000E0E730 /* Mp3Recorder.m in Sources */ = {isa = PBXBuildFile; fileRef = 707CCA641D8F948F00E0E730 /* Mp3Recorder.m */; };
-		707CCA681D8F949000E0E730 /* RecordHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 707CCA651D8F948F00E0E730 /* RecordHUD.m */; };
+		707CCAA01D8F977400E0E730 /* D3RecordButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 707CCA931D8F977400E0E730 /* D3RecordButton.m */; };
+		707CCAA11D8F977400E0E730 /* mic_0.png in Resources */ = {isa = PBXBuildFile; fileRef = 707CCA951D8F977400E0E730 /* mic_0.png */; };
+		707CCAA21D8F977400E0E730 /* mic_1.png in Resources */ = {isa = PBXBuildFile; fileRef = 707CCA961D8F977400E0E730 /* mic_1.png */; };
+		707CCAA31D8F977400E0E730 /* mic_2.png in Resources */ = {isa = PBXBuildFile; fileRef = 707CCA971D8F977400E0E730 /* mic_2.png */; };
+		707CCAA41D8F977400E0E730 /* mic_3.png in Resources */ = {isa = PBXBuildFile; fileRef = 707CCA981D8F977400E0E730 /* mic_3.png */; };
+		707CCAA51D8F977400E0E730 /* mic_4.png in Resources */ = {isa = PBXBuildFile; fileRef = 707CCA991D8F977400E0E730 /* mic_4.png */; };
+		707CCAA61D8F977400E0E730 /* mic_5.png in Resources */ = {isa = PBXBuildFile; fileRef = 707CCA9A1D8F977400E0E730 /* mic_5.png */; };
+		707CCAA71D8F977400E0E730 /* mic_cancel.png in Resources */ = {isa = PBXBuildFile; fileRef = 707CCA9B1D8F977400E0E730 /* mic_cancel.png */; };
+		707CCAA81D8F977400E0E730 /* Mp3Recorder.m in Sources */ = {isa = PBXBuildFile; fileRef = 707CCA9D1D8F977400E0E730 /* Mp3Recorder.m */; };
+		707CCAA91D8F977400E0E730 /* RecordHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 707CCA9F1D8F977400E0E730 /* RecordHUD.m */; };
 		707E25191D7E59F800C3E857 /* ImgAndLabView.m in Sources */ = {isa = PBXBuildFile; fileRef = 707E25181D7E59F800C3E857 /* ImgAndLabView.m */; };
 		707E251E1D7E97B700C3E857 /* EjectView.m in Sources */ = {isa = PBXBuildFile; fileRef = 707E251D1D7E97B700C3E857 /* EjectView.m */; };
 		70848AAF1D6FE15D007B811E /* MeetingModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 70848AAE1D6FE15D007B811E /* MeetingModel.m */; };
@@ -2083,9 +2090,19 @@
 		707CCA451D8F8D1D00E0E730 /* ZSSRichTextEditor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSSRichTextEditor.m; sourceTree = "<group>"; };
 		707CCA461D8F8D1D00E0E730 /* ZSSTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSSTextView.h; sourceTree = "<group>"; };
 		707CCA471D8F8D1D00E0E730 /* ZSSTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSSTextView.m; sourceTree = "<group>"; };
-		707CCA631D8F948F00E0E730 /* D3RecordButton.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = D3RecordButton.m; path = "Lebao/约人/view/D3Recode/D3RecordButton.m"; sourceTree = "<group>"; };
-		707CCA641D8F948F00E0E730 /* Mp3Recorder.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = Mp3Recorder.m; path = "Lebao/约人/view/D3Recode/Mp3Recorder.m"; sourceTree = "<group>"; };
-		707CCA651D8F948F00E0E730 /* RecordHUD.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = RecordHUD.m; path = "Lebao/约人/view/D3Recode/RecordHUD.m"; sourceTree = "<group>"; };
+		707CCA921D8F977400E0E730 /* D3RecordButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = D3RecordButton.h; sourceTree = "<group>"; };
+		707CCA931D8F977400E0E730 /* D3RecordButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = D3RecordButton.m; sourceTree = "<group>"; };
+		707CCA951D8F977400E0E730 /* mic_0.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mic_0.png; sourceTree = "<group>"; };
+		707CCA961D8F977400E0E730 /* mic_1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mic_1.png; sourceTree = "<group>"; };
+		707CCA971D8F977400E0E730 /* mic_2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mic_2.png; sourceTree = "<group>"; };
+		707CCA981D8F977400E0E730 /* mic_3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mic_3.png; sourceTree = "<group>"; };
+		707CCA991D8F977400E0E730 /* mic_4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mic_4.png; sourceTree = "<group>"; };
+		707CCA9A1D8F977400E0E730 /* mic_5.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mic_5.png; sourceTree = "<group>"; };
+		707CCA9B1D8F977400E0E730 /* mic_cancel.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mic_cancel.png; sourceTree = "<group>"; };
+		707CCA9C1D8F977400E0E730 /* Mp3Recorder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Mp3Recorder.h; sourceTree = "<group>"; };
+		707CCA9D1D8F977400E0E730 /* Mp3Recorder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Mp3Recorder.m; sourceTree = "<group>"; };
+		707CCA9E1D8F977400E0E730 /* RecordHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RecordHUD.h; sourceTree = "<group>"; };
+		707CCA9F1D8F977400E0E730 /* RecordHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RecordHUD.m; sourceTree = "<group>"; };
 		707E25171D7E59F700C3E857 /* ImgAndLabView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImgAndLabView.h; sourceTree = "<group>"; };
 		707E25181D7E59F800C3E857 /* ImgAndLabView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImgAndLabView.m; sourceTree = "<group>"; };
 		707E251C1D7E97B700C3E857 /* EjectView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EjectView.h; sourceTree = "<group>"; };
@@ -4192,9 +4209,6 @@
 		63E00B5C1C07194C0097EDF5 = {
 			isa = PBXGroup;
 			children = (
-				707CCA631D8F948F00E0E730 /* D3RecordButton.m */,
-				707CCA641D8F948F00E0E730 /* Mp3Recorder.m */,
-				707CCA651D8F948F00E0E730 /* RecordHUD.m */,
 				63E00B671C07194C0097EDF5 /* Lebao */,
 				63E00B811C07194D0097EDF5 /* LebaoTests */,
 				63E00B8C1C07194D0097EDF5 /* LebaoUITests */,
@@ -5156,6 +5170,34 @@
 			path = "Third Party";
 			sourceTree = "<group>";
 		};
+		707CCA911D8F977400E0E730 /* D3Record */ = {
+			isa = PBXGroup;
+			children = (
+				707CCA921D8F977400E0E730 /* D3RecordButton.h */,
+				707CCA931D8F977400E0E730 /* D3RecordButton.m */,
+				707CCA941D8F977400E0E730 /* imgs */,
+				707CCA9C1D8F977400E0E730 /* Mp3Recorder.h */,
+				707CCA9D1D8F977400E0E730 /* Mp3Recorder.m */,
+				707CCA9E1D8F977400E0E730 /* RecordHUD.h */,
+				707CCA9F1D8F977400E0E730 /* RecordHUD.m */,
+			);
+			path = D3Record;
+			sourceTree = "<group>";
+		};
+		707CCA941D8F977400E0E730 /* imgs */ = {
+			isa = PBXGroup;
+			children = (
+				707CCA951D8F977400E0E730 /* mic_0.png */,
+				707CCA961D8F977400E0E730 /* mic_1.png */,
+				707CCA971D8F977400E0E730 /* mic_2.png */,
+				707CCA981D8F977400E0E730 /* mic_3.png */,
+				707CCA991D8F977400E0E730 /* mic_4.png */,
+				707CCA9A1D8F977400E0E730 /* mic_5.png */,
+				707CCA9B1D8F977400E0E730 /* mic_cancel.png */,
+			);
+			path = imgs;
+			sourceTree = "<group>";
+		};
 		707E251A1D7E971200C3E857 /* 标签view */ = {
 			isa = PBXGroup;
 			children = (
@@ -5168,6 +5210,7 @@
 		707E251B1D7E972700C3E857 /* 弹出框 */ = {
 			isa = PBXGroup;
 			children = (
+				707CCA911D8F977400E0E730 /* D3Record */,
 				707E251C1D7E97B700C3E857 /* EjectView.h */,
 				707E251D1D7E97B700C3E857 /* EjectView.m */,
 			);
@@ -5633,6 +5676,7 @@
 				63340B3E1CFBE3490010A596 /* liantian@3x.png in Resources */,
 				63F2DFEC1CFD1D1C008BB5B9 /* discover_clue_selected@3x.png in Resources */,
 				70ED0AD51D756E6D00F4565A /* wodeBG@2x.png in Resources */,
+				707CCAA61D8F977400E0E730 /* mic_5.png in Resources */,
 				63237D161D8E710B00F4ED60 /* icon_me_yaoqinghaoyou@3x.png in Resources */,
 				632816381C4CB58700D25D88 /* chacha@3x.png in Resources */,
 				63EF4AFA1C7AFB3200A8D6F0 /* exhibition_redPaper@3x.png in Resources */,
@@ -5648,6 +5692,7 @@
 				632CAD4B1CB4E1370083FF1E /* me_mycross_icon_percent@3x.png in Resources */,
 				63E9A5871D4EFAD4008704CB /* [renzhen]@2x.png in Resources */,
 				63237D3B1D8E827B00F4ED60 /* [iconprofilerenzhen]@3x.png in Resources */,
+				707CCAA31D8F977400E0E730 /* mic_2.png in Resources */,
 				70ED0A8B1D75662C00F4565A /* [pipeidu]@2x.png in Resources */,
 				63346E751CE432A2007BC875 /* iconfont-jxwenzhang@3x.png in Resources */,
 				636315BA1D0EB93D009C1132 /* MoreXSCell.xib in Resources */,
@@ -5677,11 +5722,13 @@
 				706CC2C71D3F6CCF00C5C539 /* liyin@2x.png in Resources */,
 				63E9A5801D4EEF49008704CB /* dongtai_gengduo@3x.png in Resources */,
 				6319ECAC1CCE159200C21D63 /* tabbar_compose_below_button_highlighted@2x.png in Resources */,
+				707CCAA41D8F977400E0E730 /* mic_3.png in Resources */,
 				70ED0AB81D75662C00F4565A /* shezhi@3x.png in Resources */,
 				63237D1F1D8E79C300F4ED60 /* icon_me_kefu@2x.png in Resources */,
 				63340B461CFBE3490010A596 /* pinglun@2x.png in Resources */,
 				63346E4E1CE42985007BC875 /* transboundary_normal@2x.png in Resources */,
 				70796E791D6B02CC005B8441 /* TableViewArrow@2x.png in Resources */,
+				707CCAA51D8F977400E0E730 /* mic_4.png in Resources */,
 				63346E7C1CE4375B007BC875 /* icon_back@2x.png in Resources */,
 				63340B5A1CFBE3490010A596 /* yuanxing@3x.png in Resources */,
 				631C3F9C1C97BB65003C67E6 /* icon_ me_invitefriends.png in Resources */,
@@ -5787,6 +5834,7 @@
 				638467B71D08046800A80223 /* FabuKuaJieVC.xib in Resources */,
 				70ED0AB41D75662C00F4565A /* qianbao@3x.png in Resources */,
 				70796E6E1D6B02CC005B8441 /* MMVideoPreviewPlayHL@2x.png in Resources */,
+				707CCAA21D8F977400E0E730 /* mic_1.png in Resources */,
 				632816401C4CE8FB00D25D88 /* across_home_communication@3x.png in Resources */,
 				63EE3D111C574BA400D01AC6 /* icon_releseDocument_next@3x.png in Resources */,
 				631407641D0FE58E009A2218 /* daren@3x.png in Resources */,
@@ -5804,6 +5852,7 @@
 				63E9A57E1D4EEF49008704CB /* dongtai_dianzan_pressed@3x.png in Resources */,
 				63D8141F1C965FA800AA0253 /* me_Activevalue_levelNum@2x.png in Resources */,
 				63E9A56A1D4EEAAD008704CB /* new_feature_2_736h.png in Resources */,
+				707CCAA11D8F977400E0E730 /* mic_0.png in Resources */,
 				630E78761CC60683000E96A9 /* iconfont-geren-copy@2x.png in Resources */,
 				63C337871C4504B900B8A0CE /* btn_pressed.png in Resources */,
 				63346E4F1CE42985007BC875 /* transboundary_normal@3x.png in Resources */,
@@ -5851,6 +5900,7 @@
 				63346E921CE46351007BC875 /* iconfont-chanpin@2x.png in Resources */,
 				636315B01D0EB93D009C1132 /* JingJiRenVC.xib in Resources */,
 				63346E791CE432A2007BC875 /* yueduzuidu@3x.png in Resources */,
+				707CCAA71D8F977400E0E730 /* mic_cancel.png in Resources */,
 				63E9A5821D4EEF49008704CB /* dongtai_gengduozan@3x.png in Resources */,
 				63340B491CFBE3490010A596 /* renzhen@3x.png in Resources */,
 				70796E861D6B02CC005B8441 /* wancheng@2x.png in Resources */,
@@ -5939,9 +5989,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				707CCA661D8F949000E0E730 /* D3RecordButton.m in Sources */,
-				707CCA671D8F949000E0E730 /* Mp3Recorder.m in Sources */,
-				707CCA681D8F949000E0E730 /* RecordHUD.m in Sources */,
 				634F4CB41C0E7D40008CFD84 /* AFSecurityPolicy.m in Sources */,
 				63F030DF1C4DC8F500AAB82A /* DWAlertView.m in Sources */,
 				63621D581C20090B00994086 /* MJRefreshFooter.m in Sources */,
@@ -5954,6 +6001,7 @@
 				631407671D0FEA37009A2218 /* RankingInvitedtalentViewController.m in Sources */,
 				638468B71D0813E800A80223 /* CommunityMessageCell.m in Sources */,
 				7026E8561D790D03005D6396 /* WBHomePageVC.m in Sources */,
+				707CCAA81D8F977400E0E730 /* Mp3Recorder.m in Sources */,
 				638468C01D0815C900A80223 /* MessageCell.m in Sources */,
 				63E56E801C48C5C800950E21 /* BHBItem.m in Sources */,
 				63E9A52C1D4EE2AC008704CB /* SDWebImagePrefetcher.m in Sources */,
@@ -6039,6 +6087,7 @@
 				707CCA531D8F8D1D00E0E730 /* HRColorPickerViewController.m in Sources */,
 				70796E7F1D6B02CC005B8441 /* TZImagePickerController.m in Sources */,
 				63A6B6991C0D89CE00C7EB09 /* IQUITextFieldView+Additions.m in Sources */,
+				707CCAA91D8F977400E0E730 /* RecordHUD.m in Sources */,
 				70796DF01D6B024E005B8441 /* CommentView.m in Sources */,
 				63621D651C20090B00994086 /* UIScrollView+MJExtension.m in Sources */,
 				708A29A41D878EC30067DA0A /* GzHyViewController.m in Sources */,
@@ -6111,6 +6160,7 @@
 				63E9A5291D4EE2AC008704CB /* SDWebImageDownloader.m in Sources */,
 				638467721D07FC5C00A80223 /* WidelySpreadDetailViewController.m in Sources */,
 				638467D31D08056A00A80223 /* SelectedCarDetailView.m in Sources */,
+				707CCAA01D8F977400E0E730 /* D3RecordButton.m in Sources */,
 				638468B01D0813E800A80223 /* WithdrawalViewController.m in Sources */,
 				634AD80E1C08228F0047C8D5 /* UILabel+Extend.m in Sources */,
 				635101681C1022D0002CFE4A /* MJPropertyKey.m in Sources */,

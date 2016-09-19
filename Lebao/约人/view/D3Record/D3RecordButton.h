@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "Mp3Recorder.h"
+#import "lame.h"
 #import <AVFoundation/AVFoundation.h>
 
 @protocol D3RecordDelegate <NSObject>
