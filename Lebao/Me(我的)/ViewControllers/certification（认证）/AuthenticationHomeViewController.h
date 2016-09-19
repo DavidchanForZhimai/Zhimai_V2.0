@@ -9,5 +9,5 @@
 #import "BaseViewController.h"
 
 @interface AuthenticationHomeViewController : BaseViewController
-
+@property(nonatomic,assign) int authen;
 @end

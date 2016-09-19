@@ -19,7 +19,7 @@
 #import "MyGuanZhuVC.h"//我的关注
 #import "MyFansVC.h"//我的粉丝
 #import "MyDetialViewController.h"
-#import "AuthenticationViewController.h"
+#import "AuthenticationHomeViewController.h"
 #import "OtherDynamicdViewController.h"
 #define cellH  40
 #define PersonalURL [NSString stringWithFormat:@"%@user/index",HttpURL]
@@ -107,7 +107,7 @@
         return _datas;
     }
    
-    _datas =[NSMutableArray arrayWithObjects:[NSDictionary dictionaryWithObjectsAndKeys:@"会员特权",@"name",@"icon_me_VIP",@"image",@"1",@"show",@"",@"viewController",nil] ,[NSDictionary dictionaryWithObjectsAndKeys:@"我的钱包",@"name",@"icon_me_qianbao",@"image",@"1",@"show",@"EarnestMoneyViewController",@"viewController",nil],[NSDictionary dictionaryWithObjectsAndKeys:@"我的资料",@"name",@"icon_me_zhiliao",@"image",@"1",@"show",@"BasicInformationViewController",@"viewController",nil],[NSDictionary dictionaryWithObjectsAndKeys:@"身份认证",@"name",@"icon_me_renzheng",@"image",@"1",@"show",@"",@"viewController",nil],[NSDictionary dictionaryWithObjectsAndKeys:@"活跃值",@"name",@"icon_me_huoyuezhi",@"image",@"1",@"show",@"ActiveValueViewController",@"viewController",nil],[NSDictionary dictionaryWithObjectsAndKeys:@"好友印象",@"name",@"icon_me_yinxiang",@"image",@"1",@"show",@"",@"viewController",nil],[NSDictionary dictionaryWithObjectsAndKeys:@"邀请好友",@"name",@"icon_me_yaoqinghaoyou",@"image",@"1",@"show",@"InviteFriendsViewController",@"viewController",nil],[NSDictionary dictionaryWithObjectsAndKeys:@"我的客服",@"name",@"icon_me_kefu",@"image",@"0",@"show",@"",@"viewController",nil],nil];
+    _datas =[NSMutableArray arrayWithObjects:[NSDictionary dictionaryWithObjectsAndKeys:@"会员特权",@"name",@"icon_me_VIP",@"image",@"1",@"show",@"",@"viewController",nil] ,[NSDictionary dictionaryWithObjectsAndKeys:@"我的钱包",@"name",@"icon_me_qianbao",@"image",@"1",@"show",@"EarnestMoneyViewController",@"viewController",nil],[NSDictionary dictionaryWithObjectsAndKeys:@"我的资料",@"name",@"icon_me_zhiliao",@"image",@"1",@"show",@"BasicInformationViewController",@"viewController",nil],[NSDictionary dictionaryWithObjectsAndKeys:@"身份认证",@"name",@"icon_me_renzheng",@"image",@"1",@"show",@"AuthenticationHomeViewController",@"viewController",nil],[NSDictionary dictionaryWithObjectsAndKeys:@"活跃值",@"name",@"icon_me_huoyuezhi",@"image",@"1",@"show",@"ActiveValueViewController",@"viewController",nil],[NSDictionary dictionaryWithObjectsAndKeys:@"好友印象",@"name",@"icon_me_yinxiang",@"image",@"1",@"show",@"",@"viewController",nil],[NSDictionary dictionaryWithObjectsAndKeys:@"邀请好友",@"name",@"icon_me_yaoqinghaoyou",@"image",@"1",@"show",@"InviteFriendsViewController",@"viewController",nil],[NSDictionary dictionaryWithObjectsAndKeys:@"我的客服",@"name",@"icon_me_kefu",@"image",@"0",@"show",@"",@"viewController",nil],nil];
     
     
     return _datas;
@@ -320,7 +320,7 @@
     {
         cell.detail.hidden = YES;
     }
-    if (indexPath.row ==4) {
+    if (indexPath.row ==3) {
         
         cell.authen.hidden = NO;
         
@@ -369,8 +369,8 @@
             UITabBarController *tabBar = (UITabBarController *)[ToolManager shareInstance].drawerController.centerViewController;
             UINavigationController *nav =(UINavigationController *)tabBar.viewControllers[getAppDelegate().mainTab.selectedIndex];
             
-            if ([dict[@"viewController"] isEqualToString:@"AuthenticationViewController"]) {
-                AuthenticationViewController *authen = allocAndInit(AuthenticationViewController);
+            if ([dict[@"viewController"] isEqualToString:@"AuthenticationHomeViewController"]) {
+                AuthenticationHomeViewController *authen = allocAndInit(AuthenticationHomeViewController);
                 authen.authen = modal.authen;
                 [nav pushViewController:authen animated:YES];
                 return ;

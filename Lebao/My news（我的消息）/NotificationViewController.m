@@ -23,6 +23,8 @@
 @property(nonatomic,strong)NSMutableArray *secondNotificationArray;
 @property(nonatomic,assign)int nowPage;
 @property(nonatomic,assign)int page;
+
+@property(nonatomic,strong)BaseButton *headerView;
 @end
 
 @implementation NotificationViewController
@@ -64,7 +66,7 @@
     [self navViewTitle:@"消息"];
     _notificationArray = allocAndInit(NSMutableArray);
     _secondNotificationArray = allocAndInit(NSMutableArray);
-     NSArray *_sectionOne =[NSArray arrayWithObjects:[NSDictionary dictionaryWithObjectsAndKeys:@"系统消息",@"name",@"meessage_system",@"image",@"1",@"show",@"",@"viewController",nil],[NSDictionary dictionaryWithObjectsAndKeys:@"跨界提醒",@"name",@"iconfont-wodekuajie",@"image" ,@"1",@"show",@"",@"viewController",nil] ,[NSDictionary dictionaryWithObjectsAndKeys:@"知脉客服",@"name",@"meessage_custom",@"image" ,@"0",@"show",@"",@"viewController",nil],nil];
+     NSArray *_sectionOne =[NSArray arrayWithObjects:[NSDictionary dictionaryWithObjectsAndKeys:@"系统消息",@"name",@"icon_message_xitongxiaoxi",@"image",@"1",@"show",@"",@"viewController",nil],[NSDictionary dictionaryWithObjectsAndKeys:@"知脉头条",@"name",@"icon_message_toutiao",@"image" ,@"1",@"show",@"",@"viewController",nil] ,[NSDictionary dictionaryWithObjectsAndKeys:@"我的人脉",@"name",@"icon_message_woderenmai",@"image" ,@"0",@"show",@"",@"viewController",nil],nil];
     [_notificationArray addObject:_sectionOne];
     [_notificationArray addObject:_secondNotificationArray];
     
@@ -81,6 +83,7 @@
         _page =1;
         [self netWork:YES isFooter:NO isShouldClear:YES];
     }];
+    _notificationView.tableHeaderView = self.headerView;
     [self.view addSubview:_notificationView];
     
 //    //设置
@@ -92,7 +95,18 @@
 //    };
 
 }
-
+- (BaseButton *)headerView
+{
+    if (_headerView) {
+        return _headerView;
+    }
+    UIImage *image = [UIImage imageNamed:@"icon_message_toingzhi"];
+    
+    _headerView = [[BaseButton alloc]initWithFrame:CGRectMake(0, 0, APPWIDTH, 30) setTitle:@"人脉添加请求 +3" titleSize:22*SpacedFonts titleColor:WhiteColor backgroundImage:nil iconImage:image highlightImage:image setTitleOrgin:CGPointMake((30 - 22*SpacedFonts)/2.0, APPWIDTH/3.0 + 10) setImageOrgin:CGPointMake((30 - image.size.height)/2.0, APPWIDTH/3.0) inView:nil];
+    _headerView.backgroundColor = [UIColor colorWithRed:0.9922 green:0.5961 blue:0.2 alpha:1.0];
+    _headerView.shouldAnmial = NO;
+    return _headerView;
+}
 #pragma mark
 #pragma mark - netWork-
 - (void)netWork:(BOOL)isRefresh isFooter:(BOOL)isFooter isShouldClear:(BOOL)isShouldClear
