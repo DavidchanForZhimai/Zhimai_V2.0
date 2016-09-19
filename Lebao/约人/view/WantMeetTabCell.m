@@ -24,6 +24,8 @@
     if (self) {
         [self.contentView addSubview:self.asyncDisplayView];
         [self.contentView addSubview:self.meetingBtn];
+        [self.contentView addSubview:self.telBtn];
+        [self.contentView addSubview:self.messageBtn];
         [self.contentView.layer addSublayer:self.cellline];
         [self.contentView.layer addSublayer:self.line1];
         [self.contentView addSubview:self.audioBtn];
@@ -42,6 +44,8 @@
     self.meetingBtn.frame = self.cellLayout.meetBtnRect;
     self.line1.frame = self.cellLayout.line1Rect;
     self.audioBtn.frame=self.cellLayout.audioBtnRect;
+    self.telBtn.frame=self.cellLayout.telBtnRect;
+    self.messageBtn.frame=self.cellLayout.messageBtnRect;
     self.line2.frame = self.cellLayout.line2Rect;
 }
 
@@ -86,10 +90,33 @@
     return _meetingBtn;
     
 }
+- (UIButton *)telBtn
+{
+    if (!_telBtn) {
+        _telBtn=[UIButton buttonWithType:UIButtonTypeCustom];
+        [_telBtn setImage:[UIImage  imageNamed:@"meet_tonghua"] forState:UIControlStateNormal];
+        [_telBtn addTarget:self action:@selector(TelBtnClick:) forControlEvents:UIControlEventTouchUpInside];
+    }
+    
+    return _telBtn;
+    
+}
+- (UIButton *)messageBtn
+{
+    if (!_messageBtn) {
+        _messageBtn=[UIButton buttonWithType:UIButtonTypeCustom];
+        [_messageBtn setImage:[UIImage imageNamed:@"meet_duihua"] forState:UIControlStateNormal];
+        [_messageBtn addTarget:self action:@selector(messageBtnClick:) forControlEvents:UIControlEventTouchUpInside];
+    }
+    
+    return _messageBtn;
+    
+}
 -(UIButton *)audioBtn
 {
     if (!_audioBtn) {
         _audioBtn=[UIButton buttonWithType:UIButtonTypeCustom];
+        _audioBtn.tag=1110;
         [_audioBtn setImage:[UIImage imageNamed:@"yujianyuyin"] forState:UIControlStateNormal];
         [_audioBtn addTarget:self action:@selector(audioBtnClick:) forControlEvents:UIControlEventTouchUpInside];
     }
@@ -126,6 +153,18 @@
 {
     if ([_delegate conformsToProtocol:@protocol(MeettingTableViewDelegate)]&&[_delegate respondsToSelector:@selector(tableViewCellDidSeleteAudioBtn: andIndexPath:)]) {
         [_delegate tableViewCellDidSeleteAudioBtn:sender andIndexPath:_indexPath];
+    }
+}
+-(void)TelBtnClick:(UIButton *)sender
+{
+    if ([_delegate conformsToProtocol:@protocol(MeettingTableViewDelegate)]&&[_delegate respondsToSelector:@selector(tableViewCellDidSeleteAudioBtn: andIndexPath:)]) {
+        [_delegate tableViewCellDidSeleteTelBtn:sender andIndexPath:_indexPath];
+    }
+}
+-(void)messageBtnClick:(UIButton *)sender
+{
+    if ([_delegate conformsToProtocol:@protocol(MeettingTableViewDelegate)]&&[_delegate respondsToSelector:@selector(tableViewCellDidSeleteAudioBtn: andIndexPath:)]) {
+        [_delegate tableViewCellDidSeleteMessageBtn:sender andIndexPath:_indexPath];
     }
 }
 - (void)awakeFromNib {

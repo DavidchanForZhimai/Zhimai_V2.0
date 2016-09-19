@@ -11,6 +11,7 @@
 #import "WantMeetTabCell.h"
 #import "Parameter.h"
 #import "XLDataService.h"
+#import "MP3PlayerManager.h"
 @interface WantMeetMeVC ()<UITableViewDelegate,UITableViewDataSource,UIScrollViewDelegate,UITextFieldDelegate,MeettingTableViewDelegate>
 {
     UIScrollView * buttomScr;
@@ -30,6 +31,7 @@
 @property (nonatomic,strong)NSMutableArray *oprationArr;
 @property (nonatomic,strong)NSMutableArray *oprationSourceArr;
 @property (nonatomic,strong)NSMutableArray *agreeArr;
+@property (nonatomic,strong)NSMutableArray *agreeSourceArr;
 @property (nonatomic,strong)NSMutableArray *refuseArr;
 
 
@@ -58,6 +60,20 @@
     }
     return _oprationArr;
 }
+-(NSMutableArray *)oprationSourceArr
+{
+    if (!_oprationSourceArr) {
+        _oprationSourceArr=[[NSMutableArray alloc]init];
+    }
+    return _oprationSourceArr;
+}
+-(NSMutableArray *)agreeSourceArr
+{
+    if (!_agreeSourceArr) {
+        _agreeSourceArr=[[NSMutableArray alloc]init];
+    }
+    return _agreeSourceArr;
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
     
@@ -67,10 +83,7 @@
     _agreePage=1;
     _oprationPage=1;
     _state=@"10";
-
-    _oprationSourceArr=[[NSMutableArray alloc]init];
-
-    
+   
     [self setButtomScr];
     [self addTheBtnView];
     
@@ -235,7 +248,13 @@
             [[ToolManager shareInstance]endFooterWithRefreshing:tabView];
         }if (isShouldClearData) {
             [arr removeAllObjects];
-
+            if ([state isEqualToString:@"10"]) {
+                [self.oprationSourceArr removeAllObjects];
+            }
+            if ([state isEqualToString:@"20"]) {
+                [self.agreeSourceArr removeAllObjects];
+            }
+            
         }
         
         NSLog(@"WantMeetMeURL========%@",dataObj);
@@ -255,12 +274,13 @@
                 
                 for (MeetingData *data in modal.datas) {
                     if ([state isEqualToString:@"10"]) {
-                        [arr addObject:[[WantMeetLayout alloc]initCellLayoutWithModel:data andBtn:YES]];
-                        [_oprationSourceArr addObject:data];
+                        [arr addObject:[[WantMeetLayout alloc]initCellLayoutWithModel:data andBtn:YES andTelBtn:NO]];
+                        [self.oprationSourceArr addObject:data];
                     }else if ([state isEqualToString:@"20"]) {
-                        [arr addObject:[[WantMeetLayout alloc]initCellLayoutWithModel:data andBtn:NO]];
+                        [arr addObject:[[WantMeetLayout alloc]initCellLayoutWithModel:data andBtn:NO andTelBtn:YES]];
+                        [self.agreeSourceArr addObject:data];
                     }else if ([state isEqualToString:@"90"]) {
-                        [arr addObject:[[WantMeetLayout alloc]initCellLayoutWithModel:data andBtn:NO]];
+                        [arr addObject:[[WantMeetLayout alloc]initCellLayoutWithModel:data andBtn:NO andTelBtn:NO]];
                     }
                     
                 }
@@ -451,8 +471,29 @@
     MeetingData *data=_oprationSourceArr[indexPath.row];
    
     UIAlertView *alertView=[[UIAlertView alloc]initWithTitle:@"温馨提示" message:[NSString stringWithFormat:@"同意约见后,您将获得%@元约见打赏",data.reward] delegate:self cancelButtonTitle:@"拒绝" otherButtonTitles:@"同意", nil];
+    alertView.tag=10000;
     [alertView show];
     clickRow=indexPath;
+    
+}
+#pragma mark 约见电话点击事件
+- (void)tableViewCellDidSeleteTelBtn:(UIButton *)btn andIndexPath:(NSIndexPath *)indexPath
+{
+    clickRow=indexPath;
+    MeetingData *data=_agreeSourceArr[indexPath.row];
+    
+    if (data.tel&&data.tel!=nil) {
+        
+        UIAlertView *alertV=[[UIAlertView alloc]initWithTitle:@"温馨提示" message:[NSString stringWithFormat:@"是否要拨打电话 %@",data.tel] delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+        alertV.tag=10001;
+        [alertV show];
+        
+           }
+}
+
+#pragma mark 消息点击事件
+-(void)tableViewCellDidSeleteMessageBtn:(UIButton *)btn andIndexPath:(NSIndexPath *)indexPath
+{
     
 }
 #pragma mark 语音按钮点击事件
@@ -462,43 +503,59 @@
 }
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-    
-   MeetingData *data=_oprationSourceArr[clickRow.row];
-    NSMutableDictionary *parame=[Parameter parameterWithSessicon];
-    
-    if (buttonIndex==0) {
-        [parame setObject:@"refuse" forKey:@"conduct"];
-    }else if (buttonIndex==1) {
-        [parame setObject:@"agree" forKey:@"conduct"];
-    }
-   
-    [parame setObject:data.meetId forKey:@"invitedid"];
-   
-    [XLDataService putWithUrl:MeetOperationURL param:parame modelClass:nil responseBlock:^(id dataObj, NSError *error) {
+    if (alertView.tag==10001) {
         
-        if(dataObj){
+        if (buttonIndex==0) {
+            return;
+        }else if (buttonIndex==1) {
+            MeetingData *data=_agreeSourceArr[clickRow.row];
+            NSString *str=[NSString stringWithFormat:@"tel://%@",data.tel];
             
-            MeetingModel *model=[MeetingModel mj_objectWithKeyValues:dataObj];
-            
-            
-            if (model.rtcode==1) {
-                [self.oprationArr removeObjectAtIndex:clickRow.row];
-                [self.oprationTab deleteRowsAtIndexPaths:[NSArray arrayWithObjects:clickRow, nil] withRowAnimation:UITableViewRowAnimationAutomatic];
-                
-                [self.oprationTab reloadData];
-            }
-            
-            else
-            {
-                [[ToolManager shareInstance] showAlertMessage:model.rtmsg];
-            }
-            
-        }else
-        {
-            [[ToolManager shareInstance] showInfoWithStatus];
+            NSURL *url=[NSURL URLWithString:str];
+            [[UIApplication sharedApplication]openURL:url];
 
         }
-    }];
+
+    }
+    if (alertView.tag==10000) {
+        MeetingData *data=_oprationSourceArr[clickRow.row];
+        NSMutableDictionary *parame=[Parameter parameterWithSessicon];
+        
+        if (buttonIndex==0) {
+            [parame setObject:@"refuse" forKey:@"conduct"];
+        }else if (buttonIndex==1) {
+            [parame setObject:@"agree" forKey:@"conduct"];
+        }
+        
+        [parame setObject:data.meetId forKey:@"invitedid"];
+        
+        [XLDataService putWithUrl:MeetOperationURL param:parame modelClass:nil responseBlock:^(id dataObj, NSError *error) {
+            
+            if(dataObj){
+                
+                MeetingModel *model=[MeetingModel mj_objectWithKeyValues:dataObj];
+                
+                
+                if (model.rtcode==1) {
+                    [self.oprationArr removeObjectAtIndex:clickRow.row];
+                    [self.oprationTab deleteRowsAtIndexPaths:[NSArray arrayWithObjects:clickRow, nil] withRowAnimation:UITableViewRowAnimationAutomatic];
+                    
+                    [self.oprationTab reloadData];
+                }
+                
+                else
+                {
+                    [[ToolManager shareInstance] showAlertMessage:model.rtmsg];
+                }
+                
+            }else
+            {
+                [[ToolManager shareInstance] showInfoWithStatus];
+                
+            }
+        }];
+
+    }
     
 }
 

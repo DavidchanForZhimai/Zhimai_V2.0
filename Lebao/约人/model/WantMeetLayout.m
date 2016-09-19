@@ -14,7 +14,7 @@
 @implementation WantMeetLayout
 
 
-- (WantMeetLayout *)initCellLayoutWithModel:(MeetingData *)model andBtn:(BOOL )Btn
+- (WantMeetLayout *)initCellLayoutWithModel:(MeetingData *)model andBtn:(BOOL )Btn andTelBtn:(BOOL)TelBtn
 {
     self = [super init];
     if (self) {
@@ -71,11 +71,16 @@
             //约见按钮
             _meetBtnRect = CGRectMake(APPWIDTH-70, 20, 60, 30);
         }
-        
+        if (TelBtn) {
+            _telBtnRect=CGRectMake(APPWIDTH-45, 20, 30, 30);
+            _messageBtnRect=CGRectMake(APPWIDTH-83, 20, 30, 30);
+        }
         
         _line1Rect  = CGRectMake(0, _avatarStorage.bottom + 10, APPWIDTH, 0.5);
-
-        _audioBtnRect=CGRectMake(5, _line1Rect.origin.y, nameTextStorage.left-10, nameTextStorage.left-10);
+//        if (model.audio&&model.audio!=nil) {//语音按钮
+            _audioBtnRect=CGRectMake(5, _line1Rect.origin.y, nameTextStorage.left-10, nameTextStorage.left-10);
+//        }
+        
         
         //约见理由
         LWTextStorage *meetReasonTextStorage=[[LWTextStorage alloc]init];

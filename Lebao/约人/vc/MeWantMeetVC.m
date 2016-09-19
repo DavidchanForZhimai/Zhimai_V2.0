@@ -11,10 +11,11 @@
 #import "WantMeetTabCell.h"
 #import "Parameter.h"
 #import "XLDataService.h"
-
+#import "MP3PlayerManager.h"
 @interface MeWantMeetVC ()<UITableViewDelegate,UITableViewDataSource,UIScrollViewDelegate,UITextFieldDelegate,MeettingTableViewDelegate>
 {
     UIScrollView * buttomScr;
+    NSIndexPath * clickRow;
 }
 @property (strong,nonatomic)UITableView *oprationTab;
 @property (strong,nonatomic)UITableView *agreeTab;
@@ -30,6 +31,7 @@
 @property (nonatomic,strong)NSMutableArray *oprationArr;
 @property (nonatomic,strong)NSMutableArray *oprationSourceArr;
 @property (nonatomic,strong)NSMutableArray *agreeArr;
+@property (nonatomic,strong)NSMutableArray *agreeSourceArr;
 @property (nonatomic,strong)NSMutableArray *refuseArr;
 
 
@@ -239,7 +241,13 @@
             [[ToolManager shareInstance]endFooterWithRefreshing:tabView];
         }if (isShouldClearData) {
             [arr removeAllObjects];
-            [self.oprationSourceArr removeAllObjects];
+            if ([state isEqualToString:@"10"]) {
+                [self.oprationSourceArr removeAllObjects];
+            }
+            if ([state isEqualToString:@"20"]) {
+                [self.agreeSourceArr removeAllObjects];
+            }
+            
         }
 
         if (dataObj) {
@@ -258,12 +266,13 @@
                
                 for (MeetingData *data in modal.datas) {
                     if ([state isEqualToString:@"10"]) {
-                        [arr addObject:[[WantMeetLayout alloc]initCellLayoutWithModel:data andBtn:YES]];
+                        [arr addObject:[[WantMeetLayout alloc]initCellLayoutWithModel:data andBtn:YES andTelBtn:NO]];
                         [self.oprationSourceArr addObject:data];
                     }else if ([state isEqualToString:@"20"]) {
-                        [arr addObject:[[WantMeetLayout alloc]initCellLayoutWithModel:data andBtn:NO]];
+                        [arr addObject:[[WantMeetLayout alloc]initCellLayoutWithModel:data andBtn:NO andTelBtn:YES]];
+                        [self.agreeSourceArr addObject:data];
                     }else if ([state isEqualToString:@"90"]) {
-                        [arr addObject:[[WantMeetLayout alloc]initCellLayoutWithModel:data andBtn:NO]];
+                        [arr addObject:[[WantMeetLayout alloc]initCellLayoutWithModel:data andBtn:NO andTelBtn:NO]];
                     }
                     
                 }
@@ -468,14 +477,86 @@
             [[ToolManager shareInstance] showInfoWithStatus];
         }
 }];
+}
+#pragma mark 约见电话点击事件
+- (void)tableViewCellDidSeleteTelBtn:(UIButton *)btn andIndexPath:(NSIndexPath *)indexPath
+{
+    clickRow=indexPath;
+    MeetingData *data=_agreeSourceArr[indexPath.row];
+    
+    if (data.tel&&data.tel!=nil) {
+        
+        UIAlertView *alertV=[[UIAlertView alloc]initWithTitle:@"温馨提示" message:[NSString stringWithFormat:@"是否要拨打电话%@",data.tel] delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+        alertV.tag=10001;
+        [alertV show];
+        
+           }
+}
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 
+{
     
+    if (alertView.tag==10001) {
+        
+        if (buttonIndex==0) {
+            return;
+        }else if (buttonIndex==1) {
+            MeetingData *data=_agreeSourceArr[clickRow.row];
+            NSString *str=[NSString stringWithFormat:@"tel://%@",data.tel];
+            
+            NSURL *url=[NSURL URLWithString:str];
+            [[UIApplication sharedApplication]openURL:url];
+            
+        }
+    }
     
-   }
--(void)tableViewCellDidSeleteAudioBtn:(UIButton *)btn andIndexPath:(NSIndexPath *)indexPath
+}
+#pragma mark 消息点击事件
+-(void)tableViewCellDidSeleteMessageBtn:(UIButton *)btn andIndexPath:(NSIndexPath *)indexPath
 {
     
 }
+#pragma mark 语音按钮点击事件
+-(void)tableViewCellDidSeleteAudioBtn:(UIButton *)btn andIndexPath:(NSIndexPath *)indexPath
+{
+    //    _url = @"http://pic.lmlm.cn/record/201607/22/146915727469518.mp3";
+    MeetingData *data=_agreeSourceArr[indexPath.row];
+    NSString *url=[NSString stringWithFormat:@"%@%@",ImageURLS,data.audio];
+    NSArray *pathArrays = [url componentsSeparatedByString:@"/"];
+    NSString *topath;
+    if (pathArrays.count>0) {
+        topath = pathArrays[pathArrays.count-1];
+    }
+    if (btn.tag==1110) {
+        [[MP3PlayerManager shareInstance] downLoadAudioWithUrl:url  finishDownLoadBloak:^(BOOL succeed) {
+            if (succeed) {
+                [(UIImageView *)btn startAnimating];
+                btn.tag=1111;
+                
+                [[MP3PlayerManager shareInstance] audioPlayerWithURl:topath];
+                [MP3PlayerManager shareInstance].playFinishBlock = ^(BOOL succeed)
+                {
+                    if (succeed) {
+                        btn.tag=1110;
+                        [(UIImageView *)btn stopAnimating];
+                    }
+                    
+                };
+                
+            }
+            
+        }];
+        
+    }else if (btn.tag==1111){
+        btn.tag=1110;
+        [[MP3PlayerManager shareInstance] pausePlayer];
+        [(UIImageView *)btn stopAnimating];
+    }
+    
+    
+
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.

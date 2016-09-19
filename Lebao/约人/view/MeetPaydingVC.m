@@ -10,7 +10,7 @@
 #import "XianSuoDetailInfo.h"
 #import "ToolManager.h"
 #import "WetChatPayManager.h"
-#import "MyKuaJieVC.h"
+#import "MeWantMeetVC.h"
 #import "MP3PlayerManager.h"
 @interface MeetPaydingVC ()
 typedef enum {
@@ -127,7 +127,7 @@ typedef enum {
     {
         zhifuType  = @"wx";
     }
-    MyKuaJieVC *myKuaJieVC =  allocAndInit(MyKuaJieVC);
+    MeWantMeetVC *iWantMeetVC =  allocAndInit(MeWantMeetVC);
     if (_zfymType == FaBuZhiFu) {
         
         if (_isAudio) {
@@ -147,13 +147,13 @@ typedef enum {
                         if (_moneyType==weixinzhifuType) {
                             [[WetChatPayManager shareInstance]wxPay:jsonDic succeedMeg:@"发布成功！" recharge:@"0" wetChatPaySucceed:^(NSString *payMoney) {
                                 
-                                PushView(self, myKuaJieVC);
+                                PushView(self, iWantMeetVC);
                             }];
                             return ;
                             
                         }
                         [[ToolManager shareInstance] showSuccessWithStatus:@"发布成功！"];
-                        PushView(self, myKuaJieVC);
+                        PushView(self, iWantMeetVC);
                     }
                     else
                     {
@@ -173,13 +173,13 @@ typedef enum {
                     if (_moneyType==weixinzhifuType) {
                         [[WetChatPayManager shareInstance]wxPay:jsonDic succeedMeg:@"发布成功！" recharge:@"0" wetChatPaySucceed:^(NSString *payMoney) {
                             
-                            PushView(self, myKuaJieVC);
+                            PushView(self, iWantMeetVC);
                         }];
                         return ;
                         
                     }
                     [[ToolManager shareInstance] showSuccessWithStatus:@"发布成功！"];
-                    PushView(self, myKuaJieVC);
+                    PushView(self, iWantMeetVC);
                 }
                 else
                 {
@@ -193,17 +193,17 @@ typedef enum {
     }else if(_zfymType == LingQuZhiFu){
         
         [[XianSuoDetailInfo shareInstance]lqxsWithID:_xsID andRadio:[_bfb stringByReplacingOccurrencesOfString:@"%" withString:@""] andDeposit:_jineStr andPaytype:@"amount" andCallBack:^(BOOL issucced, NSString *info, NSDictionary *jsonDic) {
-            myKuaJieVC.isLinquVC = YES;
+//            iWantMeetVC.isLinquVC = YES;
             if (issucced == YES) {
                 if (_moneyType==weixinzhifuType) {
                     [[WetChatPayManager shareInstance]wxPay:jsonDic succeedMeg:@"发布成功！" recharge:@"0" wetChatPaySucceed:^(NSString *payMoney) {
                         
-                        PushView(self, myKuaJieVC);
+                        PushView(self, iWantMeetVC);
                     }];
                     return ;
                 }
                 [[ToolManager shareInstance] showSuccessWithStatus:@"发布成功！"];
-                PushView(self, myKuaJieVC);
+                PushView(self, iWantMeetVC);
             }
             else
             {
@@ -223,13 +223,13 @@ typedef enum {
                 
                 if (_moneyType==weixinzhifuType) {
                     [[WetChatPayManager shareInstance]wxPay:jsonDic succeedMeg:@"发布成功！" recharge:@"0" wetChatPaySucceed:^(NSString *payMoney) {
-                        PushView(self, myKuaJieVC);
+                        PushView(self, iWantMeetVC);
                         
                     }];
                     return ;
                 }
                 [[ToolManager shareInstance] showSuccessWithStatus:@"发布成功！"];
-                PushView(self, myKuaJieVC);
+                PushView(self, iWantMeetVC);
             }
             else
             {

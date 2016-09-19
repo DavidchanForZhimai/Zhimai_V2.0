@@ -11,11 +11,13 @@
 @interface WantMeetLayout : LWLayout
 @property(nonatomic,strong)MeetingData *model;
 @property (nonatomic,assign) CGRect meetBtnRect;
+@property (nonatomic,assign) CGRect telBtnRect;
+@property (nonatomic,assign) CGRect messageBtnRect;
 @property (nonatomic,assign) CGRect line1Rect;
 @property (nonatomic,assign) CGRect line2Rect;
 @property (nonatomic,assign) CGRect cellMarginsRect;
 @property (nonatomic,assign)float cellHeight;
 @property (nonatomic,assign)CGRect audioBtnRect;
-- (WantMeetLayout *)initCellLayoutWithModel:(MeetingData *)model andBtn:(BOOL )Btn;
+- (WantMeetLayout *)initCellLayoutWithModel:(MeetingData *)model andBtn:(BOOL )Btn andTelBtn:(BOOL )TelBtn;
 
 @end
