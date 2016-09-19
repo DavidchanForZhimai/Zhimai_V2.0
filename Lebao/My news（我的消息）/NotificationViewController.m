@@ -15,7 +15,6 @@
 #import "NotificationSettingViewController.h"
 #import "CustomerServiceViewController.h"
 #import "CoreArchive.h"
-#import "MyConnectionsVC.h"
 #define cellH  40
 #define MessageURL [NSString stringWithFormat:@"%@message/index",HttpURL]
 @interface NotificationViewController ()<UITableViewDelegate, UITableViewDataSource>
@@ -67,7 +66,7 @@
     [self navViewTitle:@"消息"];
     _notificationArray = allocAndInit(NSMutableArray);
     _secondNotificationArray = allocAndInit(NSMutableArray);
-     NSArray *_sectionOne =[NSArray arrayWithObjects:[NSDictionary dictionaryWithObjectsAndKeys:@"系统消息",@"name",@"icon_message_xitongxiaoxi",@"image",@"1",@"show",@"",@"viewController",nil],[NSDictionary dictionaryWithObjectsAndKeys:@"知脉头条",@"name",@"icon_message_toutiao",@"image" ,@"1",@"show",@"",@"viewController",nil] ,[NSDictionary dictionaryWithObjectsAndKeys:@"我的人脉",@"name",@"icon_message_woderenmai",@"image" ,@"0",@"show",@"MyConnectionsVC",@"viewController",nil],nil];
+     NSArray *_sectionOne =[NSArray arrayWithObjects:[NSDictionary dictionaryWithObjectsAndKeys:@"系统消息",@"name",@"icon_message_xitongxiaoxi",@"image",@"1",@"show",@"",@"viewController",nil],[NSDictionary dictionaryWithObjectsAndKeys:@"知脉头条",@"name",@"icon_message_toutiao",@"image" ,@"1",@"show",@"",@"viewController",nil] ,[NSDictionary dictionaryWithObjectsAndKeys:@"我的人脉",@"name",@"icon_message_woderenmai",@"image" ,@"0",@"show",@"",@"viewController",nil],nil];
     [_notificationArray addObject:_sectionOne];
     [_notificationArray addObject:_secondNotificationArray];
     
@@ -251,11 +250,11 @@
         NotificationDetailViewController *detail = allocAndInit(NotificationDetailViewController);
         detail.isSystempagetype =indexPath.row==1?NO:YES;
         PushView(self, detail);
-//        MeCell *cell  = [tableView cellForRowAtIndexPath:indexPath];
-//        cell.message.hidden = YES;
+        MeCell *cell  = [tableView cellForRowAtIndexPath:indexPath];
+        cell.message.hidden = YES;
     }
     if (indexPath.section==0&&indexPath.row==2) {
-        MyConnectionsVC *detail = allocAndInit(MyConnectionsVC);
+        CustomerServiceViewController *detail = allocAndInit(CustomerServiceViewController);
         PushView(self, detail);
         MeCell *cell  = [tableView cellForRowAtIndexPath:indexPath];
         cell.message.hidden = YES;

@@ -94,7 +94,7 @@
 {
     if (!_telBtn) {
         _telBtn=[UIButton buttonWithType:UIButtonTypeCustom];
-        [_telBtn setImage:[UIImage  imageNamed:@"tonghua"] forState:UIControlStateNormal];
+        [_telBtn setImage:[UIImage  imageNamed:@"meet_tonghua"] forState:UIControlStateNormal];
         [_telBtn addTarget:self action:@selector(TelBtnClick:) forControlEvents:UIControlEventTouchUpInside];
     }
     
@@ -105,7 +105,7 @@
 {
     if (!_messageBtn) {
         _messageBtn=[UIButton buttonWithType:UIButtonTypeCustom];
-        [_messageBtn setImage:[UIImage imageNamed:@"duihua"] forState:UIControlStateNormal];
+        [_messageBtn setImage:[UIImage imageNamed:@"meet_duihua"] forState:UIControlStateNormal];
         [_messageBtn addTarget:self action:@selector(messageBtnClick:) forControlEvents:UIControlEventTouchUpInside];
     }
     
@@ -117,7 +117,7 @@
     if (!_audioBtn) {
         _audioBtn=[UIButton buttonWithType:UIButtonTypeCustom];
         _audioBtn.tag=1110;
-        [_audioBtn setImage:[UIImage imageNamed:@"meet_yuyin"] forState:UIControlStateNormal];
+        [_audioBtn setImage:[UIImage imageNamed:@"yujianyuyin"] forState:UIControlStateNormal];
         [_audioBtn addTarget:self action:@selector(audioBtnClick:) forControlEvents:UIControlEventTouchUpInside];
     }
     return _audioBtn;

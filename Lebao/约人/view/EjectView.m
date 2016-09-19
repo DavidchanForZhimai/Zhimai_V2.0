@@ -106,7 +106,7 @@
         
         UIButton *audioBtn=[UIButton buttonWithType:UIButtonTypeCustom];
         audioBtn.frame=CGRectMake(CGRectGetMaxX(logField.frame)+10, logField.y, logField.height, logField.height);
-        [audioBtn setImage:[UIImage imageNamed:@"yuejian_luying"] forState:UIControlStateNormal];
+        [audioBtn setImage:[UIImage imageNamed:@"luying"] forState:UIControlStateNormal];
         [audioBtn addTarget:self action:@selector(audioBtnClick:) forControlEvents:UIControlEventTouchUpInside];
         audioBtn.tag=10;
         [self addSubview:audioBtn];
@@ -212,12 +212,12 @@
     NSLog(@"sender.tag=%ld",(long)sender.tag);
     if (sender.tag==10) {
         sender.tag=11;
-        [sender setImage:[UIImage imageNamed:@"yuejian_jianpan"] forState:UIControlStateNormal];
+//        [sender setImage:[UIImage imageNamed:@"jianpan"] forState:UIControlStateNormal];
         logField.frame=CGRectMake(CGRectGetMaxX(logField.frame), CGRectGetMaxY(logField.frame), 0, 0);
         
     }else if(sender.tag==11){
         sender.tag=10;
-        [sender setImage:[UIImage imageNamed:@"yuejian_luying"] forState:UIControlStateNormal];
+//        [sender setImage:[UIImage imageNamed:@"luying"] forState:UIControlStateNormal];
        logField.frame=_soundBtn.frame;
     }
 }

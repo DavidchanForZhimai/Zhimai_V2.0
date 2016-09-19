@@ -453,16 +453,30 @@
     }];
     
 }
-#pragma mark 约见取消按钮点击事件
+#pragma mark 约见按钮点击事件
 - (void)tableViewCellDidSeleteMeetingBtn:(UIButton *)btn andIndexPath:(NSIndexPath *)indexPath
 {
-    clickRow=indexPath;
-    MeetingData *data=_oprationSourceArr[indexPath.row];
-         UIAlertView *alertV=[[UIAlertView alloc]initWithTitle:@"温馨提示" message:[NSString stringWithFormat:@"是否取消约见%@",data.realname] delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
-        alertV.tag=10000;
-        [alertV show];
-        
-    
+    MeetingData *data=self.oprationSourceArr[indexPath.row];
+    NSMutableDictionary *param=[Parameter parameterWithSessicon];
+    [param setObject:data.meetId forKey:@"invitedid"];
+    [XLDataService putWithUrl:MeetCancelURL param:param modelClass:nil responseBlock:^(id dataObj, NSError *error) {
+        if (dataObj) {
+            MeetingModel *modal = [MeetingModel mj_objectWithKeyValues:dataObj];
+             if (modal.rtcode ==1) {
+                [self.oprationArr removeObjectAtIndex:indexPath.row];
+                [self.oprationTab deleteRowsAtIndexPaths:[NSArray arrayWithObjects:indexPath, nil] withRowAnimation:UITableViewRowAnimationRight];
+                [self.oprationTab reloadData];
+            }
+            else
+            {
+                [[ToolManager shareInstance] showAlertMessage:modal.rtmsg];
+            }
+        }
+        else
+        {
+            [[ToolManager shareInstance] showInfoWithStatus];
+        }
+}];
 }
 #pragma mark 约见电话点击事件
 - (void)tableViewCellDidSeleteTelBtn:(UIButton *)btn andIndexPath:(NSIndexPath *)indexPath
@@ -495,34 +509,7 @@
             
         }
     }
-    if (alertView.tag==10000) {
-        if (buttonIndex==0) {
-            return;
-        }else if (buttonIndex==1) {
-
-        MeetingData *data=self.oprationSourceArr[clickRow.row];
-        NSMutableDictionary *param=[Parameter parameterWithSessicon];
-        [param setObject:data.meetId forKey:@"invitedid"];
-        [XLDataService putWithUrl:MeetCancelURL param:param modelClass:nil responseBlock:^(id dataObj, NSError *error) {
-            if (dataObj) {
-                MeetingModel *modal = [MeetingModel mj_objectWithKeyValues:dataObj];
-                if (modal.rtcode ==1) {
-                    [self.oprationArr removeObjectAtIndex:clickRow.row];
-                    [self.oprationTab deleteRowsAtIndexPaths:[NSArray arrayWithObjects:clickRow, nil] withRowAnimation:UITableViewRowAnimationRight];
-                    [self.oprationTab reloadData];
-                }
-                else
-                {
-                    [[ToolManager shareInstance] showAlertMessage:modal.rtmsg];
-                }
-            }
-            else
-            {
-                [[ToolManager shareInstance] showInfoWithStatus];
-            }
-        }];
-}
-}
+    
 }
 #pragma mark 消息点击事件
 -(void)tableViewCellDidSeleteMessageBtn:(UIButton *)btn andIndexPath:(NSIndexPath *)indexPath

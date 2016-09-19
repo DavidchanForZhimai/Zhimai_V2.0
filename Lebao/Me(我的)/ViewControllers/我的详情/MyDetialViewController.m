@@ -134,7 +134,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-     [self navViewTitleAndBackBtn:@"我的详情"];
+    [self navViewTitleAndBackBtn:@"我的详情"];
     [self.view addSubview:self.edit];
     [self.view addSubview:self.myDetailTV];
     

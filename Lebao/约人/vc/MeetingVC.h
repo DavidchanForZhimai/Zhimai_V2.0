@@ -9,5 +9,5 @@
 #import "BaseViewController.h"
 
 @interface MeetingVC : BaseViewController
-
+@property(nonatomic, strong)BaseButton *selectedAddress;
 @end

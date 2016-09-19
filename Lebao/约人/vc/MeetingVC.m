@@ -20,11 +20,8 @@
 #import "MeetPaydingVC.h"
 #import "NSString+Extend.h"
 #import "GzHyViewController.h"//关注行业
-
 @interface MeetingVC ()<UITableViewDelegate,UITableViewDataSource,MeetHeadVDelegate,EjectViewDelegate,MeettingTableViewDelegate,UIAlertViewDelegate>
-{
-    BOOL audioMark;
-}
+
 @property (nonatomic,strong)UITableView *yrTab;
 @property (nonatomic,strong)UIButton *yrBtn;
 @property (nonatomic,strong)MeetHeadV *headView;
@@ -47,10 +44,6 @@
         
         [self.homePageBtn setImage:[UIImage imageNamed:@"icon_dicover_me"] forState:UIControlStateNormal];
     }
-    
-    self.homePageBtn.hidden = NO;
-    [self shakeToShow:_yrBtn];
-    audioMark=NO;
     
 }
 
@@ -82,7 +75,7 @@
     [[ToolManager shareInstance]update];
     
     [self navViewTitle:@"约见"];
-    
+
     [self setTabbarIndex:0];
     self.view.backgroundColor=AppViewBGColor;
     [self addTabView];
@@ -427,7 +420,7 @@
 {
     
     if (buttonIndex==0) {
-        audioMark=NO;
+        
         [customAlertView dissMiss];
         customAlertView = nil;
         
@@ -437,7 +430,16 @@
     {
         NSLog(@"确认");
         
-        MeetPaydingVC * payVC = [[MeetPaydingVC alloc]init];
+        //        MeetPaydingVC * payVC = [[MeetPaydingVC alloc]init];
+        //        payVC.zfymType = FaBuZhiFu;
+        //        payVC.qwjeStr = _bcTex.text;
+        //        payVC.titStr = _titTex.text;
+        //        payVC.content = _contTex.text;
+        //        payVC.industry = induStr;
+        //        payVC.jineStr = _moneyLab.text;
+        //        payVC.isAudio=btnMark;
+        //        [self.navigationController pushViewController:payVC animated:YES];
+        
         MeetingData *model=_CellSouceArr[customAlertView.indexth.row];
         NSLog(@"model=%@",model);
         NSMutableDictionary *param=[Parameter parameterWithSessicon];
@@ -447,43 +449,32 @@
         [param setObject:@"" forKey:@"remark"];
         [param setObject:model.distance forKey:@"distance"];
         [param setObject:@"wallet" forKey:@"paytype"];
-        payVC.param=param;
-        //                payVC.zfymType = FaBuZhiFu;
-        //                payVC.qwjeStr = _bcTex.text;
-        //                payVC.titStr = _titTex.text;
-        //                payVC.content = _contTex.text;
-        //                payVC.industry = induStr;
-                        payVC.jineStr = @"1";
-        payVC.isAudio=audioMark;
-        [self.navigationController pushViewController:payVC animated:YES];
-        
-
-        //        [XLDataService putWithUrl:MeetyouURL param:param modelClass:nil responseBlock:^(id dataObj, NSError *error) {
-        //            if(dataObj){
-        //
-        //                MeetingModel *model=[MeetingModel mj_objectWithKeyValues:dataObj];
-        //
-        //
-        //                if (model.rtcode==1) {
-        //                    UIAlertView *successAlertV=[[UIAlertView alloc]initWithTitle:@"恭喜您,约见成功!" message:nil delegate:self cancelButtonTitle:nil otherButtonTitles:@"对话",@"电话联系",@"继续约见他人", nil];
-        //                    successAlertV.cancelButtonIndex=2;
-        //
-        //                    [successAlertV show];
-        //
-        //                }
-        //
-        //                else
-        //                {
-        //                    [[ToolManager shareInstance] showAlertMessage:model.rtmsg];
-        //                }
-        //                NSLog(@"model.rtmsg=========dataobj=%@",model.rtmsg);
-        //            }else
-        //            {
-        //                [[ToolManager shareInstance] showInfoWithStatus];
-        //                [_yrBtn setBackgroundImage:[UIImage imageNamed:@"youkong"] forState:UIControlStateNormal];
-        //            }
-        //
-        //        }];
+        [XLDataService putWithUrl:MeetyouURL param:param modelClass:nil responseBlock:^(id dataObj, NSError *error) {
+            if(dataObj){
+                
+                MeetingModel *model=[MeetingModel mj_objectWithKeyValues:dataObj];
+                
+                
+                if (model.rtcode==1) {
+                    UIAlertView *successAlertV=[[UIAlertView alloc]initWithTitle:@"恭喜您,约见成功!" message:nil delegate:self cancelButtonTitle:nil otherButtonTitles:@"对话",@"电话联系",@"继续约见他人", nil];
+                    successAlertV.cancelButtonIndex=2;
+                    
+                    [successAlertV show];
+                    
+                }
+                
+                else
+                {
+                    [[ToolManager shareInstance] showAlertMessage:model.rtmsg];
+                }
+                NSLog(@"model.rtmsg=========dataobj=%@",model.rtmsg);
+            }else
+            {
+                [[ToolManager shareInstance] showInfoWithStatus];
+                [_yrBtn setBackgroundImage:[UIImage imageNamed:@"youkong"] forState:UIControlStateNormal];
+            }
+            
+        }];
         
         [customAlertView dissMiss];
         customAlertView = nil;
