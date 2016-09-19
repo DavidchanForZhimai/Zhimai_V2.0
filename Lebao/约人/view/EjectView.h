@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "D3RecordButton.h"
+#import "RecordHUD.h"
 
 @class EjectView;
 
@@ -18,12 +19,15 @@
 @end
 
 @interface EjectView : UIView
-
+{
+    AVAudioPlayer *play;
+}
 @property (nonatomic, copy) NSString *titleStr;
 @property (nonatomic,copy)NSString *title2Str;
 @property (nonatomic, strong) UIView *middleView;
 @property (nonatomic,strong)NSIndexPath * indexth;
 @property(nonatomic, weak) id<EjectViewDelegate> delegate;
+@property(nonatomic,strong)D3RecordButton *soundBtn;
 /**
  * 弹窗在视图中的中心点
  **/

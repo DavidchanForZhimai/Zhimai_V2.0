@@ -12,12 +12,12 @@
 
 #define RGB(r, g, b)   [UIColor colorWithRed:r/255.0 green:g/255.0 blue:b/255.0 alpha:1.0]
 
-@interface EjectView()
+@interface EjectView()<D3RecordDelegate>
 {
     UIButton *btn1;
     UIButton *btn2;
     UIButton *btn3;
-    UIButton *soundBtn;
+    
     UITextField *logField;
 }
 @property (nonatomic, strong) UILabel *titleLabel;
@@ -85,14 +85,15 @@
         [self addSubview:btn3];
         
         
-        soundBtn=[UIButton buttonWithType:UIButtonTypeSystem];
-        soundBtn.frame=CGRectMake(20,CGRectGetMaxY(btn1.frame)+15,self.frame.size.width-80, 32);
-        soundBtn.layer.borderColor= [[UIColor colorWithWhite:0.9 alpha:1] CGColor];
-        soundBtn.layer.borderWidth=1;
-        [soundBtn setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
-        [soundBtn setTitle:@"按住  说话" forState:UIControlStateNormal];
-        soundBtn.layer.cornerRadius = 8;
-        [self addSubview:soundBtn];
+        _soundBtn=[D3RecordButton buttonWithType:UIButtonTypeSystem];
+        _soundBtn.frame=CGRectMake(20,CGRectGetMaxY(btn1.frame)+15,self.frame.size.width-80, 32);
+        _soundBtn.layer.borderColor= [[UIColor colorWithWhite:0.9 alpha:1] CGColor];
+        _soundBtn.layer.borderWidth=1;
+        [_soundBtn setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
+        [_soundBtn setTitle:@"按住  说话" forState:UIControlStateNormal];
+        [_soundBtn initRecord:self maxtime:60];
+        _soundBtn.layer.cornerRadius = 8;
+        [self addSubview:_soundBtn];
         
         logField = [[UITextField alloc] initWithFrame:CGRectMake(20,CGRectGetMaxY(btn1.frame)+15,self.frame.size.width-80, 32)];
         logField.layer.borderColor = [[UIColor colorWithWhite:0.9 alpha:1] CGColor];
@@ -197,10 +198,20 @@
     }
     
 }
+#pragma mark <D3RecordDelegate>
+-(void)endRecord:(NSData *)voiceData{
+    NSError *error;
+    play = [[AVAudioPlayer alloc]initWithData:voiceData error:&error];
+    NSLog(@"%@",error);
+    play.volume = 1.0f;
+    [play play];
+    NSLog(@"yesssssssssss..........%f",play.duration);
+    [_soundBtn setTitle:@"按住  说话" forState:UIControlStateNormal];
+}
 
 -(void)audioBtnClick:(UIButton *)sender
 {
-    NSLog(@"sender.tag=%d",sender.tag);
+    NSLog(@"sender.tag=%ld",(long)sender.tag);
     if (sender.tag==10) {
         sender.tag=11;
 //        [sender setImage:[UIImage imageNamed:@"jianpan"] forState:UIControlStateNormal];
@@ -209,7 +220,7 @@
     }else if(sender.tag==11){
         sender.tag=10;
 //        [sender setImage:[UIImage imageNamed:@"luying"] forState:UIControlStateNormal];
-       logField.frame=soundBtn.frame;
+       logField.frame=_soundBtn.frame;
     }
 }
 
