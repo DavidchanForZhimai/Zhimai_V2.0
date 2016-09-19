@@ -9,9 +9,6 @@
 #import "EjectView.h"
 
 
-
-#define RGB(r, g, b)   [UIColor colorWithRed:r/255.0 green:g/255.0 blue:b/255.0 alpha:1.0]
-
 @interface EjectView()<D3RecordDelegate>
 {
     UIButton *btn1;
@@ -128,7 +125,7 @@
         
         //两条分割线
         UIView *horLine = [[UIView alloc] initWithFrame:CGRectMake(0, confirmF.origin.y-1, frame.size.width, 0.5)];
-        horLine.backgroundColor = RGB(213, 213, 215);
+        horLine.backgroundColor = rgb(213, 213, 215);
         [self addSubview:horLine];
         
         UIView *verLine = [[UIView alloc] initWithFrame:CGRectMake(frame.size.width/2-1,confirmF.origin.y-1, 0.5, 43)];
@@ -175,7 +172,8 @@
 {
     UIButton *cancelBtn =  [UIButton buttonWithType:UIButtonTypeCustom];
     cancelBtn.frame = frame;
-    [cancelBtn setTitleColor:RGB(0, 123, 251) forState:UIControlStateNormal];
+    
+    [cancelBtn setTitleColor:rgb(0, 123, 251) forState:UIControlStateNormal];
     [cancelBtn setTitle:title forState:UIControlStateNormal];
     cancelBtn.titleLabel.font = [UIFont boldSystemFontOfSize:18];
     
