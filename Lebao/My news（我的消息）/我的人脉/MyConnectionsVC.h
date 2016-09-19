@@ -1,13 +1,13 @@
 //
-//  MeetingVC.h
+//  MyConnectionsVC.h
 //  Lebao
 //
-//  Created by adnim on 16/8/25.
+//  Created by adnim on 16/9/19.
 //  Copyright © 2016年 David. All rights reserved.
 //
 
 #import "BaseViewController.h"
 
-@interface MeetingVC : BaseViewController
+@interface MyConnectionsVC : BaseViewController
 
 @end

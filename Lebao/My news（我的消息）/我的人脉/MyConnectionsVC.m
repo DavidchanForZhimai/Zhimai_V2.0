@@ -1,55 +1,39 @@
 //
-//  MeetingVC.m
+//  MyConnectionsVC.m
 //  Lebao
 //
-//  Created by adnim on 16/8/25.
+//  Created by adnim on 16/9/19.
 //  Copyright © 2016年 David. All rights reserved.
 //
 
-#import "MeetingVC.h"
+#import "MyConnectionsVC.h"
 #import "MJRefresh.h"
 #import "MeettingTableViewCell.h"
-#import "MeetHeadV.h"
 #import "CoreArchive.h"
 #import "ViewController.h"
 #import "XLDataService.h"
 #import "Parameter.h"
 #import "LoCationManager.h"
 #import "EjectView.h"
-#import "MeetNumModel.h"
 #import "MeetPaydingVC.h"
 #import "NSString+Extend.h"
 #import "GzHyViewController.h"//关注行业
-
-@interface MeetingVC ()<UITableViewDelegate,UITableViewDataSource,MeetHeadVDelegate,EjectViewDelegate,MeettingTableViewDelegate,UIAlertViewDelegate>
+@interface MyConnectionsVC ()<UITableViewDelegate,UITableViewDataSource,EjectViewDelegate,MeettingTableViewDelegate,UIAlertViewDelegate>
 {
     BOOL audioMark;
 }
 @property (nonatomic,strong)UITableView *yrTab;
-@property (nonatomic,strong)UIButton *yrBtn;
-@property (nonatomic,strong)MeetHeadV *headView;
 @property (nonatomic,assign)int page;
 @property (nonatomic,strong)NSMutableArray *nearByManArr;
 @property (nonatomic,strong)NSMutableArray *CellSouceArr;
-@property (nonatomic,strong)NSMutableArray *headimgArr;
 @property (nonatomic,assign)BOOL isopen;
 @end
 
-@implementation MeetingVC
+@implementation MyConnectionsVC
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    if ([CoreArchive strForKey:@"isread"]) {
-        [self.homePageBtn setImage:[UIImage imageNamed:@"icon_dicover_me_selected"] forState:UIControlStateNormal];
-    }
-    else
-    {
-        
-        [self.homePageBtn setImage:[UIImage imageNamed:@"icon_dicover_me"] forState:UIControlStateNormal];
-    }
-    
-    self.homePageBtn.hidden = NO;
-    [self shakeToShow:_yrBtn];
+ 
     audioMark=NO;
     
 }
@@ -60,13 +44,6 @@
         _nearByManArr=[[NSMutableArray alloc]init];
     }
     return _nearByManArr;
-}
--(NSMutableArray *)headimgArr
-{
-    if (!_headimgArr) {
-        _headimgArr=[[NSMutableArray alloc]init];
-    }
-    return _headimgArr;
 }
 -(NSMutableArray *)CellSouceArr
 {
@@ -81,19 +58,20 @@
     //新版本提示
     [[ToolManager shareInstance]update];
     
-    [self navViewTitle:@"约见"];
+    [self navViewTitleAndBackBtn:@"我的人脉"];
     
-    [self setTabbarIndex:0];
     self.view.backgroundColor=AppViewBGColor;
     [self addTabView];
-    [self addYrBtn];
-    
     _page = 1;
     _isopen=NO;
     
     [self netWorkRefresh:NO andIsLoadMoreData:NO isShouldClearData:NO];
     
     
+}
+- (void)buttonAction:(UIButton *)sender
+{
+    PopView(self);
 }
 - (void)netWorkRefresh:(BOOL)isRefresh andIsLoadMoreData:(BOOL)isMoreLoadMoreData isShouldClearData:(BOOL)isShouldClearData//加载数据
 {
@@ -110,32 +88,6 @@
     location.latitude=24.491534;
     location.longitude=118.180851;
     NSMutableDictionary *param = [Parameter parameterWithSessicon];
-    
-    [XLDataService putWithUrl:WantURL param:param modelClass:nil responseBlock:^(id dataObj, NSError *error) {
-        
-        if (dataObj) {
-            MeetNumModel *modal = [MeetNumModel mj_objectWithKeyValues:dataObj];
-            _headView.meWantBtn.titleLabel.text=[NSString stringWithFormat:@"%d\n我想约见",modal.invited];
-            NSMutableAttributedString *text1 = [[NSMutableAttributedString alloc]initWithString:_headView.meWantBtn.titleLabel.text];
-            [text1 addAttribute:NSFontAttributeName value:Size(40) range:[_headView.meWantBtn.titleLabel.text rangeOfString:[NSString stringWithFormat:@"%d",modal.invited]]];
-            [_headView.meWantBtn setAttributedTitle:text1 forState:UIControlStateNormal];
-            _headView.meWantBtn.titleLabel.numberOfLines = 0;
-            
-            _headView.wantMeBtn.titleLabel.text=[NSString stringWithFormat:@"%d\n想约见我",modal.beinvited];
-            NSMutableAttributedString *text = [[NSMutableAttributedString alloc]initWithString:_headView.wantMeBtn.titleLabel.text];
-            [text addAttribute:NSFontAttributeName value:Size(40) range:[_headView.wantMeBtn.titleLabel.text rangeOfString:[NSString stringWithFormat:@"%d",modal.beinvited]]];
-            [_headView.wantMeBtn setAttributedTitle:text forState:UIControlStateNormal];
-            _headView.wantMeBtn.titleLabel.numberOfLines = 0;
-            
-        }  else
-        {
-            [[ToolManager shareInstance] showInfoWithStatus];
-        }
-        
-    }];
-    
-    
-    
     
     [param setObject:[NSString stringWithFormat:@"%.6f",location.latitude] forKey:@"latitude"];
     [param setObject:[NSString stringWithFormat:@"%.6f",location.longitude] forKey:@"longitude"];
@@ -154,8 +106,7 @@
         if (isShouldClearData) {
             [self.nearByManArr removeAllObjects];
             [self.CellSouceArr removeAllObjects];
-            [self.headimgArr removeAllObjects];
-        }
+                   }
         if (dataObj) {
             NSLog(@"meetObj====%@",dataObj);
             MeetingModel *modal = [MeetingModel mj_objectWithKeyValues:dataObj];
@@ -169,40 +120,16 @@
             }
             
             if (modal.rtcode ==1) {
-                int i = 0;
+              
                 for (MeetingData *data in modal.datas) {
-                    
-                    if (i==1||i==4) {
-                        data.service= @"还是大放送发/啥地方/的是覅就搜到/时间分配给;老地方颇高/几个人讨论课阮经天/发/发/发";
-                    }
-                    
-                    if (i==2||i==3) {
-                        data.resource= @"djfkgkhjdfgkhjdg/dgdgdfgdfgdfgdgf/dgdgdgdfgdfgdgdfgdfgdfg/dfgdfgdgdgdgdf/dgdgdgdgddg/dgdfgd/fghfh/ghfghfg/fgfgyfyh";
-                    }
-                    i++;
-                    
                     
                     
                     [self.CellSouceArr addObject:data];
                     [self.nearByManArr addObject:[[MeetingCellLayout alloc]initCellLayoutWithModel:data]];
                     
-                    if (data.imgurl!=nil) {
-                        [self.headimgArr addObject:data.imgurl];
-                    }
-                    
-                    
-                    
-                }
+                                  }
                 
-                _headView.headimgsArr=[NSArray arrayWithArray:self.headimgArr];
-                [_headView addEightImgView];
-                _headView.nearManLab.text=[NSString stringWithFormat:@"最近有空 %d人",modal.count];
-                _headView.midBtn.titleLabel.text=[NSString stringWithFormat:@"可约\n%d\n位经纪人",modal.count];
-                _headView.midBtn.titleLabel.textAlignment=NSTextAlignmentCenter;
-                NSMutableAttributedString *str=[[NSMutableAttributedString alloc]initWithString:_headView.midBtn.titleLabel.text];
-                [str addAttribute:NSFontAttributeName value:Size(60) range:[_headView.midBtn.titleLabel.text rangeOfString:[NSString stringWithFormat:@"%d",modal.count]]];
-                [_headView.midBtn setAttributedTitle:str forState:UIControlStateNormal];
-                _headView.midBtn.titleLabel.numberOfLines=0;
+              
                 [_yrTab reloadData];
                 
             }
@@ -225,26 +152,11 @@
     
 }
 
--(void)addYrBtn
-{
-    _yrBtn=[[UIButton alloc]init];
-    _yrBtn.frame=CGRectMake(APPWIDTH-30-50, APPHEIGHT-124, 60, 60);
-    [_yrBtn setBackgroundImage:[UIImage imageNamed:@"youkong"] forState:UIControlStateNormal];
-    
-    [_yrBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    _yrBtn.clipsToBounds=YES;
-    _yrBtn.layer.cornerRadius=_yrBtn.width/2.0;
-    _yrBtn.tag=1000;
-    [_yrBtn addTarget:self action:@selector(_yrBtnClick:) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:_yrBtn];
-    
-    
-}
 -(void)addTabView
 {
     _yrTab=[[UITableView alloc]init];
     //    [_yrTab registerClass:[MeetingTVCell class] forCellReuseIdentifier:@"yrCell"];
-    _yrTab.frame=CGRectMake(0,StatusBarHeight + NavigationBarHeight, APPWIDTH, APPHEIGHT-(StatusBarHeight + NavigationBarHeight + TabBarHeight));
+    _yrTab.frame=CGRectMake(0,StatusBarHeight + NavigationBarHeight+10, APPWIDTH, APPHEIGHT-(StatusBarHeight + NavigationBarHeight + TabBarHeight-10));
     _yrTab.delegate=self;
     _yrTab.dataSource=self;
     _yrTab.backgroundColor=[UIColor clearColor];
@@ -268,12 +180,6 @@
     [self.view addSubview:_yrTab];
     
     
-    _headView=[[MeetHeadV alloc]initWithFrame:CGRectMake(0, 0, APPWIDTH, 254)];
-    _headView.delegate = self;
-    self.yrTab.tableHeaderView=_headView;
-    
-    
-    
 }
 #pragma mark
 #pragma mark -MeetHeadV 代理方法
@@ -294,54 +200,6 @@
     [values addObject:[NSValue valueWithCATransform3D:CATransform3DMakeScale(1.0, 1.0, 1.0)]];
     animation.values = values;
     [aView.layer addAnimation:animation forKey:nil];
-}
-
-#pragma mark 有空按钮
--(void)_yrBtnClick:(UIButton *)sender
-{
-    [self shakeToShow:_yrBtn];
-    if (sender.tag==1000) {
-        _yrBtn.tag=1001;
-        [_yrBtn setBackgroundImage:[UIImage imageNamed:@"yiyoukong"] forState:UIControlStateNormal];
-        [sender setEnabled:NO];
-        
-        [[LoCationManager shareInstance] creatLocationManager];
-        [LoCationManager shareInstance].callBackLocation = ^(CLLocationCoordinate2D location)
-        {
-            NSMutableDictionary *param = [Parameter parameterWithSessicon];
-            [param setObject:[NSString stringWithFormat:@"%.6f",location.latitude] forKey:@"latitude"];
-            [param setObject:[NSString stringWithFormat:@"%.6f",location.longitude] forKey:@"longitude"];
-            
-            
-            [XLDataService putWithUrl:MeetAppendURL param:param modelClass:nil responseBlock:^(id dataObj, NSError *error) {
-                if (dataObj) {
-                    NSLog(@"dataobj=%@",dataObj);
-                    MeetingModel *model=[MeetingModel mj_objectWithKeyValues:dataObj];
-                    
-                    if (model.rtcode ==1) {
-                        _isopen=YES;
-                        
-                    }
-                    else
-                    {
-                        [[ToolManager shareInstance] showAlertMessage:model.rtmsg];
-                    }
-                    [sender setEnabled:YES];
-                    
-                }else
-                {
-                    [[ToolManager shareInstance] showInfoWithStatus];
-                    [sender setEnabled:YES];
-                    [_yrBtn setBackgroundImage:[UIImage imageNamed:@"youkong"] forState:UIControlStateNormal];
-                }
-            }];
-            
-        };
-    }else{
-        sender.tag=1000;
-        [_yrBtn setBackgroundImage:[UIImage imageNamed:@"youkong"] forState:UIControlStateNormal];
-    }
-    
 }
 
 #pragma mark----tableview代理
@@ -453,11 +311,11 @@
         //                payVC.titStr = _titTex.text;
         //                payVC.content = _contTex.text;
         //                payVC.industry = induStr;
-                        payVC.jineStr = @"1";
+        payVC.jineStr = @"1";
         payVC.isAudio=audioMark;
         [self.navigationController pushViewController:payVC animated:YES];
         
-
+        
         //        [XLDataService putWithUrl:MeetyouURL param:param modelClass:nil responseBlock:^(id dataObj, NSError *error) {
         //            if(dataObj){
         //
